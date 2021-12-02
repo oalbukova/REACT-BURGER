@@ -1,0 +1,11 @@
+.item {
+  position: relative;
+  width: 272px;
+  text-align: center;
+  list-style-type: none;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+}

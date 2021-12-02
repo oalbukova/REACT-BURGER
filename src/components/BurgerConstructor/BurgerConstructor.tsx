@@ -6,9 +6,9 @@ import styles from "./BurgerConstructor.module.css";
 
 const BurgerConstructor = () => {
   return (
-    <div className={styles.BurgerConstructor}>
+    <section className={styles.BurgerConstructor}>
 
-    </div>
+    </section>
   );
 };
 
