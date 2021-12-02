@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Jet Brains Mono";
+  font-style: normal;
+  font-display: swap;
+  src: url("JetBrainsMono-Regular.woff") format("woff"),
+    url("./JetBrainsMono-Regular.woff2") format("woff2"),
+    url("./JetBrainsMono-Regular.ttf") format("truetype");
+}
