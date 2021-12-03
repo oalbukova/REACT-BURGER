@@ -3,7 +3,7 @@
 }
 
 .container {
-  max-height: 920px;
+  max-height: 720px;
   overflow-y: scroll;
   scrollbar-color:  #2F2F37 #8585AD;
   scrollbar-width: thin;
@@ -15,6 +15,7 @@
 .container::-webkit-scrollbar-track {
   background:  #2F2F37;
 }
+
 .container::-webkit-scrollbar-thumb {
   background: #8585AD;
   border: solid #8585AD;
