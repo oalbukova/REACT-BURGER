@@ -3,10 +3,10 @@ import React from "react";
 
 //components
 import AppHeader from "../app-header/app-header";
-import Main from "../main/main";
+import Main from "../any/any";
 
 // styles
-import styles from "./App.module.css";
+import styles from "./appAny.module.css";
 
 const App = () => {
   return (
