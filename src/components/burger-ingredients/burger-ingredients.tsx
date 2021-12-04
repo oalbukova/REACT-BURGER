@@ -14,6 +14,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 // utils
 import { typeOfIngredient } from "../../utils/types";
 
+
 const BurgerIngredients = ({ data }: any) => {
   const [current, setCurrent] = useState("bun");
   const setTab = (tab: string) => {
