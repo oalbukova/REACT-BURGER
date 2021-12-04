@@ -1,20 +1,20 @@
 // react redux types
-import React from 'react';
+import React from "react";
 
 //components
-import AppHeader from '../app-header/app-header';
-import Main from '../main/main';
+import AppHeader from "../app-header/app-header";
+import Main from "../Main/Main";
 
 // styles
-import styles from './app.module.css';
+import styles from "./App.module.css";
 
 const App = () => {
   return (
-    <div className={ styles.app }>
+    <div className={styles.app}>
       <AppHeader />
-      <Main/>
+      <Main />
     </div>
   );
-}
+};
 
 export default App;

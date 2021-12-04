@@ -2,7 +2,7 @@
 import React from "react";
 
 // styles
-import styles from "./main.module.css";
+import styles from "./Main.module.css";
 
 // components
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
