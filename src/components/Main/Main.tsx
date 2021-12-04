@@ -8,13 +8,16 @@ import styles from "./Main.module.css";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 
+// utils
+import { data } from "../../utils/data";
+
 const Main = () => {
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
       <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5`}>Соберите бургер</h1>
       <div className={styles.container}>
-        <BurgerIngredients />
-        <BurgerConstructor />
+        <BurgerIngredients data={data}/>
+        <BurgerConstructor data={data}/>
       </div>
     </main>
   );

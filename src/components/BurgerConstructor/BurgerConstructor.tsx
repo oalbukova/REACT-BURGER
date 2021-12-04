@@ -1,5 +1,6 @@
 // react redux types
 import React from "react";
+import PropTypes from "prop-types";
 
 // styles
 import styles from "./BurgerConstructor.module.css";
@@ -12,54 +13,54 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-// utils
-import { data } from "../../utils/data";
-
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ data }: any) => {
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
-      <div className={`${styles.list}`}>
+      <ul className={`${styles.list}`}>
         {data
-          .filter((el) => el.name === "Краторная булка N-200i")
-          .map((item) => (
-            <div className={`ml-8 mb-4`}>
+          .filter((el: any) => el.name === "Краторная булка N-200i")
+          .map((item: any) => (
+            <li className={`ml-8 mb-4`}>
               <ConstructorElement
                 type="top"
                 isLocked={true}
                 text={`${item.name} (верх)`}
                 price={item.price}
                 thumbnail={item.image}
+                key={item._id}
               />
-            </div>
+            </li>
           ))}
         <div className={`${styles.middleContainer} pr-2`}>
           {data
-            .filter((el) => el.type !== "Bun")
-            .map((item) => (
-              <div className={`${styles.itemContainer} mb-4`}>
+            .filter((el: any) => el.type !== "Bun")
+            .map((item: any) => (
+              <li className={`${styles.itemContainer} mb-4`}>
                 <DragIcon type="primary" />
                 <ConstructorElement
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image}
+                  key={item._id}
                 />
-              </div>
+              </li>
             ))}
         </div>
         {data
-          .filter((el) => el.name === "Краторная булка N-200i")
-          .map((item) => (
-            <div className={`ml-8`}>
+          .filter((el: any) => el.name === "Краторная булка N-200i")
+          .map((item: any) => (
+            <li className={`ml-8`}>
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
                 text={`${item.name} (низ)`}
                 price={item.price}
                 thumbnail={item.image}
+                key={item._id}
               />
-            </div>
+            </li>
           ))}
-      </div>
+      </ul>
       <div className={`${styles.summary} mt-10 pr-4`}>
         <div className={`${styles.price} mr-10`}>
           <p className="text text_type_digits-medium pr-2">610</p>
@@ -71,6 +72,25 @@ const BurgerConstructor = () => {
       </div>
     </section>
   );
+};
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      proteins: PropTypes.number,
+      fat: PropTypes.number,
+      carbohydrates: PropTypes.number,
+      calories: PropTypes.number,
+      price: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+      image_mobile: PropTypes.string,
+      image_large: PropTypes.string,
+      __v: PropTypes.number,
+    }).isRequired
+  ).isRequired,
 };
 
 export default BurgerConstructor;

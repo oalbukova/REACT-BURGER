@@ -1,5 +1,6 @@
 // react redux types
 import React from "react";
+import PropTypes from 'prop-types';
 
 // styles
 import styles from "./Ingredient.module.css";
@@ -27,6 +28,12 @@ const Ingredient = (props: any) => {
       <p className="text text_type_main-default">{name}</p>
     </li>
   );
+};
+
+Ingredient.propTypes = {
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default Ingredient;

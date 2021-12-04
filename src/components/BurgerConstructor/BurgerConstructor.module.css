@@ -6,6 +6,10 @@
 .list {
   display: flex;
   flex-direction: column;
+  list-style-type: none;
+  padding-left: 0;
+  margin-block-start: 0;
+  margin-inline-end: 0;
 }
 
 .middleContainer {
