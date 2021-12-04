@@ -13,6 +13,9 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// utils
+import { typeOfIngredient } from "../../utils/types";
+
 const BurgerConstructor = ({ data }: any) => {
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
@@ -32,7 +35,7 @@ const BurgerConstructor = ({ data }: any) => {
           ))}
         <div className={`${styles.middleContainer} pr-2`}>
           {data
-            .filter((el: any) => el.type !== "Bun")
+            .filter((el: any) => el.type !== "bun")
             .map((item: any) => (
               <li className={`${styles.itemContainer} mb-4`} key={item._id}>
                 <DragIcon type="primary" />
@@ -72,22 +75,7 @@ const BurgerConstructor = ({ data }: any) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    }).isRequired
-  ).isRequired,
+  data: PropTypes.arrayOf(typeOfIngredient).isRequired,
 };
 
 export default BurgerConstructor;
