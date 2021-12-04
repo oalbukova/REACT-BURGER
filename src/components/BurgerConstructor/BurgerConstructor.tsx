@@ -20,14 +20,13 @@ const BurgerConstructor = ({ data }: any) => {
         {data
           .filter((el: any) => el.name === "Краторная булка N-200i")
           .map((item: any) => (
-            <li className={`ml-8 mb-4`}>
+            <li className={`ml-8 mb-4`} key={item._id}>
               <ConstructorElement
                 type="top"
                 isLocked={true}
                 text={`${item.name} (верх)`}
                 price={item.price}
                 thumbnail={item.image}
-                key={item._id}
               />
             </li>
           ))}
@@ -35,13 +34,12 @@ const BurgerConstructor = ({ data }: any) => {
           {data
             .filter((el: any) => el.type !== "Bun")
             .map((item: any) => (
-              <li className={`${styles.itemContainer} mb-4`}>
+              <li className={`${styles.itemContainer} mb-4`} key={item._id}>
                 <DragIcon type="primary" />
                 <ConstructorElement
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image}
-                  key={item._id}
                 />
               </li>
             ))}
@@ -49,14 +47,13 @@ const BurgerConstructor = ({ data }: any) => {
         {data
           .filter((el: any) => el.name === "Краторная булка N-200i")
           .map((item: any) => (
-            <li className={`ml-8`}>
+            <li className={`ml-8`} key={item._id}>
               <ConstructorElement
                 type="bottom"
                 isLocked={true}
                 text={`${item.name} (низ)`}
                 price={item.price}
                 thumbnail={item.image}
-                key={item._id}
               />
             </li>
           ))}
