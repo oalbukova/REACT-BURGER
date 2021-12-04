@@ -2,11 +2,11 @@
 import React from "react";
 
 // styles
-import styles from "./Main.module.css";
+import styles from "./main.module.css";
 
 // components
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 // utils
 import { data } from "../../utils/data";

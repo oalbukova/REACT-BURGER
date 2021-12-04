@@ -2,15 +2,15 @@
 import React from 'react';
 
 //components
-import AppHeader from '../AppHeader/AppHeader';
-import Main from '../Main/Main';
+import AppHeader from '../app-header/app-header';
+import Main from '../main/main';
 
 // styles
-import styles from './App.module.css';
+import styles from './app.module.css';
 
 const App = () => {
   return (
-    <div className={ styles.App }>
+    <div className={ styles.app }>
       <AppHeader />
       <Main/>
     </div>

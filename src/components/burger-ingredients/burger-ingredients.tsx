@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // styles
-import styles from "./BurgerIngredients.module.css";
+import styles from "./burger-ingredients.module.css";
 
 // children components
-import Ingredient from "./Ingredient/Ingredient";
+import Ingredient from "./ingredient/ingredient";
 
 // ui-components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";

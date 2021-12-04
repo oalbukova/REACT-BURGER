@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 // styles
-import styles from "./Ingredient.module.css";
+import styles from "./ingredient.module.css";
 
 // ui-components
 import {

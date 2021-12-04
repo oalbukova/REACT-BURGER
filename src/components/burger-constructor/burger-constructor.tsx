@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // styles
-import styles from "./BurgerConstructor.module.css";
+import styles from "./burger-constructor.module.css";
 
 // ui-components
 import {

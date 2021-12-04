@@ -2,7 +2,7 @@
 import React from "react";
 
 // styles
-import styles from "./AppHeader.module.css";
+import styles from "./app-header.module.css";
 
 // ui-components
 import {
