@@ -1,9 +1,13 @@
 // react redux types
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // styles
 import styles from "./burger-constructor.module.css";
+
+// components
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 // ui-components
 import {
@@ -17,6 +21,38 @@ import {
 import { typeOfIngredient } from "../../utils/types";
 
 const BurgerConstructor = ({ data }: any) => {
+  const [isOrderVisible, setIsOrderVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOrderVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOrderVisible(false);
+  };
+
+  const handleEscClose = (e: any) => {
+    if (e.key === "Escape") {
+      setIsOrderVisible(false);
+    }
+  };
+
+  const handlerOverlayClick = (e: any) => {
+    if (e.target.classList.contains("modalOverlay")) {
+      setIsOrderVisible(false);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", handleEscClose);
+    window.addEventListener("mousedown", handlerOverlayClick);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscClose);
+      window.removeEventListener("mousedown", handlerOverlayClick);
+    };
+  });
+
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
       <ul className={`${styles.list}`}>
@@ -66,10 +102,17 @@ const BurgerConstructor = ({ data }: any) => {
           <p className="text text_type_digits-medium pr-2">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handleOpenModal}>
           Оформить заказ
         </Button>
       </div>
+      {isOrderVisible && (
+        <Modal
+          handleClose={handleCloseModal}
+        >
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 };

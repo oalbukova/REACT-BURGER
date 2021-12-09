@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 // styles
@@ -14,72 +14,80 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 // utils
 import { typeOfIngredient } from "../../utils/types";
 
-
 const BurgerIngredients = ({ data }: any) => {
-  const [current, setCurrent] = useState("bun");
-  const setTab = (tab: string) => {
-    setCurrent(tab);
-    const element = document.getElementById(tab);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
+  const [currentTab, setCurrentTab] = useState("bun");
+
+  const bunRef = useRef(null);
+  const saucesRef = useRef(null);
+  const mainRef = useRef(null);
+
+  const setTab = (tab: string, tabRef: any) => {
+    setCurrentTab(tab);
+    tabRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <section className={styles.burgerIngredients}>
       <div style={{ display: "flex" }}>
-        <Tab value="bun" active={current === "bun"} onClick={setTab}>
+        <Tab
+          value="bun"
+          active={currentTab === "bun"}
+          onClick={() => setTab("bun", bunRef)}
+        >
           Булки
         </Tab>
-        <Tab value="sauces" active={current === "sauces"} onClick={setTab}>
+        <Tab
+          value="sauces"
+          active={currentTab === "sauces"}
+          onClick={() => setTab("sauces", saucesRef)}
+        >
           Соусы
         </Tab>
-        <Tab value="main" active={current === "main"} onClick={setTab}>
+        <Tab
+          value="main"
+          active={currentTab === "main"}
+          onClick={() => setTab("main", mainRef)}
+        >
           Начинки
         </Tab>
       </div>
       <div className={`${styles.container} mt-10`}>
-        <h2 className={`text text_type_main-medium`} id="bun">
+        <h2 className={`text text_type_main-medium`} id="bun" ref={bunRef}>
           Булки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {data
             .filter((el: any) => el.type === "bun")
             .map((item: any) => (
-              <Ingredient
-                key={item._id}
-                name={item.name}
-                image={item.image}
-                price={item.price}
-              />
+              <Ingredient key={item._id} ingredient={item} />
             ))}
         </ul>
-        <h2 className={`text text_type_main-medium`} id="sauces">
+        <h2
+          className={`text text_type_main-medium`}
+          id="sauces"
+          ref={saucesRef}
+        >
           Соусы
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {data
             .filter((el: any) => el.type === "sauce")
             .map((item: any) => (
-              <Ingredient
-                key={item._id}
-                name={item.name}
-                image={item.image}
-                price={item.price}
-              />
+              <Ingredient key={item._id} ingredient={item} />
             ))}
         </ul>
-        <h2 className={`text text_type_main-medium`} id="main">
+        <h2
+          className={`text text_type_main-medium mb-3`}
+          id="main"
+          ref={mainRef}
+        >
           Начинки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {data
             .filter((el: any) => el.type === "main")
             .map((item: any) => (
-              <Ingredient
-                key={item._id}
-                name={item.name}
-                image={item.image}
-                price={item.price}
-              />
+              <Ingredient key={item._id} ingredient={item} />
             ))}
         </ul>
       </div>

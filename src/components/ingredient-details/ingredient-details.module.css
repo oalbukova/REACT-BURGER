@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingridient {
+  margin: 0 auto;
+  width: 520px;
+}
+
+.image {
+  height: 240px;
+  box-sizing: border-box;
+}
+
+.name {
+  text-align: center;
+}
+
+.info {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.item {
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
