@@ -13,12 +13,12 @@ const App = () => {
     data: [],
   });
 
-  const INGREDIENTS_URL = "https://norma.nomoreparties.space/api/ingredients";
+  const INGREDIENTS_URL = "https://norma.nomoreparties.space/api/";
 
   useEffect(() => {
     const getData = () => {
       setState({...state});
-      fetch(INGREDIENTS_URL)
+      fetch(`${INGREDIENTS_URL}ingredients`)
         .then((res) => {
           if (res.ok) {
             return res.json();
