@@ -1,5 +1,5 @@
 // react redux types
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -17,7 +17,6 @@ const App = () => {
 
   useEffect(() => {
     const getData = () => {
-      setState({...state});
       fetch(`${INGREDIENTS_URL}ingredients`)
         .then((res) => {
           if (res.ok) {
@@ -25,20 +24,20 @@ const App = () => {
           }
           return Promise.reject(res.status);
         })
-        .then((data) => setState({...state, data: data.data}))
+        .then((data) => setState(data))
         .catch((err) => {
-          console.log(`Ошибка выполнения запроса: ${err}`);
+          alert(`Ошибка выполнения запроса: ${err}`);
         });
     };
     getData();
   }, []);
 
-  const {data} = state;
+  const { data } = state;
 
   return (
     <div className={styles.app}>
-      <AppHeader/>
-      <Main data={data}/>
+      <AppHeader />
+      <Main data={data} />
     </div>
   );
 };

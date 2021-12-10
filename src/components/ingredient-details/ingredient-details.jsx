@@ -1,24 +1,22 @@
 // react redux types
 import React from "react";
-
-// utils
-import {typeOfIngredient} from "../../utils/types";
+import PropTypes from "prop-types";
 
 //styles
 import styles from "./ingredient-details.module.css";
 
-const IngredientDetails = ({ingredient}: any) => {
+const IngredientDetails = ({ image, name, calories, proteins, fat, carbohydrates }) => {
 
   return (
     <div className={`${styles.container} mt-3`}>
       <h2 className="text text_type_main-large">Детали ингредиента</h2>
       <div className={`${styles.ingredient} mt-3`}>
         <img
-          src={ingredient.image}
+          src={image}
           className={`${styles.image} pl-5 pr-5 mt-3 mb-4`}
-          alt={ingredient.name}
+          alt={name}
         />
-        <h3 className={`${styles.name} text text_type_main-medium mb-8`}>{ingredient.name}</h3>
+        <h3 className={`${styles.name} text text_type_main-medium mb-8`}>{name}</h3>
         <ul className={`${styles.info}`}>
           <li
             className={`${styles.item} text text_type_main-default text_color_inactive pl-2 pr-2`}
@@ -27,7 +25,7 @@ const IngredientDetails = ({ingredient}: any) => {
               Калории,ккал
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.calories}
+              {calories}
             </p>
           </li>
           <li
@@ -37,7 +35,7 @@ const IngredientDetails = ({ingredient}: any) => {
               Белки, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.proteins}
+              {proteins}
             </p>
           </li>
           <li
@@ -47,7 +45,7 @@ const IngredientDetails = ({ingredient}: any) => {
               Жиры, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.fat}
+              {fat}
             </p>
           </li>
           <li
@@ -57,7 +55,7 @@ const IngredientDetails = ({ingredient}: any) => {
               Углеводы, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.carbohydrates}
+              {carbohydrates}
             </p>
           </li>
         </ul>
@@ -67,7 +65,12 @@ const IngredientDetails = ({ingredient}: any) => {
 };
 
 IngredientDetails.propTypes = {
-  ingredient: typeOfIngredient,
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  calories: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
 };
 
 export default IngredientDetails;

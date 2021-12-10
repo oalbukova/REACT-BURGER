@@ -1,5 +1,5 @@
 // react redux types
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 // styles
@@ -9,26 +9,30 @@ import styles from "./burger-ingredients.module.css";
 import Ingredient from "./ingredient/ingredient";
 
 // ui-components
-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import {typeOfIngredient} from "../../utils/types";
+import { typeOfIngredient } from "../../utils/types";
 
-const BurgerIngredients = ({data}: any) => {
+const BurgerIngredients = ({ data }) => {
   const [currentTab, setCurrentTab] = useState("bun");
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
   const mainRef = useRef(null);
 
-  const setTab = (tab: string, tabRef: any) => {
+  const setTab = (tab, tabRef) => {
     setCurrentTab(tab);
-    tabRef.current.scrollIntoView({behavior: "smooth"});
+    tabRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const typeBun = data.filter((el) => el.type === "bun");
+  const typeSauce = data.filter((el) => el.type === "sauce");
+  const typeMain = data.filter((el) => el.type === "main");
 
   return (
     <section className={styles.burgerIngredients}>
-      <div style={{display: "flex"}}>
+      <div style={{ display: "flex" }}>
         <Tab
           value="bun"
           active={currentTab === "bun"}
@@ -56,11 +60,10 @@ const BurgerIngredients = ({data}: any) => {
           Булки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {data
-            .filter((el: any) => el.type === "bun")
-            .map((item: any) => (
-              <Ingredient key={item._id} ingredient={item}/>
-            ))}
+          {typeBun.map((item, index) => (
+            <Ingredient key={index} name={item.name} price={item.price} image={item.image} calories={item.calories}
+              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
+          ))}
         </ul>
         <h2
           className={`text text_type_main-medium`}
@@ -70,10 +73,10 @@ const BurgerIngredients = ({data}: any) => {
           Соусы
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {data
-            .filter((el: any) => el.type === "sauce")
-            .map((item: any) => (
-              <Ingredient key={item._id} ingredient={item}/>
+          {
+            typeSauce.map((item, index) => (
+              <Ingredient key={index} name={item.name} price={item.price} image={item.image} calories={item.calories}
+                proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
             ))}
         </ul>
         <h2
@@ -84,11 +87,10 @@ const BurgerIngredients = ({data}: any) => {
           Начинки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {data
-            .filter((el: any) => el.type === "main")
-            .map((item: any) => (
-              <Ingredient key={item._id} ingredient={item}/>
-            ))}
+          {typeMain.map((item, index) => (
+            <Ingredient key={index} name={item.name} price={item.price} image={item.image} calories={item.calories}
+              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
+          ))}
         </ul>
       </div>
     </section>
