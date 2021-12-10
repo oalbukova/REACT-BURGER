@@ -15,15 +15,16 @@
 .middleContainer {
   max-height: 480px;
   overflow-y: scroll;
-  scrollbar-color:  #2F2F37 #8585AD;
+  scrollbar-color: #2F2F37 #8585AD;
   scrollbar-width: thin;
 }
 
 .middleContainer::-webkit-scrollbar {
   width: 8px;
 }
+
 .middleContainer::-webkit-scrollbar-track {
-  background:  #2F2F37;
+  background: #2F2F37;
 }
 
 .middleContainer::-webkit-scrollbar-thumb {

@@ -1,6 +1,6 @@
 // react redux types
 import React from "react";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 //styles
 import styles from "./modal-overlay.module.css";
@@ -13,10 +13,14 @@ const ModalOverlay = (props: Props) => {
   const {children} = props;
 
   return (
-    <div className={`modalOverlay ${styles.modalOverlay}`}  >
+    <div className={`modalOverlay ${styles.modalOverlay}`}>
       {children}
     </div>
   );
+};
+
+ModalOverlay.propTypes = {
+  children: PropTypes.element
 };
 
 export default ModalOverlay;

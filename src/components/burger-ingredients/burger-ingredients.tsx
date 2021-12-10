@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useRef } from "react";
+import React, {useRef, useState} from "react";
 import PropTypes from "prop-types";
 
 // styles
@@ -9,12 +9,12 @@ import styles from "./burger-ingredients.module.css";
 import Ingredient from "./ingredient/ingredient";
 
 // ui-components
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import { typeOfIngredient } from "../../utils/types";
+import {typeOfIngredient} from "../../utils/types";
 
-const BurgerIngredients = ({ data }: any) => {
+const BurgerIngredients = ({data}: any) => {
   const [currentTab, setCurrentTab] = useState("bun");
 
   const bunRef = useRef(null);
@@ -23,12 +23,12 @@ const BurgerIngredients = ({ data }: any) => {
 
   const setTab = (tab: string, tabRef: any) => {
     setCurrentTab(tab);
-    tabRef.current.scrollIntoView({ behavior: "smooth" });
+    tabRef.current.scrollIntoView({behavior: "smooth"});
   };
 
   return (
     <section className={styles.burgerIngredients}>
-      <div style={{ display: "flex" }}>
+      <div style={{display: "flex"}}>
         <Tab
           value="bun"
           active={currentTab === "bun"}
@@ -59,7 +59,7 @@ const BurgerIngredients = ({ data }: any) => {
           {data
             .filter((el: any) => el.type === "bun")
             .map((item: any) => (
-              <Ingredient key={item._id} ingredient={item} />
+              <Ingredient key={item._id} ingredient={item}/>
             ))}
         </ul>
         <h2
@@ -73,7 +73,7 @@ const BurgerIngredients = ({ data }: any) => {
           {data
             .filter((el: any) => el.type === "sauce")
             .map((item: any) => (
-              <Ingredient key={item._id} ingredient={item} />
+              <Ingredient key={item._id} ingredient={item}/>
             ))}
         </ul>
         <h2
@@ -87,7 +87,7 @@ const BurgerIngredients = ({ data }: any) => {
           {data
             .filter((el: any) => el.type === "main")
             .map((item: any) => (
-              <Ingredient key={item._id} ingredient={item} />
+              <Ingredient key={item._id} ingredient={item}/>
             ))}
         </ul>
       </div>

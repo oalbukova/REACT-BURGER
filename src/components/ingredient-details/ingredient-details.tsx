@@ -1,16 +1,18 @@
 // react redux types
 import React from "react";
-//import PropTypes from "prop-types";
+
+// utils
+import {typeOfIngredient} from "../../utils/types";
 
 //styles
 import styles from "./ingredient-details.module.css";
 
-const IngredientDetails = ({ ingredient }: any) => {
+const IngredientDetails = ({ingredient}: any) => {
 
   return (
     <div className={`${styles.container} mt-3`}>
       <h2 className="text text_type_main-large">Детали ингредиента</h2>
-      <div className={`${styles.ingridient} mt-3`}>
+      <div className={`${styles.ingredient} mt-3`}>
         <img
           src={ingredient.image}
           className={`${styles.image} pl-5 pr-5 mt-3 mb-4`}
@@ -32,7 +34,7 @@ const IngredientDetails = ({ ingredient }: any) => {
             className={`${styles.item} text text_type_main-default text_color_inactive pl-2 pr-2`}
           >
             <p className="text text_type_main-default text_color_inactive">
-            Белки, г
+              Белки, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
               {ingredient.proteins}
@@ -42,7 +44,7 @@ const IngredientDetails = ({ ingredient }: any) => {
             className={`${styles.item} text text_type_main-default text_color_inactive pl-2 pr-2`}
           >
             <p className="text text_type_main-default text_color_inactive">
-            Жиры, г
+              Жиры, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
               {ingredient.fat}
@@ -52,7 +54,7 @@ const IngredientDetails = ({ ingredient }: any) => {
             className={`${styles.item} text text_type_main-default text_color_inactive pl-2 pr-2`}
           >
             <p className="text text_type_main-default text_color_inactive">
-            Углеводы, г
+              Углеводы, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
               {ingredient.carbohydrates}
@@ -62,6 +64,10 @@ const IngredientDetails = ({ ingredient }: any) => {
       </div>
     </div>
   );
+};
+
+IngredientDetails.propTypes = {
+  ingredient: typeOfIngredient,
 };
 
 export default IngredientDetails;
