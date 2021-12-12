@@ -14,6 +14,9 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 
 // utils
 import { typeOfIngredient } from "../../utils/types";
+import { v4 as uuidv4 } from 'uuid';
+
+
 
 const BurgerConstructor = ({ data }) => {
   const [isOrderVisible, setIsOrderVisible] = useState(false);
@@ -32,8 +35,8 @@ const BurgerConstructor = ({ data }) => {
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
       <ul className={`${styles.list}`}>
-        {typeBun.map((item, index) => (
-          <li className={`ml-8 mb-4`} key={index}>
+        {typeBun.map((item) => (
+          <li className={`ml-8 mb-4`} key={uuidv4()}>
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -44,8 +47,8 @@ const BurgerConstructor = ({ data }) => {
           </li>
         ))}
         <div className={`${styles.middleContainer} pr-2`}>
-          {typeNotBun.map((item, index) => (
-            <li className={`${styles.itemContainer} mb-4`} key={index}>
+          {typeNotBun.map((item) => (
+            <li className={`${styles.itemContainer} mb-4`} key={uuidv4()}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={item.name}
@@ -55,8 +58,8 @@ const BurgerConstructor = ({ data }) => {
             </li>
           ))}
         </div>
-        {typeBun.map((item, index) => (
-          <li className={`ml-8`} key={index}>
+        {typeBun.map((item) => (
+          <li className={`ml-8`} key={uuidv4()}>
             <ConstructorElement
               type="bottom"
               isLocked={true}

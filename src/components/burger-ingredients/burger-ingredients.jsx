@@ -13,6 +13,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
 import { typeOfIngredient } from "../../utils/types";
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerIngredients = ({ data }) => {
   const [currentTab, setCurrentTab] = useState("bun");
@@ -60,8 +61,8 @@ const BurgerIngredients = ({ data }) => {
           Булки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeBun.map((item, index) => (
-            <Ingredient key={index} name={item.name} price={item.price} image={item.image} calories={item.calories}
+          {typeBun.map((item) => (
+            <Ingredient key={uuidv4()} name={item.name} price={item.price} image={item.image} calories={item.calories}
               proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
           ))}
         </ul>
@@ -74,8 +75,8 @@ const BurgerIngredients = ({ data }) => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {
-            typeSauce.map((item, index) => (
-              <Ingredient key={index} name={item.name} price={item.price} image={item.image} calories={item.calories}
+            typeSauce.map((item) => (
+              <Ingredient key={uuidv4()} name={item.name} price={item.price} image={item.image} calories={item.calories}
                 proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
             ))}
         </ul>
@@ -87,8 +88,8 @@ const BurgerIngredients = ({ data }) => {
           Начинки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeMain.map((item, index) => (
-            <Ingredient key={index} name={item.name} price={item.price} image={item.image} calories={item.calories}
+          {typeMain.map((item) => (
+            <Ingredient key={uuidv4()} name={item.name} price={item.price} image={item.image} calories={item.calories}
               proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
           ))}
         </ul>
