@@ -1,0 +1,20 @@
+.modal {
+  box-sizing: border-box;
+  width: 720px;
+  background-color: #1C1C21;;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.close {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  cursor: pointer;
+}

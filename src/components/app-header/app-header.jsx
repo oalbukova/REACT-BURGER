@@ -5,12 +5,7 @@ import React from "react";
 import styles from "./app-header.module.css";
 
 // ui-components
-import {
-  Logo,
-  BurgerIcon,
-  ListIcon,
-  ProfileIcon
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const AppHeader = () => {
   return (
@@ -28,8 +23,8 @@ const AppHeader = () => {
         </nav>
         <Logo />
         <a href="#" className={`${styles.navLink} pl-5 pr-5`}>
-            <ProfileIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p>
+          <ProfileIcon type="secondary" />
+          <p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p>
         </a>
       </div>
     </header>

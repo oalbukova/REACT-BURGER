@@ -6,8 +6,9 @@
 [![project website preview](src/images/constructor.png)](https://oalbukova.github.io/REACT-BURGER/)
 
 ##### Технологии:
-> * React
-> * CSS-модули
+* React
+* CSS-модули
+* Fetch API
 
 ##### Установка
 * Клонировать репозиторий
