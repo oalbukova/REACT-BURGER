@@ -1,5 +1,6 @@
 // react redux types
 import React, { useState, useEffect } from "react";
+import { IngredientsContext, TotalPriceContext } from '../../services/appContext';
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -14,6 +15,7 @@ const App = () => {
   const [state, setState] = React.useState({
     data: []
   });
+  const [totalPrice, setTotalPrice] = useState(0);
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
 
@@ -50,12 +52,16 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Main data={data} />
-      {isErrVisible && (
-        <Modal handleClose={handleCloseModal}>
-          <Err text={error} />
-        </Modal>
-      )}
+      <IngredientsContext.Provider value={{ data }}>
+        <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
+          <Main />
+          {isErrVisible && (
+            <Modal handleClose={handleCloseModal}>
+              <Err text={error} />
+            </Modal>
+          )}
+        </TotalPriceContext.Provider>
+      </IngredientsContext.Provider>
     </div>
   );
 };

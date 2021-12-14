@@ -1,6 +1,6 @@
 // react redux types
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect, useContext } from "react";
+import { IngredientsContext, TotalPriceContext } from '../../services/appContext';
 
 // styles
 import styles from "./burger-constructor.module.css";
@@ -13,12 +13,27 @@ import OrderDetails from "../order-details/order-details";
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import { typeOfIngredient } from "../../utils/types";
 import { v4 as uuidv4 } from 'uuid';
 
 
+// const totalPriceInitialState = { totalPrice: null }; 
 
-const BurgerConstructor = ({ data }) => {
+// function reducer(state, action) {
+//   switch (action.type) {
+//     case "set":
+//       return { totalPrice: action.payload };
+//     case "reset":
+//       return totalPriceInitialState;
+//     default:
+//       throw new Error(`Wrong type of action: ${action.type}`);
+//   }
+// }
+
+
+
+const BurgerConstructor = () => {
+  const { data } = useContext(IngredientsContext); 
+  const { totalPrice, setTotalPrice } = useContext(TotalPriceContext);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
 
   const handleOpenModal = () => {
@@ -31,6 +46,16 @@ const BurgerConstructor = ({ data }) => {
 
   const typeNotBun = data.filter((el) => el.type !== "bun");
   const typeBun = data.filter((el) => el.name === "Краторная булка N-200i");
+
+  useEffect(
+    () => {
+      let total = 0;
+      typeNotBun.map(item => (total += item.price));
+      typeBun.map(item => (total += item.price * 2));
+      setTotalPrice(total);
+    },
+    [ typeNotBun, typeBun, setTotalPrice]
+  );
 
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
@@ -72,7 +97,7 @@ const BurgerConstructor = ({ data }) => {
       </ul>
       <div className={`${styles.summary} mt-10 pr-4`}>
         <div className={`${styles.price} mr-10`}>
-          <p className="text text_type_digits-medium pr-2">610</p>
+          <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOpenModal}>
@@ -86,10 +111,6 @@ const BurgerConstructor = ({ data }) => {
       )}
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(typeOfIngredient).isRequired,
 };
 
 export default BurgerConstructor;

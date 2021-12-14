@@ -1,6 +1,6 @@
 // react redux types
-import React, { useRef, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useRef, useState,  useContext } from "react";
+import { IngredientsContext } from '../../services/appContext';
 
 // styles
 import styles from "./burger-ingredients.module.css";
@@ -12,10 +12,10 @@ import Ingredient from "./ingredient/ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import { typeOfIngredient } from "../../utils/types";
 import { v4 as uuidv4 } from 'uuid';
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
+  const { data } = useContext(IngredientsContext);
   const [currentTab, setCurrentTab] = useState("bun");
 
   const bunRef = useRef(null);
@@ -96,10 +96,6 @@ const BurgerIngredients = ({ data }) => {
       </div>
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(typeOfIngredient).isRequired,
 };
 
 export default BurgerIngredients;

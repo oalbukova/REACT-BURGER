@@ -1,6 +1,5 @@
 // react redux types
 import React from "react";
-import PropTypes from "prop-types";
 
 // styles
 import styles from "./main.module.css";
@@ -9,10 +8,7 @@ import styles from "./main.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-// utils
-import { typeOfIngredient } from "../../utils/types";
-
-const Main = ({ data }) => {
+const Main = () => {
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -20,15 +16,11 @@ const Main = ({ data }) => {
         Соберите бургер
       </h1>
       <div className={styles.container}>
-        <BurgerIngredients data={data} />
-        <BurgerConstructor data={data} />
+        <BurgerIngredients />
+        <BurgerConstructor />
       </div>
     </main>
   );
-};
-
-Main.propTypes = {
-  data: PropTypes.arrayOf(typeOfIngredient).isRequired,
 };
 
 export default Main;
