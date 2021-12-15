@@ -14,6 +14,7 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 
 // utils
 import { v4 as uuidv4 } from 'uuid';
+import INGREDIENTS_URL from '../../utils/constants'
 
 
 // const totalPriceInitialState = { totalPrice: null }; 
@@ -22,8 +23,6 @@ import { v4 as uuidv4 } from 'uuid';
 //   switch (action.type) {
 //     case "set":
 //       return { totalPrice: action.payload };
-//     case "reset":
-//       return totalPriceInitialState;
 //     default:
 //       throw new Error(`Wrong type of action: ${action.type}`);
 //   }
@@ -31,36 +30,55 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 
-const BurgerConstructor = () => {
-  const { data } = useContext(IngredientsContext); 
+const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, setError, selectedId, setSelectedId }) => {
+  // const { data } = useContext(IngredientsContext);
   const { totalPrice, setTotalPrice } = useContext(TotalPriceContext);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
+  const [response, setResponse] = useState({});
 
   const handleOpenModal = () => {
     setIsOrderVisible(true);
+
+    return fetch(`${INGREDIENTS_URL}orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ingredients: selectedId,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json();
+        }
+        return res.json();
+      })
+      .then((data) => setResponse(data.order))
+      .catch((err) => {
+        handleOpenErrModal();
+        setError(`Ошибка выполнения запроса: ${err}`);
+      });
   };
 
   const handleCloseModal = () => {
     setIsOrderVisible(false);
   };
 
-  const typeNotBun = data.filter((el) => el.type !== "bun");
-  const typeBun = data.filter((el) => el.name === "Краторная булка N-200i");
-
   useEffect(
     () => {
       let total = 0;
-      typeNotBun.map(item => (total += item.price));
-      typeBun.map(item => (total += item.price * 2));
+      selectedNotBun.map(item => (total += item.price));
+      selectedBun.map(item => (total += item.price * 2));
       setTotalPrice(total);
     },
-    [ typeNotBun, typeBun, setTotalPrice]
+    [selectedNotBun, selectedBun, setTotalPrice]
   );
 
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
       <ul className={`${styles.list}`}>
-        {typeBun.map((item) => (
+        {selectedBun.map((item) => (
           <li className={`ml-8 mb-4`} key={uuidv4()}>
             <ConstructorElement
               type="top"
@@ -72,7 +90,7 @@ const BurgerConstructor = () => {
           </li>
         ))}
         <div className={`${styles.middleContainer} pr-2`}>
-          {typeNotBun.map((item) => (
+          {selectedNotBun.map((item) => (
             <li className={`${styles.itemContainer} mb-4`} key={uuidv4()}>
               <DragIcon type="primary" />
               <ConstructorElement
@@ -83,7 +101,7 @@ const BurgerConstructor = () => {
             </li>
           ))}
         </div>
-        {typeBun.map((item) => (
+        {selectedBun.map((item) => (
           <li className={`ml-8`} key={uuidv4()}>
             <ConstructorElement
               type="bottom"
@@ -106,7 +124,7 @@ const BurgerConstructor = () => {
       </div>
       {isOrderVisible && (
         <Modal handleClose={handleCloseModal}>
-          <OrderDetails />
+          <OrderDetails number={response.number}/>
         </Modal>
       )}
     </section>

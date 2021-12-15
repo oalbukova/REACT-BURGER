@@ -13,11 +13,14 @@ import IngredientDetails from "../../ingredient-details/ingredient-details";
 import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const Ingredient = ({ image, name, price, calories, proteins, fat, carbohydrates }) => {
+const Ingredient = ({ ingredient, image, name, price, calories, proteins, fat, carbohydrates, selectedNotBun, setSelectedNotBun, setSelectedBun, selectedId, setSelectedId }) => {
   const [isIngredientVisible, setIsIngredientVisible] = useState(false);
 
   const handleOpenModal = (e) => {
     setIsIngredientVisible(true);
+    setSelectedId([...selectedId, ingredient._id])
+    console.log(selectedId)
+    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
   };
 
   const handleCloseModal = () => {

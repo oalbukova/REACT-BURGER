@@ -1,5 +1,5 @@
 // react redux types
-import React, { useRef, useState,  useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import { IngredientsContext } from '../../services/appContext';
 
 // styles
@@ -14,7 +14,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 // utils
 import { v4 as uuidv4 } from 'uuid';
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, selectedId, setSelectedId }) => {
   const { data } = useContext(IngredientsContext);
   const [currentTab, setCurrentTab] = useState("bun");
 
@@ -62,8 +62,8 @@ const BurgerIngredients = () => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
-            <Ingredient key={uuidv4()} name={item.name} price={item.price} image={item.image} calories={item.calories}
-              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
+            <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
+              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
           ))}
         </ul>
         <h2
@@ -76,8 +76,8 @@ const BurgerIngredients = () => {
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {
             typeSauce.map((item) => (
-              <Ingredient key={uuidv4()} name={item.name} price={item.price} image={item.image} calories={item.calories}
-                proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
+              <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
+                proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
             ))}
         </ul>
         <h2
@@ -89,8 +89,8 @@ const BurgerIngredients = () => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeMain.map((item) => (
-            <Ingredient key={uuidv4()} name={item.name} price={item.price} image={item.image} calories={item.calories}
-              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} />
+            <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
+              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
           ))}
         </ul>
       </div>

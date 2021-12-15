@@ -11,6 +11,9 @@ import Err from '../err/err';
 // styles
 import styles from "./app.module.css";
 
+// utils
+import INGREDIENTS_URL from '../../utils/constants'
+
 const App = () => {
   const [state, setState] = React.useState({
     data: []
@@ -19,15 +22,13 @@ const App = () => {
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleOpenModal = () => {
+  const handleOpenErrModal = () => {
     setIsErrVisible(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseErrModal = () => {
     setIsErrVisible(false);
   };
-
-  const INGREDIENTS_URL = "https://norma.nomoreparties.space/api/";
 
   useEffect(() => {
     const getData = () => {
@@ -40,7 +41,7 @@ const App = () => {
         })
         .then((data) => setState(data))
         .catch((err) => {
-          handleOpenModal();
+          handleOpenErrModal();
           setError(`Ошибка выполнения запроса: ${err}`);
         });
     };
@@ -54,9 +55,9 @@ const App = () => {
       <AppHeader />
       <IngredientsContext.Provider value={{ data }}>
         <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
-          <Main />
+          <Main handleOpenErrModal={handleOpenErrModal} setError={setError} />
           {isErrVisible && (
-            <Modal handleClose={handleCloseModal}>
+            <Modal handleClose={handleCloseErrModal}>
               <Err text={error} />
             </Modal>
           )}

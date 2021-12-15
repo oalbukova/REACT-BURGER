@@ -1,5 +1,5 @@
 // react redux types
-import React from "react";
+import React, { useState } from "react";
 
 // styles
 import styles from "./main.module.css";
@@ -8,7 +8,10 @@ import styles from "./main.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-const Main = () => {
+const Main = ({ handleOpenErrModal, setError }) => {
+  const [selectedBun, setSelectedBun] = useState([]);
+  const [selectedNotBun, setSelectedNotBun] = useState([]);
+  const [selectedId, setSelectedId] = useState([]);
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -16,8 +19,8 @@ const Main = () => {
         Соберите бургер
       </h1>
       <div className={styles.container}>
-        <BurgerIngredients />
-        <BurgerConstructor />
+        <BurgerIngredients setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
+        <BurgerConstructor selectedBun={selectedBun} selectedNotBun={selectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenErrModal={handleOpenErrModal} setError={setError} />
       </div>
     </main>
   );
