@@ -2,12 +2,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-
 // image
 import done from '../../images/done.png'
 
 //styles
 import styles from "./order-details.module.css";
+
 
 const OrderDetails = ({ number }) => {
 

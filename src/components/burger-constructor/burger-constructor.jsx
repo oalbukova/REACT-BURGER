@@ -5,56 +5,18 @@ import PropTypes from "prop-types";
 // styles
 import styles from "./burger-constructor.module.css";
 
-// components
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-
 // ui-components
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
 import { v4 as uuidv4 } from 'uuid';
-import INGREDIENTS_URL from '../../utils/constants';
 
 
-const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, setError, selectedId }) => {
-  const [isOrderVisible, setIsOrderVisible] = useState(false);
-  const [response, setResponse] = useState({});
+const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenOrderModal }) => {
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
   const totalPriceInitialState = { totalPrice: null };
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
-
-  const handleOpenModal = () => {
-    setIsOrderVisible(true);
-
-    return fetch(`${INGREDIENTS_URL}orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ingredients: selectedId,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json();
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setResponse(data.order)
-      })
-      .catch((err) => {
-        handleOpenErrModal();
-        setError(`Ошибка выполнения запроса: ${err}`);
-      });
-  };
-
-  const handleCloseModal = () => {
-    setIsOrderVisible(false);
-  };
 
   function reducer(state, action) {
     switch (action.type) {
@@ -116,15 +78,10 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, se
           <p className="text text_type_digits-medium pr-2">{totalPriceState.totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOpenModal} id="orderBtn" disabled={isBtnDisabled}>
+        <Button type="primary" size="large" onClick={handleOpenOrderModal} id="orderBtn" disabled={isBtnDisabled}>
           Оформить заказ
         </Button>
       </div>
-      {isOrderVisible && (
-        <Modal handleClose={handleCloseModal}>
-          <OrderDetails number={response.number} />
-        </Modal>
-      )}
     </section>
   );
 };
@@ -132,9 +89,7 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, se
 BurgerConstructor.propTypes = {
   selectedNotBun: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedBun: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleOpenErrModal: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired
+  handleOpenOrderModal: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

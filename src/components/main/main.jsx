@@ -9,10 +9,16 @@ import styles from "./main.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-const Main = ({ handleOpenErrModal, setError }) => {
+
+const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, handleOpenIngredientModal, handleOpenErrModal, setError }) => {
   const [selectedBun, setSelectedBun] = useState([]);
   const [selectedNotBun, setSelectedNotBun] = useState([]);
-  const [selectedId, setSelectedId] = useState([]);
+
+  const setArrOfId = (ingredient) => {
+    setSelectedId([...selectedId, ingredient._id])
+    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
+  }
+
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -20,14 +26,19 @@ const Main = ({ handleOpenErrModal, setError }) => {
         Соберите бургер
       </h1>
       <div className={styles.container}>
-        <BurgerIngredients setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
-        <BurgerConstructor selectedBun={selectedBun} selectedNotBun={selectedNotBun} selectedId={selectedId} handleOpenErrModal={handleOpenErrModal} setError={setError} />
+        <BurgerIngredients setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+        <BurgerConstructor selectedBun={selectedBun} selectedNotBun={selectedNotBun} handleOpenOrderModal={handleOpenOrderModal} />
       </div>
     </main>
   );
 };
 
 Main.propTypes = {
+  setIngredient: PropTypes.func.isRequired,
+  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setSelectedId: PropTypes.func.isRequired,
+  handleOpenOrderModal: PropTypes.func.isRequired,
+  handleOpenIngredientModal: PropTypes.func.isRequired,
   handleOpenErrModal: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired
 };

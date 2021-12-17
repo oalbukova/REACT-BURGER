@@ -15,9 +15,10 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 // utils
 import { v4 as uuidv4 } from 'uuid';
 
-const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, selectedId, setSelectedId }) => {
-  const { data } = useContext(IngredientsContext);
+
+const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredient }) => {
   const [currentTab, setCurrentTab] = useState("bun");
+  const { data } = useContext(IngredientsContext);
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
@@ -31,12 +32,7 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
   const typeBun = data.filter((el) => el.type === "bun");
   const typeSauce = data.filter((el) => el.type === "sauce");
   const typeMain = data.filter((el) => el.type === "main");
-
-  const setArrOfId = (ingredient) => {
-    setSelectedId([...selectedId, ingredient._id])
-    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
-  }
-
+  
 
   return (
     <section className={styles.burgerIngredients}>
@@ -69,8 +65,7 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
-            <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
-              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setArrOfId={setArrOfId} />
+            <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
           ))}
         </ul>
         <h2
@@ -83,8 +78,7 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {
             typeSauce.map((item) => (
-              <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
-                proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setArrOfId={setArrOfId} />
+              <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
             ))}
         </ul>
         <h2
@@ -96,8 +90,7 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeMain.map((item) => (
-            <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
-              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setArrOfId={setArrOfId} />
+            <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
           ))}
         </ul>
       </div>
@@ -106,11 +99,9 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
 };
 
 BurgerIngredients.propTypes = {
-  selectedNotBun: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setSelectedNotBun: PropTypes.func.isRequired,
-  setSelectedBun: PropTypes.func.isRequired,
-  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setSelectedId: PropTypes.func.isRequired
+  setArrOfId: PropTypes.func.isRequired,
+  handleOpenIngredientModal: PropTypes.func.isRequired,
+  setIngredient: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;
