@@ -1,5 +1,6 @@
 // react redux types
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 // styles
 import styles from "./main.module.css";
@@ -20,10 +21,15 @@ const Main = ({ handleOpenErrModal, setError }) => {
       </h1>
       <div className={styles.container}>
         <BurgerIngredients setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
-        <BurgerConstructor selectedBun={selectedBun} selectedNotBun={selectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenErrModal={handleOpenErrModal} setError={setError} />
+        <BurgerConstructor selectedBun={selectedBun} selectedNotBun={selectedNotBun} selectedId={selectedId} handleOpenErrModal={handleOpenErrModal} setError={setError} />
       </div>
     </main>
   );
+};
+
+Main.propTypes = {
+  handleOpenErrModal: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired
 };
 
 export default Main;

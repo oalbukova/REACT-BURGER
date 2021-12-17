@@ -14,8 +14,7 @@ import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("modals");
 
-const Modal = (props) => {
-  const { handleClose, children } = props;
+const Modal = ({ handleClose, children }) => {
 
   useEffect(() => {
     const handleEscClose = (e) => {

@@ -1,6 +1,6 @@
 // react redux types
 import React, { useState, useEffect } from "react";
-import { IngredientsContext, TotalPriceContext } from '../../services/appContext';
+import { IngredientsContext } from '../../services/appContext';
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -12,13 +12,14 @@ import Err from '../err/err';
 import styles from "./app.module.css";
 
 // utils
-import INGREDIENTS_URL from '../../utils/constants'
+import INGREDIENTS_URL from '../../utils/constants';
+
+
 
 const App = () => {
   const [state, setState] = React.useState({
     data: []
   });
-  const [totalPrice, setTotalPrice] = useState(0);
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
 
@@ -54,14 +55,12 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       <IngredientsContext.Provider value={{ data }}>
-        <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
-          <Main handleOpenErrModal={handleOpenErrModal} setError={setError} />
-          {isErrVisible && (
-            <Modal handleClose={handleCloseErrModal}>
-              <Err text={error} />
-            </Modal>
-          )}
-        </TotalPriceContext.Provider>
+        <Main handleOpenErrModal={handleOpenErrModal} setError={setError} />
+        {isErrVisible && (
+          <Modal handleClose={handleCloseErrModal}>
+            <Err text={error} />
+          </Modal>
+        )}
       </IngredientsContext.Provider>
     </div>
   );

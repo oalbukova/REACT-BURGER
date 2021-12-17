@@ -13,15 +13,14 @@ import IngredientDetails from "../../ingredient-details/ingredient-details";
 import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const Ingredient = ({ ingredient, image, name, price, calories, proteins, fat, carbohydrates, selectedNotBun, setSelectedNotBun, setSelectedBun, selectedId, setSelectedId }) => {
+const Ingredient = ({ ingredient, image, name, price, calories, proteins, fat, carbohydrates, setArrOfId }) => {
   const [isIngredientVisible, setIsIngredientVisible] = useState(false);
 
-  const handleOpenModal = (e) => {
+  const handleOpenModal = () => {
+    setArrOfId(ingredient);
     setIsIngredientVisible(true);
-    setSelectedId([...selectedId, ingredient._id])
-    console.log(selectedId)
-    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
   };
+
 
   const handleCloseModal = () => {
     setIsIngredientVisible(false);
@@ -52,6 +51,7 @@ const Ingredient = ({ ingredient, image, name, price, calories, proteins, fat, c
 };
 
 Ingredient.propTypes = {
+  ingredient: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
@@ -59,6 +59,7 @@ Ingredient.propTypes = {
   proteins: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
   carbohydrates: PropTypes.number.isRequired,
+  setArrOfId: PropTypes.func.isRequired,
 };
 
 export default Ingredient;

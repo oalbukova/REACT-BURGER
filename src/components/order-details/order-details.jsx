@@ -1,5 +1,7 @@
 // react redux types
 import React from "react";
+import PropTypes from "prop-types";
+
 
 // image
 import done from '../../images/done.png'
@@ -17,6 +19,10 @@ const OrderDetails = ({ number }) => {
       <p className="text text_type_main-default mb-2">Ваш заказ начали готовить</p>
       <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
     </div>);
+};
+
+OrderDetails.propTypes = {
+  number: PropTypes.number
 };
 
 export default OrderDetails;

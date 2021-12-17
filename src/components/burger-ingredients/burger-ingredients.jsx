@@ -1,5 +1,6 @@
 // react redux types
 import React, { useRef, useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { IngredientsContext } from '../../services/appContext';
 
 // styles
@@ -30,6 +31,12 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
   const typeBun = data.filter((el) => el.type === "bun");
   const typeSauce = data.filter((el) => el.type === "sauce");
   const typeMain = data.filter((el) => el.type === "main");
+
+  const setArrOfId = (ingredient) => {
+    setSelectedId([...selectedId, ingredient._id])
+    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
+  }
+
 
   return (
     <section className={styles.burgerIngredients}>
@@ -63,7 +70,7 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
             <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
-              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
+              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setArrOfId={setArrOfId} />
           ))}
         </ul>
         <h2
@@ -77,7 +84,7 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
           {
             typeSauce.map((item) => (
               <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
-                proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
+                proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setArrOfId={setArrOfId} />
             ))}
         </ul>
         <h2
@@ -90,12 +97,20 @@ const BurgerIngredients = ({ selectedNotBun, setSelectedNotBun, setSelectedBun, 
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeMain.map((item) => (
             <Ingredient key={uuidv4()} ingredient={item} name={item.name} price={item.price} image={item.image} calories={item.calories}
-              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setSelectedBun={setSelectedBun} selectedNotBun={selectedNotBun} setSelectedNotBun={setSelectedNotBun} selectedId={selectedId} setSelectedId={setSelectedId} />
+              proteins={item.proteins} fat={item.fat} carbohydrates={item.carbohydrates} setArrOfId={setArrOfId} />
           ))}
         </ul>
       </div>
     </section>
   );
+};
+
+BurgerIngredients.propTypes = {
+  selectedNotBun: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setSelectedNotBun: PropTypes.func.isRequired,
+  setSelectedBun: PropTypes.func.isRequired,
+  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setSelectedId: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;

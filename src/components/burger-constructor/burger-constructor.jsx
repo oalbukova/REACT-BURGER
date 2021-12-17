@@ -1,6 +1,6 @@
 // react redux types
-import React, { useState, useEffect, useContext } from "react";
-import { IngredientsContext, TotalPriceContext } from '../../services/appContext';
+import React, { useState, useEffect, useReducer } from "react";
+import PropTypes from "prop-types";
 
 // styles
 import styles from "./burger-constructor.module.css";
@@ -14,27 +14,16 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 
 // utils
 import { v4 as uuidv4 } from 'uuid';
-import INGREDIENTS_URL from '../../utils/constants'
+import INGREDIENTS_URL from '../../utils/constants';
 
 
-// const totalPriceInitialState = { totalPrice: null }; 
-
-// function reducer(state, action) {
-//   switch (action.type) {
-//     case "set":
-//       return { totalPrice: action.payload };
-//     default:
-//       throw new Error(`Wrong type of action: ${action.type}`);
-//   }
-// }
-
-
-
-const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, setError, selectedId, setSelectedId }) => {
-  // const { data } = useContext(IngredientsContext);
-  const { totalPrice, setTotalPrice } = useContext(TotalPriceContext);
+const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, setError, selectedId }) => {
   const [isOrderVisible, setIsOrderVisible] = useState(false);
   const [response, setResponse] = useState({});
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+
+  const totalPriceInitialState = { totalPrice: null };
+  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
   const handleOpenModal = () => {
     setIsOrderVisible(true);
@@ -54,7 +43,9 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, se
         }
         return res.json();
       })
-      .then((data) => setResponse(data.order))
+      .then((data) => {
+        setResponse(data.order)
+      })
       .catch((err) => {
         handleOpenErrModal();
         setError(`Ошибка выполнения запроса: ${err}`);
@@ -65,15 +56,22 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, se
     setIsOrderVisible(false);
   };
 
-  useEffect(
-    () => {
-      let total = 0;
-      selectedNotBun.map(item => (total += item.price));
-      selectedBun.map(item => (total += item.price * 2));
-      setTotalPrice(total);
-    },
-    [selectedNotBun, selectedBun, setTotalPrice]
-  );
+  function reducer(state, action) {
+    switch (action.type) {
+      case "plus":
+        return {
+          totalPrice: selectedNotBun.reduce((sum, item) => sum + item.price, 0) + selectedBun.reduce((sum, item) => sum + item.price * 2, 0)
+        };
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  }
+
+  useEffect(() => {
+    totalPriceDispatcher({ type: 'plus' })
+    totalPriceState.totalPrice === 0 || selectedBun.length === 0 ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
+  }, [selectedNotBun, selectedBun, totalPriceState.totalPrice])
+
 
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
@@ -115,20 +113,28 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenErrModal, se
       </ul>
       <div className={`${styles.summary} mt-10 pr-4`}>
         <div className={`${styles.price} mr-10`}>
-          <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
+          <p className="text text_type_digits-medium pr-2">{totalPriceState.totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOpenModal}>
+        <Button type="primary" size="large" onClick={handleOpenModal} id="orderBtn" disabled={isBtnDisabled}>
           Оформить заказ
         </Button>
       </div>
       {isOrderVisible && (
         <Modal handleClose={handleCloseModal}>
-          <OrderDetails number={response.number}/>
+          <OrderDetails number={response.number} />
         </Modal>
       )}
     </section>
   );
+};
+
+BurgerConstructor.propTypes = {
+  selectedNotBun: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedBun: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  handleOpenErrModal: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;
