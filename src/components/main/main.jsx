@@ -10,7 +10,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 
-const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, handleOpenIngredientModal }) => {
+const Main = ({ setIngredient, handleOpenOrderModal, handleOpenIngredientModal }) => {
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -18,7 +18,7 @@ const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, 
         Соберите бургер
       </h1>
       <div className={styles.container}>
-        <BurgerIngredients selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+        <BurgerIngredients handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
         <BurgerConstructor handleOpenOrderModal={handleOpenOrderModal} />
       </div>
     </main>
@@ -27,8 +27,6 @@ const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, 
 
 Main.propTypes = {
   setIngredient: PropTypes.func.isRequired,
-  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setSelectedId: PropTypes.func.isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,
   handleOpenIngredientModal: PropTypes.func.isRequired,
 };

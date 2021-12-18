@@ -1,6 +1,6 @@
 // react redux types
 import React, { useState, useEffect } from "react";
-import { IngredientsContext, BunContext, NotBunContext } from '../../services/appContext';
+import { IngredientsContext, BunContext, NotBunContext, SelectedIdContext } from '../../services/appContext';
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -103,22 +103,24 @@ const App = () => {
       <IngredientsContext.Provider value={{ data }}>
         <BunContext.Provider value={{ selectedBun, setSelectedBun }}>
           <NotBunContext.Provider value={{ selectedNotBun, setSelectedNotBun }}>
-            <Main setIngredient={setIngredient} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
-            {isIngredientVisible && (
-              <Modal handleClose={handleCloseIngredientModal}>
-                <IngredientDetails ingredient={ingredient} />
-              </Modal>
-            )}
-            {isOrderVisible && responseOrder.number && (
-              <Modal handleClose={handleCloseOrderModal}>
-                <OrderDetails number={responseOrder.number} />
-              </Modal>
-            )}
-            {isErrVisible && (
-              <Modal handleClose={handleCloseErrModal}>
-                <Err text={error} />
-              </Modal>
-            )}
+            <SelectedIdContext.Provider value={{ selectedId, setSelectedId }}>
+              <Main setIngredient={setIngredient} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
+              {isIngredientVisible && (
+                <Modal handleClose={handleCloseIngredientModal}>
+                  <IngredientDetails ingredient={ingredient} />
+                </Modal>
+              )}
+              {isOrderVisible && responseOrder.number && (
+                <Modal handleClose={handleCloseOrderModal}>
+                  <OrderDetails number={responseOrder.number} />
+                </Modal>
+              )}
+              {isErrVisible && (
+                <Modal handleClose={handleCloseErrModal}>
+                  <Err text={error} />
+                </Modal>
+              )}
+            </SelectedIdContext.Provider>
           </NotBunContext.Provider>
         </BunContext.Provider>
       </IngredientsContext.Provider>

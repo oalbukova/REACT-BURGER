@@ -1,7 +1,7 @@
 // react redux types
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { BunContext, NotBunContext } from '../../../services/appContext';
+import { BunContext, NotBunContext, SelectedIdContext } from '../../../services/appContext';
 
 // styles
 import styles from "./ingredient.module.css";
@@ -10,14 +10,13 @@ import styles from "./ingredient.module.css";
 import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import {typeOfIngredient} from "../../../utils/types";
+import { typeOfIngredient } from "../../../utils/types";
 
 
-const Ingredient = ({ ingredient, selectedId, setSelectedId, setIngredient, handleOpenIngredientModal }) => {
-
-
+const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) => {
   const { setSelectedBun } = useContext(BunContext);
   const { selectedNotBun, setSelectedNotBun } = useContext(NotBunContext);
+  const { selectedId, setSelectedId } = useContext(SelectedIdContext);
 
   const setArrOfId = (ingredient) => {
     setSelectedId([...selectedId, ingredient._id])
@@ -48,8 +47,6 @@ const Ingredient = ({ ingredient, selectedId, setSelectedId, setIngredient, hand
 
 Ingredient.propTypes = {
   ingredient: typeOfIngredient,
-  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setSelectedId: PropTypes.func.isRequired,
   setIngredient: PropTypes.func.isRequired,
   handleOpenIngredientModal: PropTypes.func.isRequired
 };
