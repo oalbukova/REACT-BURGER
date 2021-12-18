@@ -29,11 +29,6 @@ const App = () => {
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
 
-  const setArrOfId = (ingredient) => {
-    setSelectedId([...selectedId, ingredient._id])
-    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
-  }
-
   const handleOpenIngredientModal = () => {
     setIsIngredientVisible(true);
   };
@@ -108,7 +103,7 @@ const App = () => {
       <IngredientsContext.Provider value={{ data }}>
         <BunContext.Provider value={{ selectedBun, setSelectedBun }}>
           <NotBunContext.Provider value={{ selectedNotBun, setSelectedNotBun }}>
-            <Main setIngredient={setIngredient} selectedId={selectedId} setArrOfId={setArrOfId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
+            <Main setIngredient={setIngredient} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
             {isIngredientVisible && (
               <Modal handleClose={handleCloseIngredientModal}>
                 <IngredientDetails ingredient={ingredient} />

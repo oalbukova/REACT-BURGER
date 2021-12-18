@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 // styles
@@ -10,16 +10,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 
-const Main = ({ setIngredient, setArrOfId, selectedId, setSelectedId, handleOpenOrderModal, handleOpenIngredientModal }) => {
-  // const [selectedBun, setSelectedBun] = useState([]);
-  // const [selectedNotBun, setSelectedNotBun] = useState([]);
-
-  // const setArrOfId = (ingredient) => {
-  //   setSelectedId([...selectedId, ingredient._id])
-  //   ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
-  // }
-  
-
+const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, handleOpenIngredientModal }) => {
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -27,7 +18,7 @@ const Main = ({ setIngredient, setArrOfId, selectedId, setSelectedId, handleOpen
         Соберите бургер
       </h1>
       <div className={styles.container}>
-        <BurgerIngredients setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+        <BurgerIngredients selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
         <BurgerConstructor handleOpenOrderModal={handleOpenOrderModal} />
       </div>
     </main>
@@ -36,7 +27,6 @@ const Main = ({ setIngredient, setArrOfId, selectedId, setSelectedId, handleOpen
 
 Main.propTypes = {
   setIngredient: PropTypes.func.isRequired,
-  setArrOfId: PropTypes.func.isRequired,
   selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedId: PropTypes.func.isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,

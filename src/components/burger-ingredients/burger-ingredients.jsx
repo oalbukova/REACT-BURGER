@@ -13,7 +13,7 @@ import Ingredient from "./ingredient/ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredient }) => {
+const BurgerIngredients = ({ selectedId, setSelectedId, handleOpenIngredientModal, setIngredient }) => {
   const [currentTab, setCurrentTab] = useState("bun");
   const { data } = useContext(IngredientsContext);
 
@@ -29,7 +29,7 @@ const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredien
   const typeBun = data.filter((el) => el.type === "bun");
   const typeSauce = data.filter((el) => el.type === "sauce");
   const typeMain = data.filter((el) => el.type === "main");
-  
+
 
   return (
     <section className={styles.burgerIngredients}>
@@ -62,7 +62,7 @@ const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredien
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
-            <Ingredient key={item._id} ingredient={item} setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+            <Ingredient key={item._id} ingredient={item} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
           ))}
         </ul>
         <h2
@@ -75,7 +75,7 @@ const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredien
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {
             typeSauce.map((item) => (
-              <Ingredient key={item._id} ingredient={item} setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+              <Ingredient key={item._id} ingredient={item} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
             ))}
         </ul>
         <h2
@@ -87,7 +87,7 @@ const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredien
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeMain.map((item) => (
-            <Ingredient key={item._id} ingredient={item} setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+            <Ingredient key={item._id} ingredient={item} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
           ))}
         </ul>
       </div>
@@ -95,8 +95,10 @@ const BurgerIngredients = ({ setArrOfId, handleOpenIngredientModal, setIngredien
   );
 };
 
+
 BurgerIngredients.propTypes = {
-  setArrOfId: PropTypes.func.isRequired,
+  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setSelectedId: PropTypes.func.isRequired,
   handleOpenIngredientModal: PropTypes.func.isRequired,
   setIngredient: PropTypes.func.isRequired
 };

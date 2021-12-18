@@ -18,7 +18,6 @@ const totalPriceInitialState = { totalPrice: null };
 const BurgerConstructor = ({ handleOpenOrderModal }) => {
   const { selectedBun } = useContext(BunContext);
   const { selectedNotBun } = useContext(NotBunContext);
-
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
@@ -35,7 +34,7 @@ const BurgerConstructor = ({ handleOpenOrderModal }) => {
 
   useEffect(() => {
     totalPriceDispatcher({ type: 'plus' })
-    totalPriceState.totalPrice === 0 || !selectedBun ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
+    totalPriceState.totalPrice === 0 || selectedBun.length === 0 ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
   }, [selectedNotBun, selectedBun, totalPriceState.totalPrice])
 
 

@@ -1,6 +1,7 @@
 // react redux types
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import { BunContext, NotBunContext } from '../../../services/appContext';
 
 // styles
 import styles from "./ingredient.module.css";
@@ -12,7 +13,16 @@ import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-
 import {typeOfIngredient} from "../../../utils/types";
 
 
-const Ingredient = ({ ingredient, setArrOfId, setIngredient, handleOpenIngredientModal }) => {
+const Ingredient = ({ ingredient, selectedId, setSelectedId, setIngredient, handleOpenIngredientModal }) => {
+
+
+  const { setSelectedBun } = useContext(BunContext);
+  const { selectedNotBun, setSelectedNotBun } = useContext(NotBunContext);
+
+  const setArrOfId = (ingredient) => {
+    setSelectedId([...selectedId, ingredient._id])
+    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
+  }
 
   const handleOpenModal = () => {
     setIngredient(ingredient)
@@ -38,7 +48,8 @@ const Ingredient = ({ ingredient, setArrOfId, setIngredient, handleOpenIngredien
 
 Ingredient.propTypes = {
   ingredient: typeOfIngredient,
-  setArrOfId: PropTypes.func.isRequired,
+  selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setSelectedId: PropTypes.func.isRequired,
   setIngredient: PropTypes.func.isRequired,
   handleOpenIngredientModal: PropTypes.func.isRequired
 };
