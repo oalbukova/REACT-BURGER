@@ -1,7 +1,7 @@
 // react redux types
 import React, { useState, useEffect, useReducer, useContext } from "react";
 import PropTypes from "prop-types";
-import { BunContext, NotBunContext } from '../../services/appContext';
+import { IngredientsContext } from '../../services/appContext';
 
 // styles
 import styles from "./burger-constructor.module.css";
@@ -9,15 +9,12 @@ import styles from "./burger-constructor.module.css";
 // ui-components
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-// utils
-import { v4 as uuidv4 } from 'uuid';
 
 const totalPriceInitialState = { totalPrice: null };
 
 
 const BurgerConstructor = ({ handleOpenOrderModal }) => {
-  const { selectedBun } = useContext(BunContext);
-  const { selectedNotBun } = useContext(NotBunContext);
+  const { selectedBun, selectedNotBun } = useContext(IngredientsContext);
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
@@ -25,7 +22,7 @@ const BurgerConstructor = ({ handleOpenOrderModal }) => {
     switch (action.type) {
       case "plus":
         return {
-          totalPrice: selectedNotBun.reduce((sum, item) => sum + item.price, 0) + selectedBun.reduce((sum, item) => sum + item.price * 2, 0)
+          totalPrice: action.payload
         };
       default:
         throw new Error(`Wrong type of action: ${action.type}`);
@@ -33,7 +30,7 @@ const BurgerConstructor = ({ handleOpenOrderModal }) => {
   }
 
   useEffect(() => {
-    totalPriceDispatcher({ type: 'plus' })
+    totalPriceDispatcher({ type: 'plus', payload: selectedNotBun.reduce((sum, item) => sum + item.price, 0) + selectedBun.reduce((sum, item) => sum + item.price * 2, 0) })
     totalPriceState.totalPrice === 0 || selectedBun.length === 0 ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
   }, [selectedNotBun, selectedBun, totalPriceState.totalPrice])
 
@@ -42,7 +39,7 @@ const BurgerConstructor = ({ handleOpenOrderModal }) => {
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
       <ul className={`${styles.list}`}>
         {selectedBun && selectedBun.map((item) => (
-          <li className={`ml-8 mb-4`} key={uuidv4()}>
+          <li className={`ml-8 mb-4`} key={item.key}>
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -54,7 +51,7 @@ const BurgerConstructor = ({ handleOpenOrderModal }) => {
         ))}
         <div className={`${styles.middleContainer} pr-2`}>
           {selectedNotBun && selectedNotBun.map((item) => (
-            <li className={`${styles.itemContainer} mb-4`} key={uuidv4()}>
+            <li className={`${styles.itemContainer} mb-4`} key={item.key}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={item.name}
@@ -65,7 +62,7 @@ const BurgerConstructor = ({ handleOpenOrderModal }) => {
           ))}
         </div>
         {selectedBun && selectedBun.map((item) => (
-          <li className={`ml-8`} key={uuidv4()}>
+          <li className={`ml-8`} key={item.key}>
             <ConstructorElement
               type="bottom"
               isLocked={true}

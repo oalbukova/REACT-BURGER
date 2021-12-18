@@ -1,7 +1,7 @@
 // react redux types
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { BunContext, NotBunContext, SelectedIdContext } from '../../../services/appContext';
+import { IngredientsContext } from '../../../services/appContext';
 
 // styles
 import styles from "./ingredient.module.css";
@@ -11,14 +11,14 @@ import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-
 
 // utils
 import { typeOfIngredient } from "../../../utils/types";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) => {
-  const { setSelectedBun } = useContext(BunContext);
-  const { selectedNotBun, setSelectedNotBun } = useContext(NotBunContext);
-  const { selectedId, setSelectedId } = useContext(SelectedIdContext);
+  const { setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId } = useContext(IngredientsContext);
 
   const setArrOfId = (ingredient) => {
+    ingredient['key'] = uuidv4();
     setSelectedId([...selectedId, ingredient._id])
     ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
   }
