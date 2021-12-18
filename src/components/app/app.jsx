@@ -38,8 +38,6 @@ const App = () => {
   };
 
   const handleOpenOrderModal = () => {
-    setIsOrderVisible(true);
-
     return fetch(`${API_URL}orders`, {
       method: "POST",
       headers: {
@@ -56,7 +54,8 @@ const App = () => {
         return res.json();
       })
       .then((data) => {
-        setResponseOrder(data.order)
+        setResponseOrder(data.order);
+        setIsOrderVisible(true)
       })
       .catch((err) => {
         handleOpenErrModal();
@@ -110,7 +109,7 @@ const App = () => {
                   <IngredientDetails ingredient={ingredient} />
                 </Modal>
               )}
-              {isOrderVisible && responseOrder.number && (
+              {isOrderVisible && (
                 <Modal handleClose={handleCloseOrderModal}>
                   <OrderDetails number={responseOrder.number} />
                 </Modal>
