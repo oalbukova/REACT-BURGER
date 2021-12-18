@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 // styles
@@ -10,14 +10,15 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 
-const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, handleOpenIngredientModal, handleOpenErrModal, setError }) => {
-  const [selectedBun, setSelectedBun] = useState([]);
-  const [selectedNotBun, setSelectedNotBun] = useState([]);
+const Main = ({ setIngredient, setArrOfId, selectedId, setSelectedId, handleOpenOrderModal, handleOpenIngredientModal }) => {
+  // const [selectedBun, setSelectedBun] = useState([]);
+  // const [selectedNotBun, setSelectedNotBun] = useState([]);
 
-  const setArrOfId = (ingredient) => {
-    setSelectedId([...selectedId, ingredient._id])
-    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
-  }
+  // const setArrOfId = (ingredient) => {
+  //   setSelectedId([...selectedId, ingredient._id])
+  //   ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
+  // }
+  
 
 
   return (
@@ -27,7 +28,7 @@ const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, 
       </h1>
       <div className={styles.container}>
         <BurgerIngredients setArrOfId={setArrOfId} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
-        <BurgerConstructor selectedBun={selectedBun} selectedNotBun={selectedNotBun} handleOpenOrderModal={handleOpenOrderModal} />
+        <BurgerConstructor handleOpenOrderModal={handleOpenOrderModal} />
       </div>
     </main>
   );
@@ -35,12 +36,11 @@ const Main = ({ setIngredient, selectedId, setSelectedId, handleOpenOrderModal, 
 
 Main.propTypes = {
   setIngredient: PropTypes.func.isRequired,
+  setArrOfId: PropTypes.func.isRequired,
   selectedId: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedId: PropTypes.func.isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,
   handleOpenIngredientModal: PropTypes.func.isRequired,
-  handleOpenErrModal: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired
 };
 
 export default Main;

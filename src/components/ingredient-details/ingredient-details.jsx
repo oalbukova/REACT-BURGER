@@ -1,9 +1,11 @@
 // react redux types
 import React from "react";
-import PropTypes from "prop-types";
 
 //styles
 import styles from "./ingredient-details.module.css";
+
+// utils
+import {typeOfIngredient} from "../../utils/types";
 
 const IngredientDetails = ({ ingredient }) => {
 
@@ -65,7 +67,7 @@ const IngredientDetails = ({ ingredient }) => {
 };
 
 IngredientDetails.propTypes = {
-  ingredient: PropTypes.object.isRequired,
+  ingredient: typeOfIngredient,
 };
 
 export default IngredientDetails;

@@ -1,6 +1,7 @@
 // react redux types
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 import PropTypes from "prop-types";
+import { BunContext, NotBunContext } from '../../services/appContext';
 
 // styles
 import styles from "./burger-constructor.module.css";
@@ -11,11 +12,14 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 // utils
 import { v4 as uuidv4 } from 'uuid';
 
+const totalPriceInitialState = { totalPrice: null };
 
-const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenOrderModal }) => {
+
+const BurgerConstructor = ({ handleOpenOrderModal }) => {
+  const { selectedBun } = useContext(BunContext);
+  const { selectedNotBun } = useContext(NotBunContext);
+
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
-
-  const totalPriceInitialState = { totalPrice: null };
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
   function reducer(state, action) {
@@ -31,14 +35,14 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenOrderModal }
 
   useEffect(() => {
     totalPriceDispatcher({ type: 'plus' })
-    totalPriceState.totalPrice === 0 || selectedBun.length === 0 ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
+    totalPriceState.totalPrice === 0 || !selectedBun ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
   }, [selectedNotBun, selectedBun, totalPriceState.totalPrice])
 
 
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
       <ul className={`${styles.list}`}>
-        {selectedBun.map((item) => (
+        {selectedBun && selectedBun.map((item) => (
           <li className={`ml-8 mb-4`} key={uuidv4()}>
             <ConstructorElement
               type="top"
@@ -50,7 +54,7 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenOrderModal }
           </li>
         ))}
         <div className={`${styles.middleContainer} pr-2`}>
-          {selectedNotBun.map((item) => (
+          {selectedNotBun && selectedNotBun.map((item) => (
             <li className={`${styles.itemContainer} mb-4`} key={uuidv4()}>
               <DragIcon type="primary" />
               <ConstructorElement
@@ -61,7 +65,7 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenOrderModal }
             </li>
           ))}
         </div>
-        {selectedBun.map((item) => (
+        {selectedBun && selectedBun.map((item) => (
           <li className={`ml-8`} key={uuidv4()}>
             <ConstructorElement
               type="bottom"
@@ -87,8 +91,6 @@ const BurgerConstructor = ({ selectedNotBun, selectedBun, handleOpenOrderModal }
 };
 
 BurgerConstructor.propTypes = {
-  selectedNotBun: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedBun: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,
 };
 

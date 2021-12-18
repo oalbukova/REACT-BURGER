@@ -1,6 +1,6 @@
 // react redux types
 import React, { useState, useEffect } from "react";
-import { IngredientsContext } from '../../services/appContext';
+import { IngredientsContext, BunContext, NotBunContext } from '../../services/appContext';
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -14,18 +14,25 @@ import Err from '../err/err';
 import styles from "./app.module.css";
 
 // utils
-import INGREDIENTS_URL from '../../utils/constants';
+import { API_URL } from '../../utils/constants';
 
 
 const App = () => {
   const [state, setState] = React.useState({ data: [] });
   const [ingredient, setIngredient] = useState({});
+  const [selectedBun, setSelectedBun] = useState([]);
+  const [selectedNotBun, setSelectedNotBun] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [isIngredientVisible, setIsIngredientVisible] = useState(false);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
   const [responseOrder, setResponseOrder] = useState({});
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
+
+  const setArrOfId = (ingredient) => {
+    setSelectedId([...selectedId, ingredient._id])
+    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
+  }
 
   const handleOpenIngredientModal = () => {
     setIsIngredientVisible(true);
@@ -38,7 +45,7 @@ const App = () => {
   const handleOpenOrderModal = () => {
     setIsOrderVisible(true);
 
-    return fetch(`${INGREDIENTS_URL}orders`, {
+    return fetch(`${API_URL}orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +83,7 @@ const App = () => {
 
   useEffect(() => {
     const getData = () => {
-      fetch(`${INGREDIENTS_URL}ingredients`)
+      fetch(`${API_URL}ingredients`)
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -99,22 +106,26 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       <IngredientsContext.Provider value={{ data }}>
-        <Main setIngredient={setIngredient} selectedId={selectedId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
-        {isIngredientVisible && (
-          <Modal handleClose={handleCloseIngredientModal}>
-            <IngredientDetails ingredient={ingredient} />
-          </Modal>
-        )}
-        {isOrderVisible && responseOrder.number && (
-          <Modal handleClose={handleCloseOrderModal}>
-            <OrderDetails number={responseOrder.number} />
-          </Modal>
-        )}
-        {isErrVisible && (
-          <Modal handleClose={handleCloseErrModal}>
-            <Err text={error} />
-          </Modal>
-        )}
+        <BunContext.Provider value={{ selectedBun, setSelectedBun }}>
+          <NotBunContext.Provider value={{ selectedNotBun, setSelectedNotBun }}>
+            <Main setIngredient={setIngredient} selectedId={selectedId} setArrOfId={setArrOfId} setSelectedId={setSelectedId} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
+            {isIngredientVisible && (
+              <Modal handleClose={handleCloseIngredientModal}>
+                <IngredientDetails ingredient={ingredient} />
+              </Modal>
+            )}
+            {isOrderVisible && responseOrder.number && (
+              <Modal handleClose={handleCloseOrderModal}>
+                <OrderDetails number={responseOrder.number} />
+              </Modal>
+            )}
+            {isErrVisible && (
+              <Modal handleClose={handleCloseErrModal}>
+                <Err text={error} />
+              </Modal>
+            )}
+          </NotBunContext.Provider>
+        </BunContext.Provider>
       </IngredientsContext.Provider>
     </div>
   );
