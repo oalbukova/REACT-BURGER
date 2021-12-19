@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "/REACT-BURGER/static/css/main.a09db357.chunk.css",
-    "main.js": "/REACT-BURGER/static/js/main.e9bd5908.chunk.js",
-    "main.js.map": "/REACT-BURGER/static/js/main.e9bd5908.chunk.js.map",
-    "runtime-main.js": "/REACT-BURGER/static/js/runtime-main.cd2ccb9b.js",
-    "runtime-main.js.map": "/REACT-BURGER/static/js/runtime-main.cd2ccb9b.js.map",
+    "main.css": "/REACT-BURGER/static/css/main.1791501d.chunk.css",
+    "main.js": "/REACT-BURGER/static/js/main.f6da5df9.chunk.js",
+    "main.js.map": "/REACT-BURGER/static/js/main.f6da5df9.chunk.js.map",
+    "runtime-main.js": "/REACT-BURGER/static/js/runtime-main.5f34d500.js",
+    "runtime-main.js.map": "/REACT-BURGER/static/js/runtime-main.5f34d500.js.map",
     "static/css/2.fd594629.chunk.css": "/REACT-BURGER/static/css/2.fd594629.chunk.css",
-    "static/js/2.efbd9b71.chunk.js": "/REACT-BURGER/static/js/2.efbd9b71.chunk.js",
-    "static/js/2.efbd9b71.chunk.js.map": "/REACT-BURGER/static/js/2.efbd9b71.chunk.js.map",
-    "static/js/3.ce6e55e4.chunk.js": "/REACT-BURGER/static/js/3.ce6e55e4.chunk.js",
-    "static/js/3.ce6e55e4.chunk.js.map": "/REACT-BURGER/static/js/3.ce6e55e4.chunk.js.map",
+    "static/js/2.68a8771a.chunk.js": "/REACT-BURGER/static/js/2.68a8771a.chunk.js",
+    "static/js/2.68a8771a.chunk.js.map": "/REACT-BURGER/static/js/2.68a8771a.chunk.js.map",
+    "static/js/3.7bf34d4c.chunk.js": "/REACT-BURGER/static/js/3.7bf34d4c.chunk.js",
+    "static/js/3.7bf34d4c.chunk.js.map": "/REACT-BURGER/static/js/3.7bf34d4c.chunk.js.map",
     "index.html": "/REACT-BURGER/index.html",
     "static/css/2.fd594629.chunk.css.map": "/REACT-BURGER/static/css/2.fd594629.chunk.css.map",
-    "static/css/main.a09db357.chunk.css.map": "/REACT-BURGER/static/css/main.a09db357.chunk.css.map",
-    "static/js/2.efbd9b71.chunk.js.LICENSE.txt": "/REACT-BURGER/static/js/2.efbd9b71.chunk.js.LICENSE.txt",
+    "static/css/main.1791501d.chunk.css.map": "/REACT-BURGER/static/css/main.1791501d.chunk.css.map",
+    "static/js/2.68a8771a.chunk.js.LICENSE.txt": "/REACT-BURGER/static/js/2.68a8771a.chunk.js.LICENSE.txt",
     "static/media/fonts.css": "/REACT-BURGER/static/media/iceland.77ad7fc2.woff",
     "static/media/index.css": "/REACT-BURGER/static/media/JetBrainsMono-Regular.e1554e98.woff",
     "static/media/done.f3932884.png": "/REACT-BURGER/static/media/done.f3932884.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.cd2ccb9b.js",
+    "static/js/runtime-main.5f34d500.js",
     "static/css/2.fd594629.chunk.css",
-    "static/js/2.efbd9b71.chunk.js",
-    "static/css/main.a09db357.chunk.css",
-    "static/js/main.e9bd5908.chunk.js"
+    "static/js/2.68a8771a.chunk.js",
+    "static/css/main.1791501d.chunk.css",
+    "static/js/main.f6da5df9.chunk.js"
   ]
 }
