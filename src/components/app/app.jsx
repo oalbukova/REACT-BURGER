@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { IngredientsContext } from '../../services/appContext';
 
 //components
@@ -18,7 +18,7 @@ import { API_URL } from '../../utils/constants';
 
 
 const App = () => {
-  const [data, setData] = useState([]);
+  const [stateData, setStateData] = useState([]);
   const [ingredient, setIngredient] = useState({});
   const [selectedBun, setSelectedBun] = useState([]);
   const [selectedNotBun, setSelectedNotBun] = useState([]);
@@ -84,7 +84,7 @@ const App = () => {
           }
           return Promise.reject(res.status);
         })
-        .then((res) => setData(res.data))
+        .then((res) => setStateData(res.data))
         .catch((err) => {
           handleOpenErrModal();
           setError(`Ошибка выполнения запроса: ${err}`);
@@ -93,16 +93,13 @@ const App = () => {
     getData()
   }, []);
 
-  // const xxx = useMemo(() => 
-
-  
-  // )
+  const data = { stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId }
 
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <IngredientsContext.Provider value={{ data, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId }}>
+      <IngredientsContext.Provider value={data}>
         <Main setIngredient={setIngredient} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
         {isIngredientVisible && (
           <Modal handleClose={handleCloseIngredientModal}>

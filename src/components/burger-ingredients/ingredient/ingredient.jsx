@@ -18,9 +18,8 @@ const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) =>
   const { setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId } = useContext(IngredientsContext);
 
   const setArrOfId = (ingredient) => {
-    ingredient['key'] = uuidv4();
     setSelectedId([...selectedId, ingredient._id])
-    ingredient.type === 'bun' ? setSelectedBun([ingredient]) : setSelectedNotBun([...selectedNotBun, ingredient]);
+    ingredient.type === 'bun' ? setSelectedBun([{ ...ingredient, 'key': uuidv4() }]) : setSelectedNotBun([...selectedNotBun, { ...ingredient, 'key': uuidv4() }]);
   }
 
   const handleOpenModal = () => {
@@ -46,7 +45,7 @@ const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) =>
 };
 
 Ingredient.propTypes = {
-  ingredient: typeOfIngredient,
+  ingredient: typeOfIngredient.isRequired,
   setIngredient: PropTypes.func.isRequired,
   handleOpenIngredientModal: PropTypes.func.isRequired
 };

@@ -15,7 +15,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
   const [currentTab, setCurrentTab] = useState("bun");
-  const { data } = useContext(IngredientsContext);
+  const { stateData } = useContext(IngredientsContext);
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
@@ -26,9 +26,9 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
     tabRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const typeBun = data.filter((el) => el.type === "bun");
-  const typeSauce = data.filter((el) => el.type === "sauce");
-  const typeMain = data.filter((el) => el.type === "main");
+  const typeBun = stateData.filter((el) => el.type === "bun");
+  const typeSauce = stateData.filter((el) => el.type === "sauce");
+  const typeMain = stateData.filter((el) => el.type === "main");
 
 
   return (
