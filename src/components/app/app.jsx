@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { IngredientsContext } from '../../services/appContext';
 
 //components
@@ -28,6 +28,12 @@ const App = () => {
   const [responseOrder, setResponseOrder] = useState({});
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
+
+  const createContext = (stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId) => {
+    const context = { stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId };
+    return context;
+  }
+  const generateContext = useMemo(() => createContext(stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId), [stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId])
 
   const handleOpenIngredientModal = () => {
     setIsIngredientVisible(true);
@@ -93,13 +99,11 @@ const App = () => {
     getData()
   }, []);
 
-  const data = { stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId }
-
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <IngredientsContext.Provider value={data}>
+      <IngredientsContext.Provider value={generateContext}>
         <Main setIngredient={setIngredient} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
         {isIngredientVisible && (
           <Modal handleClose={handleCloseIngredientModal}>
