@@ -1,42 +1,35 @@
 // react redux types
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
+import { IngredientsContext } from '../../services/appContext';
 
 // styles
 import styles from "./burger-constructor.module.css";
 
-// components
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-
 // ui-components
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-// utils
-import { typeOfIngredient } from "../../utils/types";
-import { v4 as uuidv4 } from 'uuid';
 
+const BurgerConstructor = ({ handleOpenOrderModal }) => {
+  const { selectedBun, selectedNotBun } = useContext(IngredientsContext);
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
+  const totalPrice = useMemo(() => {
+    return selectedNotBun.reduce((sum, item) => sum + item.price, 0) + selectedBun.reduce((sum, item) => sum + item.price * 2, 0)
+  },
+    [selectedNotBun, selectedBun]
+  )
 
-const BurgerConstructor = ({ data }) => {
-  const [isOrderVisible, setIsOrderVisible] = useState(false);
+  useEffect(() => {
+    totalPrice === 0 || selectedBun.length === 0 ? setIsBtnDisabled(true) : setIsBtnDisabled(false);
+  }, [totalPrice, selectedBun])
 
-  const handleOpenModal = () => {
-    setIsOrderVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsOrderVisible(false);
-  };
-
-  const typeNotBun = data.filter((el) => el.type !== "bun");
-  const typeBun = data.filter((el) => el.name === "Краторная булка N-200i");
 
   return (
     <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
       <ul className={`${styles.list}`}>
-        {typeBun.map((item) => (
-          <li className={`ml-8 mb-4`} key={uuidv4()}>
+        {selectedBun && selectedBun.map((item) => (
+          <li className={`ml-8 mb-4`} key={item.key}>
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -47,8 +40,8 @@ const BurgerConstructor = ({ data }) => {
           </li>
         ))}
         <div className={`${styles.middleContainer} pr-2`}>
-          {typeNotBun.map((item) => (
-            <li className={`${styles.itemContainer} mb-4`} key={uuidv4()}>
+          {selectedNotBun && selectedNotBun.map((item) => (
+            <li className={`${styles.itemContainer} mb-4`} key={item.key}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={item.name}
@@ -58,8 +51,8 @@ const BurgerConstructor = ({ data }) => {
             </li>
           ))}
         </div>
-        {typeBun.map((item) => (
-          <li className={`ml-8`} key={uuidv4()}>
+        {selectedBun && selectedBun.map((item) => (
+          <li className={`ml-8`} key={item.key}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -72,24 +65,19 @@ const BurgerConstructor = ({ data }) => {
       </ul>
       <div className={`${styles.summary} mt-10 pr-4`}>
         <div className={`${styles.price} mr-10`}>
-          <p className="text text_type_digits-medium pr-2">610</p>
+          <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOpenModal}>
+        <Button type="primary" size="large" onClick={handleOpenOrderModal} id="orderBtn" disabled={isBtnDisabled}>
           Оформить заказ
         </Button>
       </div>
-      {isOrderVisible && (
-        <Modal handleClose={handleCloseModal}>
-          <OrderDetails />
-        </Modal>
-      )}
     </section>
   );
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(typeOfIngredient).isRequired,
+  handleOpenOrderModal: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

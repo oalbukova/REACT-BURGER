@@ -1,61 +1,53 @@
 // react redux types
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import { IngredientsContext } from '../../../services/appContext';
 
 // styles
 import styles from "./ingredient.module.css";
 
-// components
-import Modal from "../../modal/modal";
-import IngredientDetails from "../../ingredient-details/ingredient-details";
-
 // ui-components
 import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// utils
+import { typeOfIngredient } from "../../../utils/types";
+import { v4 as uuidv4 } from 'uuid';
 
-const Ingredient = ({ image, name, price, calories, proteins, fat, carbohydrates }) => {
-  const [isIngredientVisible, setIsIngredientVisible] = useState(false);
 
-  const handleOpenModal = (e) => {
-    setIsIngredientVisible(true);
-  };
+const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) => {
+  const { setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId } = useContext(IngredientsContext);
 
-  const handleCloseModal = () => {
-    setIsIngredientVisible(false);
+  const setArrOfId = (ingredient) => {
+    setSelectedId([...selectedId, ingredient._id])
+    ingredient.type === 'bun' ? setSelectedBun([{ ...ingredient, 'key': uuidv4() }]) : setSelectedNotBun([...selectedNotBun, { ...ingredient, 'key': uuidv4() }]);
+  }
+
+  const handleOpenModal = () => {
+    setIngredient(ingredient)
+    setArrOfId(ingredient);
+    handleOpenIngredientModal();
   };
 
   return (
-    <>
-      <li className={`${styles.item} mb-7`} onClick={handleOpenModal}>
-        {name === "Краторная булка N-200i" ||
-          name === "Соус фирменный Space Sauce" ? (
-          <Counter count={1} size="default" />
-        ) : null}
-        <img src={image} alt="ingredient" />
-        <div className={`${styles.price} mt-1 mb-2`}>
-          <p className="text text_type_digits-default mr-2">{price}</p>
-          <CurrencyIcon type="primary" />
-        </div>
-        <p className="text text_type_main-default">{name}</p>
-      </li>
-      {isIngredientVisible && (
-        <Modal handleClose={handleCloseModal}>
-          <IngredientDetails name={name} price={price} image={image} calories={calories} proteins={proteins} fat={fat}
-            carbohydrates={carbohydrates} />
-        </Modal>
-      )}
-    </>
+    <li className={`${styles.item} mb-7`} onClick={handleOpenModal}>
+      {ingredient.name === "Краторная булка N-200i" ||
+        ingredient.name === "Соус фирменный Space Sauce" ? (
+        <Counter count={1} size="default" />
+      ) : null}
+      <img src={ingredient.image} alt="ingredient" />
+      <div className={`${styles.price} mt-1 mb-2`}>
+        <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
+        <CurrencyIcon type="primary" />
+      </div>
+      <p className="text text_type_main-default">{ingredient.name}</p>
+    </li>
   );
 };
 
 Ingredient.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
+  ingredient: typeOfIngredient.isRequired,
+  setIngredient: PropTypes.func.isRequired,
+  handleOpenIngredientModal: PropTypes.func.isRequired
 };
 
 export default Ingredient;

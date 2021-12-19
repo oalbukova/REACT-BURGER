@@ -9,10 +9,8 @@ import styles from "./main.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
-// utils
-import { typeOfIngredient } from "../../utils/types";
 
-const Main = ({ data }) => {
+const Main = ({ setIngredient, handleOpenOrderModal, handleOpenIngredientModal }) => {
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -20,15 +18,17 @@ const Main = ({ data }) => {
         Соберите бургер
       </h1>
       <div className={styles.container}>
-        <BurgerIngredients data={data} />
-        <BurgerConstructor data={data} />
+        <BurgerIngredients handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+        <BurgerConstructor handleOpenOrderModal={handleOpenOrderModal} />
       </div>
     </main>
   );
 };
 
 Main.propTypes = {
-  data: PropTypes.arrayOf(typeOfIngredient).isRequired,
+  setIngredient: PropTypes.func.isRequired,
+  handleOpenOrderModal: PropTypes.func.isRequired,
+  handleOpenIngredientModal: PropTypes.func.isRequired,
 };
 
 export default Main;
