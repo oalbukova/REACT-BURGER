@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   GET_ORDER_REQUEST,
@@ -8,6 +8,8 @@ import {
   OPEN_ORDER_MODAL,
   OPEN_ERR_MODAL,
   SET_ERR,
+  SET_BTN_DISABLED,
+  SET_BTN_ACTIVE,
 } from "../../services/actions/cart";
 
 // styles
@@ -25,10 +27,10 @@ import {
 import { API_URL } from "../../utils/constants";
 
 const BurgerConstructor = () => {
-  const { selectedBun, selectedToppings } = useSelector((state) => state.cart);
+  const { selectedBun, selectedToppings, isBtnDisabled } = useSelector(
+    (state) => state.cart
+  );
   const dispatch = useDispatch();
-
-  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
   const totalPrice = useMemo(() => {
     return (
@@ -39,9 +41,13 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     totalPrice === 0 || selectedBun.length === 0
-      ? setIsBtnDisabled(true)
-      : setIsBtnDisabled(false);
-  }, [totalPrice, selectedBun]);
+      ? dispatch({
+          type: SET_BTN_DISABLED,
+        })
+      : dispatch({
+          type: SET_BTN_ACTIVE,
+        });
+  }, [dispatch, totalPrice, selectedBun]);
 
   const selectedId = selectedBun
     .concat(selectedToppings)

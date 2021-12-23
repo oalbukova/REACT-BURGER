@@ -17,9 +17,9 @@ import {
   OPEN_ERR_MODAL,
   CLOSE_ERR_MODAL,
   SET_ERR,
-
-  // UPDATE_ORDER_NUMBER,
-  // TAB_SWITCH,
+  SET_BTN_DISABLED,
+  SET_BTN_ACTIVE,
+  TAB_SWITCH,
 } from "../actions/cart";
 
 const initialState = {
@@ -41,12 +41,9 @@ const initialState = {
   isErrModalVisible: false,
   error: "",
 
-  // const [isIngredientVisible, setIsIngredientVisible] = useState(false);
-  // const [isOrderVisible, setIsOrderVisible] = useState(false);
-  // const [isErrVisible, setIsErrVisible] = useState(false);
-  // const [error, setError] = useState(null);
+  isBtnDisabled: false,
 
-  // currentTab: 'bun'
+  currentTab: "bun",
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -171,7 +168,25 @@ export const cartReducer = (state = initialState, action) => {
         error: action.text,
       };
     }
+    case SET_BTN_DISABLED: {
+      return {
+        ...state,
+        isBtnDisabled: true,
+      };
+    }
 
+    case SET_BTN_ACTIVE: {
+      return {
+        ...state,
+        isBtnDisabled: false,
+      };
+    }
+    case TAB_SWITCH: {
+      return {
+        ...state,
+        currentTab: action.tab,
+      };
+    }
     // case INCREASE_ITEM: {
     //   return {
     //     ...state,
@@ -205,12 +220,6 @@ export const cartReducer = (state = initialState, action) => {
     //     ...state,
     //     promoFailed: false,
     //     promoRequest: true
-    //   };
-    // }
-    // case TAB_SWITCH: {
-    //   return {
-    //     ...state,
-    //     currentTab: state.currentTab === 'items' ? 'postponed' : 'items'
     //   };
     // }
     default: {

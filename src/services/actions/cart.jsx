@@ -27,9 +27,14 @@ export const OPEN_ERR_MODAL = "OPEN_ERR_MODAL";
 export const CLOSE_ERR_MODAL = "CLOSE_ERR_MODAL";
 export const SET_ERR = "SET_ERR";
 
+export const SET_BTN_DISABLED = "SET_BTN_DISABLED";
+export const SET_BTN_ACTIVE = "SET_BTN_ACTIVE";
+
+export const TAB_SWITCH = 'TAB_SWITCH';
+
 // export const UPDATE_ORDER_NUMBER = 'UPDATE_ORDER_NUMBER_REQUEST';
 
-// export const TAB_SWITCH = 'TAB_SWITCH';
+
 
 export function getItems() {
   return function (dispatch) {

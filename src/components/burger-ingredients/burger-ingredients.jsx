@@ -1,6 +1,6 @@
 // react redux types
-import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 // styles
 import styles from "./burger-ingredients.module.css";
@@ -11,16 +11,21 @@ import Ingredient from "./ingredient/ingredient";
 // ui-components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { TAB_SWITCH } from "../../services/actions/cart";
+
 const BurgerIngredients = () => {
-  const { items } = useSelector((state) => state.cart);
-  const [currentTab, setCurrentTab] = useState("bun");
+  const dispatch = useDispatch();
+  const { items, currentTab } = useSelector((state) => state.cart);
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
   const mainRef = useRef(null);
 
   const setTab = (tab, tabRef) => {
-    setCurrentTab(tab);
+    dispatch({
+      type: TAB_SWITCH,
+      tab
+    });
     tabRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
