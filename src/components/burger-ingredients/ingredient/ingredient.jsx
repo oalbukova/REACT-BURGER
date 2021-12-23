@@ -1,54 +1,57 @@
 // react redux types
 import React from "react";
-import { useDispatch } from 'react-redux';
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 // services
-import { ADD_SELECTED_BUN, ADD_SELECTED_TOPPING, GET_CURRENT_INGREDIENT } from '../../../services/actions/cart';
+import {
+  ADD_SELECTED_BUN,
+  ADD_SELECTED_TOPPING,
+  GET_CURRENT_INGREDIENT,
+  OPEN_INGREDIENT_MODAL,
+} from "../../../services/actions/cart";
 
 // styles
 import styles from "./ingredient.module.css";
 
 // ui-components
-import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
 import { typeOfIngredient } from "../../../utils/types";
 
-
-const Ingredient = ({ ingredient, handleOpenIngredientModal }) => {
+const Ingredient = ({ ingredient }) => {
   const dispatch = useDispatch();
 
   const setArrOfId = (ingredient) => {
-    ingredient.type === 'bun' ?
-      dispatch(
-        {
+    ingredient.type === "bun"
+      ? dispatch({
           type: ADD_SELECTED_BUN,
-          ingredient
-
-        })
-      :
-      dispatch(
-        {
-          type: ADD_SELECTED_TOPPING,
           ingredient,
         })
-  }
+      : dispatch({
+          type: ADD_SELECTED_TOPPING,
+          ingredient,
+        });
+  };
 
   const handleOpenModal = () => {
-    dispatch(
-      {
-        type: GET_CURRENT_INGREDIENT,
-        ingredient,
-      })
+    dispatch({
+      type: GET_CURRENT_INGREDIENT,
+      ingredient,
+    });
     setArrOfId(ingredient);
-    handleOpenIngredientModal();
+    dispatch({
+      type: OPEN_INGREDIENT_MODAL,
+    });
   };
 
   return (
     <li className={`${styles.item} mb-7`} onClick={handleOpenModal}>
       {ingredient.name === "Краторная булка N-200i" ||
-        ingredient.name === "Соус фирменный Space Sauce" ? (
+      ingredient.name === "Соус фирменный Space Sauce" ? (
         <Counter count={1} size="default" />
       ) : null}
       <img src={ingredient.image} alt="ingredient" />
@@ -63,7 +66,6 @@ const Ingredient = ({ ingredient, handleOpenIngredientModal }) => {
 
 Ingredient.propTypes = {
   ingredient: typeOfIngredient.isRequired,
-  handleOpenIngredientModal: PropTypes.func.isRequired
 };
 
 export default Ingredient;

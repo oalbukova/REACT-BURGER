@@ -5,10 +5,7 @@ import React from "react";
 import styles from "./modal-overlay.module.css";
 
 const ModalOverlay = () => {
-
-  return (
-    <div className={`modalOverlay ${styles.modalOverlay}`} />
-  );
+  return <div className={`modalOverlay ${styles.modalOverlay}`} />;
 };
 
 export default ModalOverlay;

@@ -1,7 +1,6 @@
 // react redux types
-import React, { useRef, useState} from "react";
-import { useSelector } from 'react-redux';
-import PropTypes from "prop-types";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 // styles
 import styles from "./burger-ingredients.module.css";
@@ -12,9 +11,8 @@ import Ingredient from "./ingredient/ingredient";
 // ui-components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-
-const BurgerIngredients = ({ handleOpenIngredientModal }) => {
-  const { items } = useSelector(state => state.cart);
+const BurgerIngredients = () => {
+  const { items } = useSelector((state) => state.cart);
   const [currentTab, setCurrentTab] = useState("bun");
 
   const bunRef = useRef(null);
@@ -29,7 +27,6 @@ const BurgerIngredients = ({ handleOpenIngredientModal }) => {
   const typeBun = items.filter((el) => el.type === "bun");
   const typeSauce = items.filter((el) => el.type === "sauce");
   const typeMain = items.filter((el) => el.type === "main");
-
 
   return (
     <section className={styles.burgerIngredients}>
@@ -62,7 +59,7 @@ const BurgerIngredients = ({ handleOpenIngredientModal }) => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
-            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} />
+            <Ingredient key={item._id} ingredient={item} />
           ))}
         </ul>
         <h2
@@ -73,10 +70,9 @@ const BurgerIngredients = ({ handleOpenIngredientModal }) => {
           Соусы
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {
-            typeSauce.map((item) => (
-              <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} />
-            ))}
+          {typeSauce.map((item) => (
+            <Ingredient key={item._id} ingredient={item} />
+          ))}
         </ul>
         <h2
           className={`text text_type_main-medium mb-3`}
@@ -87,17 +83,12 @@ const BurgerIngredients = ({ handleOpenIngredientModal }) => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeMain.map((item) => (
-            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} />
+            <Ingredient key={item._id} ingredient={item} />
           ))}
         </ul>
       </div>
     </section>
   );
-};
-
-
-BurgerIngredients.propTypes = {
-  handleOpenIngredientModal: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

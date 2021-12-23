@@ -2,23 +2,25 @@ import {
   GET_ITEMS_FAILED,
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
-
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
-
   GET_CURRENT_INGREDIENT,
   DELETE_CURRENT_INGREDIENT,
-
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
-
-  DELETE_CURRENT_ORDER
+  DELETE_CURRENT_ORDER,
+  OPEN_INGREDIENT_MODAL,
+  CLOSE_INGREDIENT_MODAL,
+  OPEN_ORDER_MODAL,
+  CLOSE_ORDER_MODAL,
+  OPEN_ERR_MODAL,
+  CLOSE_ERR_MODAL,
+  SET_ERR,
 
   // UPDATE_ORDER_NUMBER,
   // TAB_SWITCH,
-} from '../actions/cart';
-
+} from "../actions/cart";
 
 const initialState = {
   items: [],
@@ -34,7 +36,15 @@ const initialState = {
   orderRequest: false,
   orderFailed: false,
 
-  // order: {},
+  isIngredientModalVisible: false,
+  isOrderModalVisible: false,
+  isErrModalVisible: false,
+  error: "",
+
+  // const [isIngredientVisible, setIsIngredientVisible] = useState(false);
+  // const [isOrderVisible, setIsOrderVisible] = useState(false);
+  // const [isErrVisible, setIsErrVisible] = useState(false);
+  // const [error, setError] = useState(null);
 
   // currentTab: 'bun'
 };
@@ -44,11 +54,16 @@ export const cartReducer = (state = initialState, action) => {
     case GET_ITEMS_REQUEST: {
       return {
         ...state,
-        itemsRequest: true
+        itemsRequest: true,
       };
     }
     case GET_ITEMS_SUCCESS: {
-      return { ...state, itemsFailed: false, items: action.items, itemsRequest: false };
+      return {
+        ...state,
+        itemsFailed: false,
+        items: action.items,
+        itemsRequest: false,
+      };
     }
     case GET_ITEMS_FAILED: {
       return { ...state, itemsFailed: true, itemsRequest: false };
@@ -57,39 +72,49 @@ export const cartReducer = (state = initialState, action) => {
     case ADD_SELECTED_BUN: {
       return {
         ...state,
-        selectedBun: [...state.items.filter(item => item._id === action.ingredient._id)]
+        selectedBun: [
+          ...state.items.filter((item) => item._id === action.ingredient._id),
+        ],
       };
     }
 
     case ADD_SELECTED_TOPPING: {
       return {
         ...state,
-        selectedToppings: [...state.selectedToppings, ...state.items.filter(item => item._id === action.ingredient._id)]
+        selectedToppings: [
+          ...state.selectedToppings,
+          ...state.items.filter((item) => item._id === action.ingredient._id),
+        ],
       };
     }
 
     case GET_CURRENT_INGREDIENT: {
       return {
         ...state,
-        currentIngredient: action.ingredient
+        currentIngredient: action.ingredient,
       };
     }
 
     case DELETE_CURRENT_INGREDIENT: {
       return {
         ...state,
-        currentIngredient: {}
+        currentIngredient: {},
       };
     }
 
     case GET_ORDER_REQUEST: {
       return {
         ...state,
-        orderRequest: true
+        orderRequest: true,
       };
     }
     case GET_ORDER_SUCCESS: {
-      return { ...state, orderFailed: false, order: action.order, orderRequest: false };
+      return {
+        ...state,
+        orderFailed: false,
+        order: action.order,
+        orderRequest: false,
+      };
     }
     case GET_ORDER_FAILED: {
       return { ...state, orderFailed: true, orderRequest: false };
@@ -98,10 +123,54 @@ export const cartReducer = (state = initialState, action) => {
     case DELETE_CURRENT_ORDER: {
       return {
         ...state,
-        order: {}
+        order: {},
       };
     }
 
+    case OPEN_INGREDIENT_MODAL: {
+      return {
+        ...state,
+        isIngredientModalVisible: true,
+      };
+    }
+    case CLOSE_INGREDIENT_MODAL: {
+      return {
+        ...state,
+        isIngredientModalVisible: false,
+      };
+    }
+
+    case OPEN_ORDER_MODAL: {
+      return {
+        ...state,
+        isOrderModalVisible: true,
+      };
+    }
+    case CLOSE_ORDER_MODAL: {
+      return {
+        ...state,
+        isOrderModalVisible: false,
+      };
+    }
+
+    case OPEN_ERR_MODAL: {
+      return {
+        ...state,
+        isErrModalVisible: true,
+      };
+    }
+    case CLOSE_ERR_MODAL: {
+      return {
+        ...state,
+        isErrModalVisible: false,
+      };
+    }
+    case SET_ERR: {
+      return {
+        ...state,
+        error: action.text,
+      };
+    }
 
     // case INCREASE_ITEM: {
     //   return {

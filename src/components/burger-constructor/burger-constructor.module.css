@@ -15,7 +15,7 @@
 .middleContainer {
   max-height: 480px;
   overflow-y: scroll;
-  scrollbar-color: #2F2F37 #8585AD;
+  scrollbar-color: #2f2f37 #8585ad;
   scrollbar-width: thin;
 }
 
@@ -24,12 +24,12 @@
 }
 
 .middleContainer::-webkit-scrollbar-track {
-  background: #2F2F37;
+  background: #2f2f37;
 }
 
 .middleContainer::-webkit-scrollbar-thumb {
-  background: #8585AD;
-  border: solid #8585AD;
+  background: #8585ad;
+  border: solid #8585ad;
 }
 
 .itemContainer {
@@ -45,5 +45,5 @@
 
 .price {
   display: flex;
-  align-items: center
+  align-items: center;
 }

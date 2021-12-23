@@ -15,7 +15,6 @@ import styles from "./modal.module.css";
 const modalRoot = document.getElementById("modals");
 
 const Modal = ({ handleClose, children }) => {
-
   useEffect(() => {
     const handleEscClose = (e) => {
       if (e.key === "Escape") {
@@ -49,12 +48,12 @@ const Modal = ({ handleClose, children }) => {
       </div>
     </>,
     modalRoot
-  )
+  );
 };
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
-  handleClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

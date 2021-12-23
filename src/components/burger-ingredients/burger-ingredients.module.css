@@ -5,7 +5,7 @@
 .container {
   max-height: 720px;
   overflow-y: scroll;
-  scrollbar-color:  #2F2F37 #8585AD;
+  scrollbar-color: #2f2f37 #8585ad;
   scrollbar-width: thin;
 }
 
@@ -13,12 +13,12 @@
   width: 8px;
 }
 .container::-webkit-scrollbar-track {
-  background:  #2F2F37;
+  background: #2f2f37;
 }
 
 .container::-webkit-scrollbar-thumb {
-  background: #8585AD;
-  border: solid #8585AD;
+  background: #8585ad;
+  border: solid #8585ad;
 }
 
 .list {
