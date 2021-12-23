@@ -1,7 +1,11 @@
 // react redux types
 import React, { useContext } from "react";
+import { useDispatch } from 'react-redux';
 import PropTypes from "prop-types";
 import { IngredientsContext } from '../../../services/appContext';
+
+// services
+import { ADD_SELECTED_BUN, ADD_SELECTED_TOPPING } from '../../../services/actions/cart';
 
 // styles
 import styles from "./ingredient.module.css";
@@ -15,11 +19,25 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) => {
-  const { setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId } = useContext(IngredientsContext);
+  const dispatch = useDispatch();
+  const { selectedId, setSelectedId } = useContext(IngredientsContext);
 
   const setArrOfId = (ingredient) => {
+    console.log(ingredient)
+    ingredient.type === 'bun' ?
+      dispatch(
+        {
+          type: ADD_SELECTED_BUN,
+          ingredient,
+        })
+      :
+      dispatch(
+        {
+          type: ADD_SELECTED_TOPPING,
+          ingredient,
+        })
     setSelectedId([...selectedId, ingredient._id])
-    ingredient.type === 'bun' ? setSelectedBun([{ ...ingredient, 'key': uuidv4() }]) : setSelectedNotBun([...selectedNotBun, { ...ingredient, 'key': uuidv4() }]);
+    // ingredient.type === 'bun' ? setSelectedBun([{ ...ingredient, 'key': uuidv4() }]) : setSelectedNotBun([...selectedNotBun, { ...ingredient, 'key': uuidv4() }]);
   }
 
   const handleOpenModal = () => {

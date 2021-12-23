@@ -1,7 +1,7 @@
 // react redux types
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState} from "react";
+import { useSelector } from 'react-redux';
 import PropTypes from "prop-types";
-import { IngredientsContext } from '../../services/appContext';
 
 // styles
 import styles from "./burger-ingredients.module.css";
@@ -14,8 +14,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
 const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
+  const { items } = useSelector(state => state.cart);
   const [currentTab, setCurrentTab] = useState("bun");
-  const { stateData } = useContext(IngredientsContext);
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
@@ -26,9 +26,9 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
     tabRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const typeBun = stateData.filter((el) => el.type === "bun");
-  const typeSauce = stateData.filter((el) => el.type === "sauce");
-  const typeMain = stateData.filter((el) => el.type === "main");
+  const typeBun = items.filter((el) => el.type === "bun");
+  const typeSauce = items.filter((el) => el.type === "sauce");
+  const typeMain = items.filter((el) => el.type === "main");
 
 
   return (

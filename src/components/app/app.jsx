@@ -1,6 +1,10 @@
 // react redux types
 import React, { useState, useEffect, useMemo } from "react";
+import { useDispatch } from 'react-redux';
 import { IngredientsContext } from '../../services/appContext';
+
+// services
+import { getItems } from '../../services/actions/cart';
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -18,10 +22,14 @@ import { API_URL } from '../../utils/constants';
 
 
 const App = () => {
-  const [stateData, setStateData] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getItems())
+  }, [dispatch]);
+
   const [ingredient, setIngredient] = useState({});
-  const [selectedBun, setSelectedBun] = useState([]);
-  const [selectedNotBun, setSelectedNotBun] = useState([]);
+  const [selectedIngredient, setSelectedIngredient] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [isIngredientVisible, setIsIngredientVisible] = useState(false);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
@@ -29,11 +37,11 @@ const App = () => {
   const [isErrVisible, setIsErrVisible] = useState(false);
   const [error, setError] = useState(null);
 
-  const createContext = (stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId) => {
-    const context = { stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId };
+  const createContext = (selectedIngredient, setSelectedIngredient, selectedId, setSelectedId) => {
+    const context = { selectedIngredient, setSelectedIngredient, selectedId, setSelectedId };
     return context;
   }
-  const generateContext = useMemo(() => createContext(stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId), [stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId])
+  const generateContext = useMemo(() => createContext(selectedIngredient, setSelectedIngredient, selectedId, setSelectedId), [selectedIngredient, setSelectedIngredient, selectedId, setSelectedId])
 
   const handleOpenIngredientModal = () => {
     setIsIngredientVisible(true);
@@ -81,28 +89,10 @@ const App = () => {
     setIsErrVisible(false);
   };
 
-  useEffect(() => {
-    const getData = () => {
-      fetch(`${API_URL}ingredients`)
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(res.status);
-        })
-        .then((res) => setStateData(res.data))
-        .catch((err) => {
-          handleOpenErrModal();
-          setError(`Ошибка выполнения запроса: ${err}`);
-        });
-    };
-    getData()
-  }, []);
-
-
   return (
     <div className={styles.app}>
       <AppHeader />
+
       <IngredientsContext.Provider value={generateContext}>
         <Main setIngredient={setIngredient} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
         {isIngredientVisible && (
