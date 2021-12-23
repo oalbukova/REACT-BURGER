@@ -1,10 +1,10 @@
 // react redux types
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch } from 'react-redux';
-import { IngredientsContext } from '../../services/appContext';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 
 // services
 import { getItems } from '../../services/actions/cart';
+import { DELETE_CURRENT_INGREDIENT, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, DELETE_CURRENT_ORDER } from '../../services/actions/cart';
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -22,26 +22,17 @@ import { API_URL } from '../../utils/constants';
 
 
 const App = () => {
+  const { selectedBun, selectedToppings, ingredient, order } = useSelector(state => state.cart);
   const dispatch = useDispatch();
+
+  const [isIngredientVisible, setIsIngredientVisible] = useState(false);
+  const [isOrderVisible, setIsOrderVisible] = useState(false);
+  const [isErrVisible, setIsErrVisible] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     dispatch(getItems())
   }, [dispatch]);
-
-  const [ingredient, setIngredient] = useState({});
-  const [selectedIngredient, setSelectedIngredient] = useState([]);
-  const [selectedId, setSelectedId] = useState([]);
-  const [isIngredientVisible, setIsIngredientVisible] = useState(false);
-  const [isOrderVisible, setIsOrderVisible] = useState(false);
-  const [responseOrder, setResponseOrder] = useState({});
-  const [isErrVisible, setIsErrVisible] = useState(false);
-  const [error, setError] = useState(null);
-
-  const createContext = (selectedIngredient, setSelectedIngredient, selectedId, setSelectedId) => {
-    const context = { selectedIngredient, setSelectedIngredient, selectedId, setSelectedId };
-    return context;
-  }
-  const generateContext = useMemo(() => createContext(selectedIngredient, setSelectedIngredient, selectedId, setSelectedId), [selectedIngredient, setSelectedIngredient, selectedId, setSelectedId])
 
   const handleOpenIngredientModal = () => {
     setIsIngredientVisible(true);
@@ -49,10 +40,19 @@ const App = () => {
 
   const handleCloseIngredientModal = () => {
     setIsIngredientVisible(false);
+    dispatch(
+      {
+        type: DELETE_CURRENT_INGREDIENT,
+      })
   };
 
+  const selectedId = selectedBun.concat(selectedToppings).map(item => item._id);
+
   const handleOpenOrderModal = () => {
-    return fetch(`${API_URL}orders`, {
+    dispatch({
+      type: GET_ORDER_REQUEST
+    })
+    fetch(`${API_URL}orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,23 +62,33 @@ const App = () => {
       }),
     })
       .then((res) => {
-        if (!res.ok) {
+        if (res.ok) {
           return res.json();
+        } else {
+          dispatch({
+            type: GET_ORDER_FAILED
+          });
         }
-        return res.json();
+        return Promise.reject(res.status);
       })
-      .then((data) => {
-        setResponseOrder(data.order);
-        setIsOrderVisible(true)
+      .then(data => dispatch({
+        type: GET_ORDER_SUCCESS,
+        order: data.order
+      }))
+      .catch(err => {
+        dispatch({
+          type: GET_ORDER_FAILED
+        })
       })
-      .catch((err) => {
-        handleOpenErrModal();
-        setError(`Ошибка выполнения запроса: ${err}`);
-      });
+    setIsOrderVisible(true)
   };
 
   const handleCloseOrderModal = () => {
     setIsOrderVisible(false);
+    dispatch(
+      {
+        type: DELETE_CURRENT_ORDER,
+      })
   };
 
   const handleOpenErrModal = () => {
@@ -92,25 +102,22 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-
-      <IngredientsContext.Provider value={generateContext}>
-        <Main setIngredient={setIngredient} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
-        {isIngredientVisible && (
-          <Modal handleClose={handleCloseIngredientModal}>
-            <IngredientDetails ingredient={ingredient} />
-          </Modal>
-        )}
-        {isOrderVisible && (
-          <Modal handleClose={handleCloseOrderModal}>
-            <OrderDetails number={responseOrder.number} />
-          </Modal>
-        )}
-        {isErrVisible && (
-          <Modal handleClose={handleCloseErrModal}>
-            <Err text={error} />
-          </Modal>
-        )}
-      </IngredientsContext.Provider>
+      <Main handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
+      {isIngredientVisible && (
+        <Modal handleClose={handleCloseIngredientModal}>
+          <IngredientDetails />
+        </Modal>
+      )}
+      {isOrderVisible && (
+        <Modal handleClose={handleCloseOrderModal}>
+          <OrderDetails />
+        </Modal>
+      )}
+      {isErrVisible && (
+        <Modal handleClose={handleCloseErrModal}>
+          <Err text={error} />
+        </Modal>
+      )}
     </div>
   );
 };

@@ -3,24 +3,22 @@ import {
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
 
-  // GET_SELECTED_BUNS_REQUEST,
-  // GET_SELECTED_BUNS_SUCCESS,
-  // GET_SELECTED_BUNS_FAILED,
-
-  // GET_SELECTED_TOPPINGS_REQUEST,
-  // GET_SELECTED_TOPPINGS_SUCCESS,
-  // GET_SELECTED_TOPPINGS_FAILED,
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
 
-  // DELETE_INGREDIENT_DATA,
-  // GET_ORDER_NUMBER_REQUEST,
-  // GET_ORDER_NUMBER_SUCCESS,
-  // GET_ORDER_NUMBER_FAILED,
+  GET_CURRENT_INGREDIENT,
+  DELETE_CURRENT_INGREDIENT,
+
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED,
+
+  DELETE_CURRENT_ORDER
+
   // UPDATE_ORDER_NUMBER,
   // TAB_SWITCH,
 } from '../actions/cart';
-import { v4 as uuidv4 } from 'uuid';
+
 
 const initialState = {
   items: [],
@@ -28,19 +26,13 @@ const initialState = {
   itemsFailed: false,
 
   selectedBun: [],
-  // selectedBuns: [],
-  // selectedBunsRequest: false,
-  // selectedBunsFailed: false,
-
   selectedToppings: [],
-  // selectedToppingsRequest: false,
-  // selectedToppingsFailed: false,
 
-  // currentIngredient: {},
+  currentIngredient: {},
 
-  // orderNumber: [],
-  // orderNumberRequest: false,
-  // orderNumberFailed: false,
+  order: {},
+  orderRequest: false,
+  orderFailed: false,
 
   // order: {},
 
@@ -65,20 +57,48 @@ export const cartReducer = (state = initialState, action) => {
     case ADD_SELECTED_BUN: {
       return {
         ...state,
-        selectedBun: [...state.items.filter(item => item._id === action.ingredient._id)].map(item => {
-          item.key = uuidv4();
-          return item
-        })
+        selectedBun: [...state.items.filter(item => item._id === action.ingredient._id)]
       };
     }
 
     case ADD_SELECTED_TOPPING: {
       return {
         ...state,
-        selectedToppings: [...state.selectedToppings, ...state.items.filter(item => item._id === action.ingredient._id)].map(item => {
-          item.key = uuidv4();
-          return item
-        })
+        selectedToppings: [...state.selectedToppings, ...state.items.filter(item => item._id === action.ingredient._id)]
+      };
+    }
+
+    case GET_CURRENT_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredient: action.ingredient
+      };
+    }
+
+    case DELETE_CURRENT_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredient: {}
+      };
+    }
+
+    case GET_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderRequest: true
+      };
+    }
+    case GET_ORDER_SUCCESS: {
+      return { ...state, orderFailed: false, order: action.order, orderRequest: false };
+    }
+    case GET_ORDER_FAILED: {
+      return { ...state, orderFailed: true, orderRequest: false };
+    }
+
+    case DELETE_CURRENT_ORDER: {
+      return {
+        ...state,
+        order: {}
       };
     }
 

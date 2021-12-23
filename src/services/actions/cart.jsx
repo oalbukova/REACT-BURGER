@@ -8,13 +8,14 @@ export const GET_ITEMS_FAILED = 'GET_ITEMS_FAILED';
 export const ADD_SELECTED_BUN = 'ADD_SELECTED_BUN';
 export const ADD_SELECTED_TOPPING = 'ADD_SELECTED_TOPPING';
 
-// export const GET_INGREDIENT_DATA = 'GET_INGREDIENT_DATA';
+export const GET_CURRENT_INGREDIENT = 'GET_CURRENT_INGREDIENT';
+export const DELETE_CURRENT_INGREDIENT = 'DELETE_CURRENT_INGREDIENT';
 
+export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
+export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
+export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 
-
-// export const GET_ORDER_NUMBER_REQUEST = 'GET_ORDER_NUMBER_REQUEST';
-// export const GET_ORDER_NUMBER_SUCCESS = 'GET_ORDER_NUMBER_SUCCESS';
-// export const GET_ORDER_NUMBER_FAILED = 'GET_ORDER_NUMBER_FAILED';
+export const DELETE_CURRENT_ORDER = 'DELETE_CURRENT_ORDER';
 
 // export const UPDATE_ORDER_NUMBER = 'UPDATE_ORDER_NUMBER_REQUEST';
 
@@ -48,14 +49,3 @@ export function getItems() {
       })
   }
 }
-
-// export function addSelectedIngredient(ingredient) {
-//   return function (dispatch) {
-//     dispatch({
-//       type: 'ADD_TODO',
-//       selectedIngredients: ingredient
-//     })
-//   }
-// }
-
-

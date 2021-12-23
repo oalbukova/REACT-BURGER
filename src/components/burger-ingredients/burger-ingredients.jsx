@@ -13,7 +13,7 @@ import Ingredient from "./ingredient/ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
+const BurgerIngredients = ({ handleOpenIngredientModal }) => {
   const { items } = useSelector(state => state.cart);
   const [currentTab, setCurrentTab] = useState("bun");
 
@@ -62,7 +62,7 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
-            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} />
           ))}
         </ul>
         <h2
@@ -75,7 +75,7 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {
             typeSauce.map((item) => (
-              <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+              <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} />
             ))}
         </ul>
         <h2
@@ -87,7 +87,7 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeMain.map((item) => (
-            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} />
           ))}
         </ul>
       </div>
@@ -98,7 +98,6 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
 
 BurgerIngredients.propTypes = {
   handleOpenIngredientModal: PropTypes.func.isRequired,
-  setIngredient: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;
