@@ -2,35 +2,57 @@
 import React, { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-  OPEN_ORDER_MODAL,
-  OPEN_ERR_MODAL,
-  SET_ERR,
+  getOrder,
   SET_BTN_DISABLED,
   SET_BTN_ACTIVE,
+  ADD_SELECTED_TOPPING,
+  ADD_SELECTED_BUN,
 } from "../../services/actions/cart";
+
+// dnd
+import { useDrop } from "react-dnd";
 
 // styles
 import styles from "./burger-constructor.module.css";
 
+// children component
+import Ingredient from "./ingredient/ingredient";
+
 // ui-components
 import {
   Button,
-  ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-// utils
-import { API_URL } from "../../utils/constants";
 
 const BurgerConstructor = () => {
   const { selectedBun, selectedToppings, isBtnDisabled } = useSelector(
     (state) => state.cart
   );
   const dispatch = useDispatch();
+
+  const handleDrop = (item) => {
+    item.type === "bun"
+      ? dispatch({
+          type: ADD_SELECTED_BUN,
+          item,
+        })
+      : dispatch({
+          type: ADD_SELECTED_TOPPING,
+          item,
+        });
+  };
+
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      handleDrop(item);
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+  });
+
+  const borderColor = isHover ? "rgb(133, 133, 173)" : "transparent";
 
   const totalPrice = useMemo(() => {
     return (
@@ -54,107 +76,65 @@ const BurgerConstructor = () => {
     .map((item) => item._id);
 
   const handleOpenOrderModal = () => {
-    dispatch({
-      type: GET_ORDER_REQUEST,
-    });
-    fetch(`${API_URL}orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ingredients: selectedId,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          dispatch({
-            type: GET_ORDER_FAILED,
-          });
-        }
-        return Promise.reject(res.status);
-      })
-      .then((data) => {
-        dispatch({
-          type: GET_ORDER_SUCCESS,
-          order: data.order,
-        });
-        dispatch({
-          type: OPEN_ORDER_MODAL,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ORDER_FAILED,
-        });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
-      });
+    dispatch(getOrder(selectedId));
   };
 
   return (
-    <section className={`${styles.burgerConstructor} ml-10 pl-4`}>
+    <section
+      className={`${styles.burgerConstructor} ml-10 pl-4`}
+      style={{ borderColor }}
+      ref={dropTarget}
+    >
       <ul className={`${styles.list}`}>
         {selectedBun &&
-          selectedBun.map((item, index) => (
-            <li className={`ml-8 mb-4`} key={index}>
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${item.name} (верх)`}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </li>
+          selectedBun.map((item) => (
+            <Ingredient
+              item={item}
+              key={item.uuidId}
+              type={"top"}
+              text={`${item.name} (верх)`}
+            />
           ))}
         <div className={`${styles.middleContainer} pr-2`}>
           {selectedToppings &&
-            selectedToppings.map((item, index) => (
-              <li className={`${styles.itemContainer} mb-4`} key={index}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </li>
+            selectedToppings.map((item) => (
+              <Ingredient item={item} key={item.uuidId} />
             ))}
         </div>
         {selectedBun &&
-          selectedBun.map((item, index) => (
-            <li className={`ml-8`} key={index}>
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${item.name} (низ)`}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </li>
+          selectedBun.map((item) => (
+            <Ingredient
+              item={item}
+              key={item.uuidId}
+              type={"bottom"}
+              text={`${item.name} (низ)`}
+            />
           ))}
       </ul>
-      <div className={`${styles.summary} mt-10 pr-4`}>
-        <div className={`${styles.price} mr-10`}>
-          <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
-          <CurrencyIcon type="primary" />
+      {selectedBun.length !== 0 || selectedToppings.length !== 0 ? (
+        <div className={`${styles.summary} mt-10 pr-4`}>
+          <div className={`${styles.price} mr-10`}>
+            <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button
+            type="primary"
+            size="large"
+            onClick={handleOpenOrderModal}
+            id="orderBtn"
+            disabled={isBtnDisabled}
+          >
+            Оформить заказ
+          </Button>
         </div>
-        <Button
-          type="primary"
-          size="large"
-          onClick={handleOpenOrderModal}
-          id="orderBtn"
-          disabled={isBtnDisabled}
+      ) : (
+        <p
+          className={`${styles.text} text text_type_main-large text_color_inactive`}
         >
-          Оформить заказ
-        </Button>
-      </div>
+          Пожалуйста для выбора желаемого ингредиента перетащите его сюда из
+          левого меню
+        </p>
+      )}
     </section>
   );
 };

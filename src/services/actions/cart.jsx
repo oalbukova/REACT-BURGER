@@ -8,14 +8,13 @@ export const GET_ITEMS_FAILED = "GET_ITEMS_FAILED";
 export const ADD_SELECTED_BUN = "ADD_SELECTED_BUN";
 export const ADD_SELECTED_TOPPING = "ADD_SELECTED_TOPPING";
 
+export const DELETE_SELECTED_TOPPING = "DELETE_SELECTED_TOPPING";
+
 export const GET_CURRENT_INGREDIENT = "GET_CURRENT_INGREDIENT";
-export const DELETE_CURRENT_INGREDIENT = "DELETE_CURRENT_INGREDIENT";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
 export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
-
-export const DELETE_CURRENT_ORDER = "DELETE_CURRENT_ORDER";
 
 export const OPEN_INGREDIENT_MODAL = "OPEN_INGREDIENT_MODAL";
 export const CLOSE_INGREDIENT_MODAL = "CLOSE_INGREDIENT_MODAL";
@@ -30,11 +29,11 @@ export const SET_ERR = "SET_ERR";
 export const SET_BTN_DISABLED = "SET_BTN_DISABLED";
 export const SET_BTN_ACTIVE = "SET_BTN_ACTIVE";
 
-export const TAB_SWITCH = 'TAB_SWITCH';
+export const TAB_SWITCH = "TAB_SWITCH";
+
+// export const UPDATE_TYPE = "UPDATE_TYPE";
 
 // export const UPDATE_ORDER_NUMBER = 'UPDATE_ORDER_NUMBER_REQUEST';
-
-
 
 export function getItems() {
   return function (dispatch) {
@@ -68,6 +67,54 @@ export function getItems() {
         dispatch({
           type: SET_ERR,
           text: err,
+        });
+      });
+  };
+}
+
+export function getOrder(selectedId) {
+  return function (dispatch) {
+    dispatch({
+      type: GET_ORDER_REQUEST,
+    });
+    fetch(`${API_URL}orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ingredients: selectedId,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          dispatch({
+            type: GET_ORDER_FAILED,
+          });
+        }
+        return Promise.reject(res.status);
+      })
+      .then((data) => {
+        dispatch({
+          type: GET_ORDER_SUCCESS,
+          order: data.order,
+        });
+        dispatch({
+          type: OPEN_ORDER_MODAL,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: GET_ORDER_FAILED,
+        });
+        dispatch({
+          type: SET_ERR,
+          text: err,
+        });
+        dispatch({
+          type: OPEN_ERR_MODAL,
         });
       });
   };

@@ -3,10 +3,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // services
-import { getItems } from "../../services/actions/cart";
 import {
-  DELETE_CURRENT_INGREDIENT,
-  DELETE_CURRENT_ORDER,
+  getItems,
   CLOSE_INGREDIENT_MODAL,
   CLOSE_ORDER_MODAL,
   CLOSE_ERR_MODAL,
@@ -36,15 +34,9 @@ const App = () => {
     dispatch({
       type: CLOSE_INGREDIENT_MODAL,
     });
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT,
-    });
   };
 
   const handleCloseOrderModal = () => {
-    dispatch({
-      type: DELETE_CURRENT_ORDER,
-    });
     dispatch({
       type: CLOSE_ORDER_MODAL,
     });

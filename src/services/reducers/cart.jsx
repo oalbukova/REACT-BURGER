@@ -4,12 +4,11 @@ import {
   GET_ITEMS_SUCCESS,
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
+  DELETE_SELECTED_TOPPING,
   GET_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
-  DELETE_CURRENT_ORDER,
   OPEN_INGREDIENT_MODAL,
   CLOSE_INGREDIENT_MODAL,
   OPEN_ORDER_MODAL,
@@ -20,7 +19,11 @@ import {
   SET_BTN_DISABLED,
   SET_BTN_ACTIVE,
   TAB_SWITCH,
+  // UPDATE_TYPE,
 } from "../actions/cart";
+
+// utils
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   items: [],
@@ -69,9 +72,7 @@ export const cartReducer = (state = initialState, action) => {
     case ADD_SELECTED_BUN: {
       return {
         ...state,
-        selectedBun: [
-          ...state.items.filter((item) => item._id === action.ingredient._id),
-        ],
+        selectedBun: [{ ...action.item, uuidId: uuidv4() }],
       };
     }
 
@@ -80,8 +81,17 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         selectedToppings: [
           ...state.selectedToppings,
-          ...state.items.filter((item) => item._id === action.ingredient._id),
+          { ...action.item, uuidId: uuidv4() },
         ],
+      };
+    }
+
+    case DELETE_SELECTED_TOPPING: {
+      return {
+        ...state,
+        selectedToppings: [...state.selectedToppings].filter(
+          (item) => item.uuidId !== action.item.uuidId
+        ),
       };
     }
 
@@ -89,13 +99,6 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredient: action.ingredient,
-      };
-    }
-
-    case DELETE_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: {},
       };
     }
 
@@ -117,13 +120,6 @@ export const cartReducer = (state = initialState, action) => {
       return { ...state, orderFailed: true, orderRequest: false };
     }
 
-    case DELETE_CURRENT_ORDER: {
-      return {
-        ...state,
-        order: {},
-      };
-    }
-
     case OPEN_INGREDIENT_MODAL: {
       return {
         ...state,
@@ -133,6 +129,7 @@ export const cartReducer = (state = initialState, action) => {
     case CLOSE_INGREDIENT_MODAL: {
       return {
         ...state,
+        currentIngredient: {},
         isIngredientModalVisible: false,
       };
     }
@@ -146,6 +143,7 @@ export const cartReducer = (state = initialState, action) => {
     case CLOSE_ORDER_MODAL: {
       return {
         ...state,
+        order: {},
         isOrderModalVisible: false,
       };
     }
@@ -187,6 +185,15 @@ export const cartReducer = (state = initialState, action) => {
         currentTab: action.tab,
       };
     }
+
+    // case UPDATE_TYPE: {
+    //   return {
+    //     ...state,
+    //     items: [...state.items].map((item) =>
+    //       item.id === action.id ? { ...item, board: action.board } : item
+    //     ),
+    //   };
+    // }
     // case INCREASE_ITEM: {
     //   return {
     //     ...state,
@@ -206,22 +213,7 @@ export const cartReducer = (state = initialState, action) => {
     // case DELETE_ITEM: {
     //   return { ...state, items: [...state.items].filter(item => item.id !== action.id) };
     // }
-    // case APPLY_PROMO_FAILED: {
-    //   return {
-    //     ...state,
-    //     promoRequest: false,
-    //     promoFailed: true,
-    //     promoDiscount: null,
-    //     promoCode: ''
-    //   };
-    // }
-    // case APPLY_PROMO_REQUEST: {
-    //   return {
-    //     ...state,
-    //     promoFailed: false,
-    //     promoRequest: true
-    //   };
-    // }
+
     default: {
       return state;
     }

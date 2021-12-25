@@ -1,6 +1,12 @@
 .burgerConstructor {
   width: 600px;
   box-sizing: border-box;
+  border: 2px dashed transparent;
+}
+
+.text {
+  margin-top: 200px;
+  text-align: center;
 }
 
 .list {
@@ -30,12 +36,6 @@
 .middleContainer::-webkit-scrollbar-thumb {
   background: #8585ad;
   border: solid #8585ad;
-}
-
-.itemContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .summary {

@@ -1,14 +1,15 @@
 // react redux types
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // services
 import {
-  ADD_SELECTED_BUN,
-  ADD_SELECTED_TOPPING,
   GET_CURRENT_INGREDIENT,
   OPEN_INGREDIENT_MODAL,
 } from "../../../services/actions/cart";
+
+// dnd
+import { useDrag } from "react-dnd";
 
 // styles
 import styles from "./ingredient.module.css";
@@ -25,35 +26,32 @@ import { typeOfIngredient } from "../../../utils/types";
 const Ingredient = ({ ingredient }) => {
   const dispatch = useDispatch();
 
-  const setArrOfId = (ingredient) => {
-    ingredient.type === "bun"
-      ? dispatch({
-          type: ADD_SELECTED_BUN,
-          ingredient,
-        })
-      : dispatch({
-          type: ADD_SELECTED_TOPPING,
-          ingredient,
-        });
-  };
+  const [{ opacity }, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
 
   const handleOpenModal = () => {
     dispatch({
       type: GET_CURRENT_INGREDIENT,
       ingredient,
     });
-    setArrOfId(ingredient);
     dispatch({
       type: OPEN_INGREDIENT_MODAL,
     });
   };
 
   return (
-    <li className={`${styles.item} mb-7`} onClick={handleOpenModal}>
-      {ingredient.name === "Краторная булка N-200i" ||
-      ingredient.name === "Соус фирменный Space Sauce" ? (
-        <Counter count={1} size="default" />
-      ) : null}
+    <li
+      className={`${styles.item} mb-7`}
+      onClick={handleOpenModal}
+      style={{ opacity }}
+      ref={dragRef}
+    >
+      <Counter count={1} size="default" />
       <img src={ingredient.image} alt="ingredient" />
       <div className={`${styles.price} mt-1 mb-2`}>
         <p className="text text_type_digits-default mr-2">{ingredient.price}</p>

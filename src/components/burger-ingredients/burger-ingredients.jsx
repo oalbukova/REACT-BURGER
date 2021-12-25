@@ -1,9 +1,7 @@
 // react redux types
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-// styles
-import styles from "./burger-ingredients.module.css";
+import { TAB_SWITCH } from "../../services/actions/cart";
 
 // children components
 import Ingredient from "./ingredient/ingredient";
@@ -11,7 +9,8 @@ import Ingredient from "./ingredient/ingredient";
 // ui-components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { TAB_SWITCH } from "../../services/actions/cart";
+// styles
+import styles from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
   const burgerIngredientsElem = document.querySelector("#burger-ingredients");
@@ -97,34 +96,50 @@ const BurgerIngredients = () => {
         </Tab>
       </div>
       <div className={`${styles.container} mt-10`}>
-        <h2 className={`text text_type_main-medium`} id="bun" ref={bunRef}>
-          Булки
-        </h2>
-        <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeBun.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
-          ))}
-        </ul>
-        <h2 className={`text text_type_main-medium`} id="sauce" ref={saucesRef}>
-          Соусы
-        </h2>
-        <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeSauce.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
-          ))}
-        </ul>
-        <h2
-          className={`text text_type_main-medium mb-3`}
-          id="topping"
-          ref={toppingRef}
-        >
-          Начинки
-        </h2>
-        <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeTopping.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
-          ))}
-        </ul>
+        {typeBun.length !== 0 && (
+          <>
+            <h2 className={`text text_type_main-medium`} id="bun" ref={bunRef}>
+              Булки
+            </h2>
+            <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
+              {typeBun.map((item) => (
+                <Ingredient key={item._id} ingredient={item} />
+              ))}
+            </ul>
+          </>
+        )}
+        {typeSauce.length !== 0 && (
+          <>
+            <h2
+              className={`text text_type_main-medium`}
+              id="sauce"
+              ref={saucesRef}
+            >
+              Соусы
+            </h2>
+            <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
+              {typeSauce.map((item) => (
+                <Ingredient key={item._id} ingredient={item} />
+              ))}
+            </ul>
+          </>
+        )}
+        {typeTopping.length !== 0 && (
+          <>
+            <h2
+              className={`text text_type_main-medium mb-3`}
+              id="topping"
+              ref={toppingRef}
+            >
+              Начинки
+            </h2>
+            <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
+              {typeTopping.map((item) => (
+                <Ingredient key={item._id} ingredient={item} />
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </section>
   );
