@@ -152,10 +152,10 @@ const BurgerConstructor = () => {
           <p
             className={`${styles.text} text text_type_main-medium text_color_inactive`}
           >
-            Для выбора ингредиента перетащите его yниз левого меню.
+            Для выбора ингредиента перетащите его из левого меню.
           </p>
           <p
-            className={`${styles.text} text text_type_main-medium text_color_inactive`}
+            className={`${styles.text} text text_type_main-medium text_color_inactive mt-5`}
           >
             Начните с добавления булки.
           </p>
