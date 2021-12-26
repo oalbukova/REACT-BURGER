@@ -22,6 +22,7 @@ import Ingredient from "./ingredient/ingredient";
 import {
   Button,
   CurrencyIcon,
+  BurgerIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor = () => {
@@ -144,12 +145,21 @@ const BurgerConstructor = () => {
           </Button>
         </div>
       ) : (
-        <p
-          className={`${styles.text} text text_type_main-large text_color_inactive`}
-        >
-          Пожалуйста для выбора желаемого ингредиента перетащите его сюда из
-          левого меню
-        </p>
+        <>
+          <div className={`${styles.burgerImg}`}>
+            <BurgerIcon type="secondary" />
+          </div>
+          <p
+            className={`${styles.text} text text_type_main-large text_color_inactive`}
+          >
+            Для выбора ингредиента перетащите его yниз левого меню.
+          </p>
+          <p
+            className={`${styles.text} text text_type_main-large text_color_inactive`}
+          >
+            Начните с добавления булки.
+          </p>
+        </>
       )}
     </section>
   );
