@@ -31,6 +31,9 @@ export const SET_BTN_ACTIVE = "SET_BTN_ACTIVE";
 
 export const TAB_SWITCH = "TAB_SWITCH";
 
+export const INCREASE_ITEM = "INCREASE_ITEM";
+export const DECREASE_ITEM = "DECREASE_ITEM";
+
 // export const UPDATE_TYPE = "UPDATE_TYPE";
 
 // export const UPDATE_ORDER_NUMBER = 'UPDATE_ORDER_NUMBER_REQUEST';
@@ -51,12 +54,13 @@ export function getItems() {
         }
         return Promise.reject(res.status);
       })
-      .then((data) =>
+      .then((data) => {
+        data.data.map((item) => (item.qty = 0));
         dispatch({
           type: GET_ITEMS_SUCCESS,
           items: data.data,
-        })
-      )
+        });
+      })
       .catch((err) => {
         dispatch({
           type: GET_ITEMS_FAILED,

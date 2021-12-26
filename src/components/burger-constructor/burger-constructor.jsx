@@ -7,6 +7,7 @@ import {
   SET_BTN_ACTIVE,
   ADD_SELECTED_TOPPING,
   ADD_SELECTED_BUN,
+  INCREASE_ITEM,
 } from "../../services/actions/cart";
 
 // dnd
@@ -40,6 +41,10 @@ const BurgerConstructor = () => {
           type: ADD_SELECTED_TOPPING,
           item,
         });
+    dispatch({
+      type: INCREASE_ITEM,
+      item,
+    });
   };
 
   const [{ isHover }, dropTarget] = useDrop({

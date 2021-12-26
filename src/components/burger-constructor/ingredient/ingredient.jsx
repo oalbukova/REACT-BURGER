@@ -1,7 +1,10 @@
 // react redux types
 import React from "react";
 import { useDispatch } from "react-redux";
-import { DELETE_SELECTED_TOPPING } from "../../../services/actions/cart";
+import {
+  DELETE_SELECTED_TOPPING,
+  DECREASE_ITEM,
+} from "../../../services/actions/cart";
 
 // ui-components
 import {
@@ -17,7 +20,16 @@ import styles from "./ingredient.module.css";
 
 const Ingredient = ({ item, type, text }) => {
   const dispatch = useDispatch();
+
+  const decrease = () => {
+    dispatch({
+      type: DECREASE_ITEM,
+      item,
+    });
+  };
+
   const onDelete = () => {
+    decrease();
     dispatch({
       type: DELETE_SELECTED_TOPPING,
       item,
@@ -50,7 +62,7 @@ const Ingredient = ({ item, type, text }) => {
           <DragIcon type="primary" />
           <ConstructorElement
             handleClose={onDelete}
-            text={item.uuidId}
+            text={item.name}
             price={item.price}
             thumbnail={item.image}
           />

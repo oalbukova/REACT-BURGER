@@ -19,6 +19,8 @@ import {
   SET_BTN_DISABLED,
   SET_BTN_ACTIVE,
   TAB_SWITCH,
+  INCREASE_ITEM,
+  DECREASE_ITEM,
   // UPDATE_TYPE,
 } from "../actions/cart";
 
@@ -186,33 +188,23 @@ export const cartReducer = (state = initialState, action) => {
       };
     }
 
-    // case UPDATE_TYPE: {
-    //   return {
-    //     ...state,
-    //     items: [...state.items].map((item) =>
-    //       item.id === action.id ? { ...item, board: action.board } : item
-    //     ),
-    //   };
-    // }
-    // case INCREASE_ITEM: {
-    //   return {
-    //     ...state,
-    //     items: [...state.items].map(item =>
-    //       item.id === action.id ? { ...item, qty: ++item.qty } : item
-    //     )
-    //   };
-    // }
-    // case DECREASE_ITEM: {
-    //   return {
-    //     ...state,
-    //     items: [...state.items].map(item =>
-    //       item.id === action.id ? { ...item, qty: --item.qty } : item
-    //     )
-    //   };
-    // }
-    // case DELETE_ITEM: {
-    //   return { ...state, items: [...state.items].filter(item => item.id !== action.id) };
-    // }
+    case INCREASE_ITEM: {
+      return {
+        ...state,
+        items: [...state.items].map(item =>
+          item._id === action.item._id ? { ...item, qty: ++item.qty } : item
+        )
+      };
+    }
+    case DECREASE_ITEM: {
+      return {
+        ...state,
+        items: [...state.items].map(item =>
+          item._id === action.item._id ? { ...item, qty: --item.qty } : item
+        )
+      };
+    }
+
 
     default: {
       return state;

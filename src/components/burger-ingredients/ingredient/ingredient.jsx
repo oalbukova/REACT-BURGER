@@ -51,7 +51,9 @@ const Ingredient = ({ ingredient }) => {
       style={{ opacity }}
       ref={dragRef}
     >
-      <Counter count={1} size="default" />
+      {ingredient.qty !== 0 ? (
+        <Counter count={ingredient.qty} size="default" />
+      ) : null}
       <img src={ingredient.image} alt="ingredient" />
       <div className={`${styles.price} mt-1 mb-2`}>
         <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
