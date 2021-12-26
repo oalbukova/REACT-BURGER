@@ -150,12 +150,12 @@ const BurgerConstructor = () => {
             <BurgerIcon type="secondary" />
           </div>
           <p
-            className={`${styles.text} text text_type_main-medium text_color_inactive`}
+            className={`${styles.text} text text_type_main-large text_color_inactive`}
           >
             Для выбора ингредиента перетащите его yниз левого меню.
           </p>
           <p
-            className={`${styles.text} text text_type_main-medium text_color_inactive`}
+            className={`${styles.text} text text_type_main-large text_color_inactive`}
           >
             Начните с добавления булки.
           </p>
