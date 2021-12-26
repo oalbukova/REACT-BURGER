@@ -1,5 +1,5 @@
 // react redux types
-import React from "react";
+import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // services
@@ -25,6 +25,17 @@ import { typeOfIngredient } from "../../../utils/types";
 
 const Ingredient = ({ ingredient }) => {
   const dispatch = useDispatch();
+  const { selectedBun, selectedToppings } = useSelector(
+    (state) => state.selectedItemsReducer
+  );
+
+  const count = useMemo(
+    () =>
+      ingredient.type === "bun"
+        ? selectedBun.filter((item) => item._id === ingredient._id).length * 2
+        : selectedToppings.filter((item) => item._id === ingredient._id).length,
+    [ingredient.type, selectedBun, selectedToppings, ingredient._id]
+  );
 
   const [{ opacity }, dragRef] = useDrag({
     type: "ingredient",
@@ -51,9 +62,8 @@ const Ingredient = ({ ingredient }) => {
       style={{ opacity }}
       ref={dragRef}
     >
-      {ingredient.qty !== 0 ? (
-        <Counter count={ingredient.qty} size="default" />
-      ) : null}
+      {count !== 0 ? <Counter count={count} size="default" /> : null}
+
       <img src={ingredient.image} alt="ingredient" />
       <div className={`${styles.price} mt-1 mb-2`}>
         <p className="text text_type_digits-default mr-2">{ingredient.price}</p>

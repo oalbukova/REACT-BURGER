@@ -9,7 +9,7 @@ import done from "../../images/done.png";
 import styles from "./order-details.module.css";
 
 const OrderDetails = () => {
-  const { order } = useSelector((state) => state.cart);
+  const { order } = useSelector((state) => state.orderReducer);
 
   return (
     <div className={`${styles.orderDetails} pt-20 pb-15`}>

@@ -6,9 +6,11 @@ import {
   ADD_SELECTED_TOPPING,
   DELETE_SELECTED_TOPPING,
   GET_CURRENT_INGREDIENT,
+  DELETE_CURRENT_INGREDIENT,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
+  DELETE_CURRENT_ORDER,
   OPEN_INGREDIENT_MODAL,
   CLOSE_INGREDIENT_MODAL,
   OPEN_ORDER_MODAL,
@@ -19,39 +21,49 @@ import {
   SET_BTN_DISABLED,
   SET_BTN_ACTIVE,
   TAB_SWITCH,
-  INCREASE_ITEM,
-  DECREASE_ITEM,
-  // UPDATE_TYPE,
+  SORT_TOPPING,
 } from "../actions/cart";
 
 // utils
 import { v4 as uuidv4 } from "uuid";
 
-const initialState = {
+const initialIngredientsState = {
   items: [],
   itemsRequest: false,
   itemsFailed: false,
+};
 
+const initialSelectedItemsState = {
   selectedBun: [],
   selectedToppings: [],
+};
 
+const initialCurrentItemState = {
   currentIngredient: {},
+};
 
+const initialOrderState = {
   order: {},
   orderRequest: false,
   orderFailed: false,
+};
 
+const initialModalState = {
   isIngredientModalVisible: false,
   isOrderModalVisible: false,
   isErrModalVisible: false,
   error: "",
+};
 
+const initialButtonState = {
   isBtnDisabled: false,
+};
 
+const initialTabState = {
   currentTab: "bun",
 };
 
-export const cartReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialIngredientsState, action) => {
   switch (action.type) {
     case GET_ITEMS_REQUEST: {
       return {
@@ -71,6 +83,17 @@ export const cartReducer = (state = initialState, action) => {
       return { ...state, itemsFailed: true, itemsRequest: false };
     }
 
+    default: {
+      return state;
+    }
+  }
+};
+
+export const selectedItemsReducer = (
+  state = initialSelectedItemsState,
+  action
+) => {
+  switch (action.type) {
     case ADD_SELECTED_BUN: {
       return {
         ...state,
@@ -97,6 +120,24 @@ export const cartReducer = (state = initialState, action) => {
       };
     }
 
+    case SORT_TOPPING: {
+      const dragCard = state.selectedToppings[action.dragIndex];
+      const NewToppingsState = [...state.selectedToppings];
+      NewToppingsState.splice(action.dragIndex, 1);
+      NewToppingsState.splice(action.hoverIndex, 0, dragCard);
+      return {
+        ...state,
+        selectedToppings: NewToppingsState,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const currentItemReducer = (state = initialCurrentItemState, action) => {
+  switch (action.type) {
     case GET_CURRENT_INGREDIENT: {
       return {
         ...state,
@@ -104,6 +145,17 @@ export const cartReducer = (state = initialState, action) => {
       };
     }
 
+    case DELETE_CURRENT_INGREDIENT: {
+      return { ...state, currentIngredient: {} };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const orderReducer = (state = initialOrderState, action) => {
+  switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
         ...state,
@@ -122,6 +174,17 @@ export const cartReducer = (state = initialState, action) => {
       return { ...state, orderFailed: true, orderRequest: false };
     }
 
+    case DELETE_CURRENT_ORDER: {
+      return { ...state, order: {} };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const modalReducer = (state = initialModalState, action) => {
+  switch (action.type) {
     case OPEN_INGREDIENT_MODAL: {
       return {
         ...state,
@@ -131,7 +194,6 @@ export const cartReducer = (state = initialState, action) => {
     case CLOSE_INGREDIENT_MODAL: {
       return {
         ...state,
-        currentIngredient: {},
         isIngredientModalVisible: false,
       };
     }
@@ -145,7 +207,6 @@ export const cartReducer = (state = initialState, action) => {
     case CLOSE_ORDER_MODAL: {
       return {
         ...state,
-        order: {},
         isOrderModalVisible: false,
       };
     }
@@ -162,50 +223,47 @@ export const cartReducer = (state = initialState, action) => {
         isErrModalVisible: false,
       };
     }
+
     case SET_ERR: {
       return {
         ...state,
         error: action.text,
       };
     }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const buttonReducer = (state = initialButtonState, action) => {
+  switch (action.type) {
     case SET_BTN_DISABLED: {
       return {
         ...state,
         isBtnDisabled: true,
       };
     }
-
     case SET_BTN_ACTIVE: {
       return {
         ...state,
         isBtnDisabled: false,
       };
     }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const tabReducer = (state = initialTabState, action) => {
+  switch (action.type) {
     case TAB_SWITCH: {
       return {
         ...state,
         currentTab: action.tab,
       };
     }
-
-    case INCREASE_ITEM: {
-      return {
-        ...state,
-        items: [...state.items].map(item =>
-          item._id === action.item._id ? { ...item, qty: ++item.qty } : item
-        )
-      };
-    }
-    case DECREASE_ITEM: {
-      return {
-        ...state,
-        items: [...state.items].map(item =>
-          item._id === action.item._id ? { ...item, qty: --item.qty } : item
-        )
-      };
-    }
-
-
     default: {
       return state;
     }

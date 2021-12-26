@@ -7,7 +7,6 @@ import {
   SET_BTN_ACTIVE,
   ADD_SELECTED_TOPPING,
   ADD_SELECTED_BUN,
-  INCREASE_ITEM,
 } from "../../services/actions/cart";
 
 // dnd
@@ -26,9 +25,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor = () => {
-  const { selectedBun, selectedToppings, isBtnDisabled } = useSelector(
-    (state) => state.cart
+  const { selectedBun, selectedToppings } = useSelector(
+    (state) => state.selectedItemsReducer
   );
+  const { isBtnDisabled } = useSelector((state) => state.buttonReducer);
   const dispatch = useDispatch();
 
   const handleDrop = (item) => {
@@ -41,10 +41,6 @@ const BurgerConstructor = () => {
           type: ADD_SELECTED_TOPPING,
           item,
         });
-    dispatch({
-      type: INCREASE_ITEM,
-      item,
-    });
   };
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -76,12 +72,25 @@ const BurgerConstructor = () => {
         });
   }, [dispatch, totalPrice, selectedBun]);
 
-  const selectedId = selectedBun
-    .concat(selectedToppings)
-    .map((item) => item._id);
+  const selectedId = useMemo(() => {
+    return selectedBun.concat(selectedToppings).map((item) => item._id);
+  }, [selectedBun, selectedToppings]);
 
   const handleOpenOrderModal = () => {
     dispatch(getOrder(selectedId));
+  };
+
+  const renderCard = (item, index) => {
+    return (
+      <Ingredient
+        item={item}
+        index={index}
+        key={item.uuidId}
+        id={item._id}
+        type={""}
+        text={item.name}
+      />
+    );
   };
 
   return (
@@ -92,27 +101,29 @@ const BurgerConstructor = () => {
     >
       <ul className={`${styles.list}`}>
         {selectedBun &&
-          selectedBun.map((item) => (
+          selectedBun.map((item, index) => (
             <Ingredient
               item={item}
               key={item.uuidId}
+              index={index}
               type={"top"}
               text={`${item.name} (верх)`}
+              id={item._id}
             />
           ))}
         <div className={`${styles.middleContainer} pr-2`}>
           {selectedToppings &&
-            selectedToppings.map((item) => (
-              <Ingredient item={item} key={item.uuidId} />
-            ))}
+            selectedToppings.map((item, index) => renderCard(item, index))}
         </div>
         {selectedBun &&
-          selectedBun.map((item) => (
+          selectedBun.map((item, index) => (
             <Ingredient
               item={item}
               key={item.uuidId}
+              index={index}
               type={"bottom"}
               text={`${item.name} (низ)`}
+              id={item._id}
             />
           ))}
       </ul>

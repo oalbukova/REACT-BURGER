@@ -8,6 +8,8 @@ import {
   CLOSE_INGREDIENT_MODAL,
   CLOSE_ORDER_MODAL,
   CLOSE_ERR_MODAL,
+  DELETE_CURRENT_INGREDIENT,
+  DELETE_CURRENT_ORDER
 } from "../../services/actions/cart";
 
 //components
@@ -23,7 +25,7 @@ import styles from "./app.module.css";
 
 const App = () => {
   const { isIngredientModalVisible, isOrderModalVisible, isErrModalVisible } =
-    useSelector((state) => state.cart);
+    useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,11 +36,17 @@ const App = () => {
     dispatch({
       type: CLOSE_INGREDIENT_MODAL,
     });
+    dispatch({
+      type: DELETE_CURRENT_INGREDIENT,
+    });
   };
 
   const handleCloseOrderModal = () => {
     dispatch({
       type: CLOSE_ORDER_MODAL,
+    });
+    dispatch({
+      type: DELETE_CURRENT_ORDER,
     });
   };
 

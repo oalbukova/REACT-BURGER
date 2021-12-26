@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 
 export const typeOfIngredient = PropTypes.shape({
-  _id: PropTypes.string,
+  _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   proteins: PropTypes.number.isRequired,
@@ -11,7 +11,8 @@ export const typeOfIngredient = PropTypes.shape({
   calories: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number,
+  image_mobile: PropTypes.string.isRequired,
+  image_large: PropTypes.string.isRequired,
+  __v: PropTypes.number.isRequired,
+  uuidId: PropTypes.string,
 });

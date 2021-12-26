@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
 
 const IngredientDetails = () => {
-  const { currentIngredient } = useSelector((state) => state.cart);
+  const { currentIngredient } = useSelector((state) => state.currentItemReducer);
 
   return (
     <div className={`${styles.container} mt-3`}>

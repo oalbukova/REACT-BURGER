@@ -1,5 +1,5 @@
 // react redux types
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TAB_SWITCH } from "../../services/actions/cart";
 
@@ -19,7 +19,8 @@ const BurgerIngredients = () => {
   const toppingElem = document.querySelector("#topping");
 
   const dispatch = useDispatch();
-  const { items, currentTab } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.ingredientsReducer);
+  const { currentTab } = useSelector((state) => state.tabReducer);
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
@@ -62,9 +63,17 @@ const BurgerIngredients = () => {
       : setCurrentTab("topping");
   };
 
-  const typeBun = items.filter((el) => el.type === "bun");
-  const typeSauce = items.filter((el) => el.type === "sauce");
-  const typeTopping = items.filter((el) => el.type === "main");
+  const typeBun = useMemo(() => {
+    return items.filter((el) => el.type === "bun");
+  }, [items]);
+
+  const typeSauce = useMemo(() => {
+    return items.filter((el) => el.type === "sauce");
+  }, [items]);
+
+  const typeTopping = useMemo(() => {
+    return items.filter((el) => el.type === "main");
+  }, [items]);
 
   return (
     <section
