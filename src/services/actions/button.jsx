@@ -1,0 +1,2 @@
+export const SET_BTN_DISABLED = "SET_BTN_DISABLED";
+export const SET_BTN_ACTIVE = "SET_BTN_ACTIVE";

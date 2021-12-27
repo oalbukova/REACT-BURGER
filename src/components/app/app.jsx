@@ -1,6 +1,20 @@
 // react redux types
-import React, { useState, useEffect, useMemo } from "react";
-import { IngredientsContext } from '../../services/appContext';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+// services
+import { getItems } from "../../services/actions/ingredients";
+import {
+  CLOSE_INGREDIENT_MODAL,
+  CLOSE_ORDER_MODAL,
+  CLOSE_ERR_MODAL,
+} from "../../services/actions/modal";
+import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/current-item";
+import { DELETE_CURRENT_ORDER } from "../../services/actions/order";
+import {
+  DELETE_SELECTED_BUNS,
+  DELETE_SELECTED_TOPPINGS,
+} from "../../services/actions/selected-items";
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -8,119 +22,69 @@ import Main from "../main/main";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
-import Err from '../err/err';
+import Err from "../err/err";
 
 // styles
 import styles from "./app.module.css";
 
-// utils
-import { API_URL } from '../../utils/constants';
-
-
 const App = () => {
-  const [stateData, setStateData] = useState([]);
-  const [ingredient, setIngredient] = useState({});
-  const [selectedBun, setSelectedBun] = useState([]);
-  const [selectedNotBun, setSelectedNotBun] = useState([]);
-  const [selectedId, setSelectedId] = useState([]);
-  const [isIngredientVisible, setIsIngredientVisible] = useState(false);
-  const [isOrderVisible, setIsOrderVisible] = useState(false);
-  const [responseOrder, setResponseOrder] = useState({});
-  const [isErrVisible, setIsErrVisible] = useState(false);
-  const [error, setError] = useState(null);
+  const { isIngredientModalVisible, isOrderModalVisible, isErrModalVisible } =
+    useSelector((state) => state.modalReducer);
+  const dispatch = useDispatch();
 
-  const createContext = (stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId) => {
-    const context = { stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId };
-    return context;
-  }
-  const generateContext = useMemo(() => createContext(stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId), [stateData, selectedBun, setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId])
-
-  const handleOpenIngredientModal = () => {
-    setIsIngredientVisible(true);
-  };
+  useEffect(() => {
+    dispatch(getItems());
+  }, [dispatch]);
 
   const handleCloseIngredientModal = () => {
-    setIsIngredientVisible(false);
-  };
-
-  const handleOpenOrderModal = () => {
-    return fetch(`${API_URL}orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ingredients: selectedId,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json();
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setResponseOrder(data.order);
-        setIsOrderVisible(true)
-      })
-      .catch((err) => {
-        handleOpenErrModal();
-        setError(`Ошибка выполнения запроса: ${err}`);
-      });
+    dispatch({
+      type: CLOSE_INGREDIENT_MODAL,
+    });
+    dispatch({
+      type: DELETE_CURRENT_INGREDIENT,
+    });
   };
 
   const handleCloseOrderModal = () => {
-    setIsOrderVisible(false);
-  };
-
-  const handleOpenErrModal = () => {
-    setIsErrVisible(true);
+    dispatch({
+      type: CLOSE_ORDER_MODAL,
+    });
+    dispatch({
+      type: DELETE_CURRENT_ORDER,
+    });
+    dispatch({
+      type: DELETE_SELECTED_BUNS,
+    });
+    dispatch({
+      type: DELETE_SELECTED_TOPPINGS,
+    });
   };
 
   const handleCloseErrModal = () => {
-    setIsErrVisible(false);
+    dispatch({
+      type: CLOSE_ERR_MODAL,
+    });
   };
-
-  useEffect(() => {
-    const getData = () => {
-      fetch(`${API_URL}ingredients`)
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(res.status);
-        })
-        .then((res) => setStateData(res.data))
-        .catch((err) => {
-          handleOpenErrModal();
-          setError(`Ошибка выполнения запроса: ${err}`);
-        });
-    };
-    getData()
-  }, []);
-
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <IngredientsContext.Provider value={generateContext}>
-        <Main setIngredient={setIngredient} handleOpenIngredientModal={handleOpenIngredientModal} handleOpenOrderModal={handleOpenOrderModal} handleOpenErrModal={handleOpenErrModal} setError={setError} />
-        {isIngredientVisible && (
-          <Modal handleClose={handleCloseIngredientModal}>
-            <IngredientDetails ingredient={ingredient} />
-          </Modal>
-        )}
-        {isOrderVisible && (
-          <Modal handleClose={handleCloseOrderModal}>
-            <OrderDetails number={responseOrder.number} />
-          </Modal>
-        )}
-        {isErrVisible && (
-          <Modal handleClose={handleCloseErrModal}>
-            <Err text={error} />
-          </Modal>
-        )}
-      </IngredientsContext.Provider>
+      <Main />
+      {isIngredientModalVisible && (
+        <Modal handleClose={handleCloseIngredientModal}>
+          <IngredientDetails />
+        </Modal>
+      )}
+      {isOrderModalVisible && (
+        <Modal handleClose={handleCloseOrderModal}>
+          <OrderDetails />
+        </Modal>
+      )}
+      {isErrModalVisible && (
+        <Modal handleClose={handleCloseErrModal}>
+          <Err />
+        </Modal>
+      )}
     </div>
   );
 };

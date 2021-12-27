@@ -1,39 +1,67 @@
 // react redux types
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import { IngredientsContext } from '../../../services/appContext';
+import React, { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+// services
+import { GET_CURRENT_INGREDIENT } from "../../../services/actions/current-item";
+import { OPEN_INGREDIENT_MODAL } from "../../../services/actions/modal";
+
+// dnd
+import { useDrag } from "react-dnd";
 
 // styles
 import styles from "./ingredient.module.css";
 
 // ui-components
-import { Counter, CurrencyIcon, } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
 import { typeOfIngredient } from "../../../utils/types";
-import { v4 as uuidv4 } from 'uuid';
 
+const Ingredient = ({ ingredient }) => {
+  const dispatch = useDispatch();
+  const { selectedBun, selectedToppings } = useSelector(
+    (state) => state.selectedItemsReducer
+  );
 
-const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) => {
-  const { setSelectedBun, selectedNotBun, setSelectedNotBun, selectedId, setSelectedId } = useContext(IngredientsContext);
+  const count = useMemo(
+    () =>
+      ingredient.type === "bun"
+        ? selectedBun.filter((item) => item._id === ingredient._id).length * 2
+        : selectedToppings.filter((item) => item._id === ingredient._id).length,
+    [ingredient.type, selectedBun, selectedToppings, ingredient._id]
+  );
 
-  const setArrOfId = (ingredient) => {
-    setSelectedId([...selectedId, ingredient._id])
-    ingredient.type === 'bun' ? setSelectedBun([{ ...ingredient, 'key': uuidv4() }]) : setSelectedNotBun([...selectedNotBun, { ...ingredient, 'key': uuidv4() }]);
-  }
+  const [{ opacity }, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
 
   const handleOpenModal = () => {
-    setIngredient(ingredient)
-    setArrOfId(ingredient);
-    handleOpenIngredientModal();
+    dispatch({
+      type: GET_CURRENT_INGREDIENT,
+      ingredient,
+    });
+    dispatch({
+      type: OPEN_INGREDIENT_MODAL,
+    });
   };
 
   return (
-    <li className={`${styles.item} mb-7`} onClick={handleOpenModal}>
-      {ingredient.name === "Краторная булка N-200i" ||
-        ingredient.name === "Соус фирменный Space Sauce" ? (
-        <Counter count={1} size="default" />
-      ) : null}
+    <li
+      className={`${styles.item} mb-7`}
+      onClick={handleOpenModal}
+      style={{ opacity }}
+      ref={dragRef}
+    >
+      {count !== 0 ? <Counter count={count} size="default" /> : null}
+
       <img src={ingredient.image} alt="ingredient" />
       <div className={`${styles.price} mt-1 mb-2`}>
         <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
@@ -46,8 +74,6 @@ const Ingredient = ({ ingredient, setIngredient, handleOpenIngredientModal }) =>
 
 Ingredient.propTypes = {
   ingredient: typeOfIngredient.isRequired,
-  setIngredient: PropTypes.func.isRequired,
-  handleOpenIngredientModal: PropTypes.func.isRequired
 };
 
 export default Ingredient;

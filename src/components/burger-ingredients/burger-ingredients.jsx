@@ -1,10 +1,7 @@
 // react redux types
-import React, { useRef, useState, useContext } from "react";
-import PropTypes from "prop-types";
-import { IngredientsContext } from '../../services/appContext';
-
-// styles
-import styles from "./burger-ingredients.module.css";
+import React, { useRef, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { TAB_SWITCH } from "../../services/actions/tab";
 
 // children components
 import Ingredient from "./ingredient/ingredient";
@@ -12,27 +9,78 @@ import Ingredient from "./ingredient/ingredient";
 // ui-components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// styles
+import styles from "./burger-ingredients.module.css";
 
-const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
-  const [currentTab, setCurrentTab] = useState("bun");
-  const { stateData } = useContext(IngredientsContext);
+const BurgerIngredients = () => {
+  const burgerIngredientsElem = document.querySelector("#burger-ingredients");
+  const bunsElem = document.querySelector("#bun");
+  const saucesElem = document.querySelector("#sauce");
+  const toppingElem = document.querySelector("#topping");
+
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.ingredientsReducer);
+  const { currentTab } = useSelector((state) => state.tabReducer);
 
   const bunRef = useRef(null);
   const saucesRef = useRef(null);
-  const mainRef = useRef(null);
+  const toppingRef = useRef(null);
 
+  const setCurrentTab = (tab) => {
+    dispatch({
+      type: TAB_SWITCH,
+      tab,
+    });
+  };
   const setTab = (tab, tabRef) => {
     setCurrentTab(tab);
     tabRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const typeBun = stateData.filter((el) => el.type === "bun");
-  const typeSauce = stateData.filter((el) => el.type === "sauce");
-  const typeMain = stateData.filter((el) => el.type === "main");
+  const onScrollPosition = () => {
+    const bunsPosition = () =>
+      Math.abs(
+        bunsElem.getBoundingClientRect().top -
+          burgerIngredientsElem.getBoundingClientRect().top
+      );
 
+    const saucesPosition = () =>
+      Math.abs(
+        saucesElem.getBoundingClientRect().top -
+          burgerIngredientsElem.getBoundingClientRect().top
+      );
+
+    const toppingPosition = () =>
+      Math.abs(
+        toppingElem.getBoundingClientRect().top -
+          burgerIngredientsElem.getBoundingClientRect().top
+      );
+
+    bunsPosition() < saucesPosition()
+      ? setCurrentTab("bun")
+      : saucesPosition() < toppingPosition()
+      ? setCurrentTab("sauce")
+      : setCurrentTab("topping");
+  };
+
+  const typeBun = useMemo(() => {
+    return items.filter((el) => el.type === "bun");
+  }, [items]);
+
+  const typeSauce = useMemo(() => {
+    return items.filter((el) => el.type === "sauce");
+  }, [items]);
+
+  const typeTopping = useMemo(() => {
+    return items.filter((el) => el.type === "main");
+  }, [items]);
 
   return (
-    <section className={styles.burgerIngredients}>
+    <section
+      className={styles.burgerIngredients}
+      id="burger-ingredients"
+      onScroll={() => onScrollPosition()}
+    >
       <div style={{ display: "flex" }}>
         <Tab
           value="bun"
@@ -42,16 +90,16 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
           Булки
         </Tab>
         <Tab
-          value="sauces"
-          active={currentTab === "sauces"}
-          onClick={() => setTab("sauces", saucesRef)}
+          value="sauce"
+          active={currentTab === "sauce"}
+          onClick={() => setTab("sause", saucesRef)}
         >
           Соусы
         </Tab>
         <Tab
-          value="main"
-          active={currentTab === "main"}
-          onClick={() => setTab("main", mainRef)}
+          value="topping"
+          active={currentTab === "topping"}
+          onClick={() => setTab("topping", toppingRef)}
         >
           Начинки
         </Tab>
@@ -62,43 +110,33 @@ const BurgerIngredients = ({ handleOpenIngredientModal, setIngredient }) => {
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
           {typeBun.map((item) => (
-            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+            <Ingredient key={item._id} ingredient={item} />
           ))}
         </ul>
-        <h2
-          className={`text text_type_main-medium`}
-          id="sauces"
-          ref={saucesRef}
-        >
+
+        <h2 className={`text text_type_main-medium`} id="sauce" ref={saucesRef}>
           Соусы
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {
-            typeSauce.map((item) => (
-              <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
-            ))}
+          {typeSauce.map((item) => (
+            <Ingredient key={item._id} ingredient={item} />
+          ))}
         </ul>
         <h2
           className={`text text_type_main-medium mb-3`}
-          id="main"
-          ref={mainRef}
+          id="topping"
+          ref={toppingRef}
         >
           Начинки
         </h2>
         <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeMain.map((item) => (
-            <Ingredient key={item._id} ingredient={item} handleOpenIngredientModal={handleOpenIngredientModal} setIngredient={setIngredient} />
+          {typeTopping.map((item) => (
+            <Ingredient key={item._id} ingredient={item} />
           ))}
         </ul>
       </div>
     </section>
   );
-};
-
-
-BurgerIngredients.propTypes = {
-  handleOpenIngredientModal: PropTypes.func.isRequired,
-  setIngredient: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;
