@@ -3,14 +3,18 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // services
+import { getItems } from "../../services/actions/ingredients";
 import {
-  getItems,
   CLOSE_INGREDIENT_MODAL,
   CLOSE_ORDER_MODAL,
   CLOSE_ERR_MODAL,
-  DELETE_CURRENT_INGREDIENT,
-  DELETE_CURRENT_ORDER
-} from "../../services/actions/cart";
+} from "../../services/actions/modal";
+import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/current-item";
+import { DELETE_CURRENT_ORDER } from "../../services/actions/order";
+import {
+  DELETE_SELECTED_BUNS,
+  DELETE_SELECTED_TOPPINGS,
+} from "../../services/actions/selected-items";
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -47,6 +51,12 @@ const App = () => {
     });
     dispatch({
       type: DELETE_CURRENT_ORDER,
+    });
+    dispatch({
+      type: DELETE_SELECTED_BUNS,
+    });
+    dispatch({
+      type: DELETE_SELECTED_TOPPINGS,
     });
   };
 

@@ -1,13 +1,15 @@
 // react redux types
 import React, { useEffect, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  getOrder,
-  SET_BTN_DISABLED,
-  SET_BTN_ACTIVE,
-  ADD_SELECTED_TOPPING,
   ADD_SELECTED_BUN,
-} from "../../services/actions/cart";
+  ADD_SELECTED_TOPPING,
+} from "../../services/actions/selected-items";
+import { getOrder } from "../../services/actions/order";
+import {
+  SET_BTN_ACTIVE,
+  SET_BTN_DISABLED,
+} from "../../services/actions/button";
 
 // dnd
 import { useDrop } from "react-dnd";
@@ -20,10 +22,13 @@ import Ingredient from "./ingredient/ingredient";
 
 // ui-components
 import {
+  BurgerIcon,
   Button,
   CurrencyIcon,
-  BurgerIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+// utils
+import { v4 as uuidv4 } from "uuid";
 
 const BurgerConstructor = () => {
   const { selectedBun, selectedToppings } = useSelector(
@@ -33,6 +38,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
   const handleDrop = (item) => {
+    item.uuid = uuidv4();
     item.type === "bun"
       ? dispatch({
           type: ADD_SELECTED_BUN,
@@ -86,7 +92,7 @@ const BurgerConstructor = () => {
       <Ingredient
         item={item}
         index={index}
-        key={item.uuidId}
+        key={item.uuid}
         id={item._id}
         type={""}
         text={item.name}
@@ -105,7 +111,7 @@ const BurgerConstructor = () => {
           selectedBun.map((item, index) => (
             <Ingredient
               item={item}
-              key={item.uuidId}
+              key={item.uuid}
               index={index}
               type={"top"}
               text={`${item.name} (верх)`}
@@ -120,7 +126,7 @@ const BurgerConstructor = () => {
           selectedBun.map((item, index) => (
             <Ingredient
               item={item}
-              key={item.uuidId}
+              key={item.uuid}
               index={index}
               type={"bottom"}
               text={`${item.name} (низ)`}

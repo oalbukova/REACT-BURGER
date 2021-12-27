@@ -1,7 +1,7 @@
 // react redux types
 import React, { useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { TAB_SWITCH } from "../../services/actions/cart";
+import { TAB_SWITCH } from "../../services/actions/tab";
 
 // children components
 import Ingredient from "./ingredient/ingredient";

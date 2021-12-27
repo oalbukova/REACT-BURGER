@@ -1,6 +1,14 @@
 import { combineReducers } from "redux";
 
-import {
+import { ingredientsReducer } from "./ingredients";
+import { selectedItemsReducer } from "./selected-items";
+import { currentItemReducer } from "./current-item";
+import { orderReducer } from "./order";
+import { modalReducer } from "./modal";
+import { buttonReducer } from "./button";
+import { tabReducer } from "./tab";
+
+export const rootReducer = combineReducers({
   ingredientsReducer,
   selectedItemsReducer,
   currentItemReducer,
@@ -8,14 +16,4 @@ import {
   modalReducer,
   buttonReducer,
   tabReducer,
-} from "./cart";
-
-export const rootReducer = combineReducers({
-  ingredientsReducer: ingredientsReducer,
-  selectedItemsReducer: selectedItemsReducer,
-  currentItemReducer: currentItemReducer,
-  orderReducer: orderReducer,
-  modalReducer: modalReducer,
-  buttonReducer: buttonReducer,
-  tabReducer: tabReducer,
 });

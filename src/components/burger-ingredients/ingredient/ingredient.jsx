@@ -3,10 +3,8 @@ import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // services
-import {
-  GET_CURRENT_INGREDIENT,
-  OPEN_INGREDIENT_MODAL,
-} from "../../../services/actions/cart";
+import { GET_CURRENT_INGREDIENT } from "../../../services/actions/current-item";
+import { OPEN_INGREDIENT_MODAL } from "../../../services/actions/modal";
 
 // dnd
 import { useDrag } from "react-dnd";

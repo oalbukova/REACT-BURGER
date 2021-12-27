@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {
   DELETE_SELECTED_TOPPING,
   SORT_TOPPING,
-} from "../../../services/actions/cart";
+} from "../../../services/actions/selected-items";
 
 // ui-components
 import {
