@@ -1,6 +1,7 @@
 // react redux types
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
@@ -23,6 +24,9 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import Err from "../err/err";
+
+// pages
+import { LoginPage } from "../../pages/login/login";
 
 // styles
 import styles from "./app.module.css";
@@ -69,7 +73,14 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Main />
+        <Switch>
+          <Route path="/" exact={true}>
+            <Main />
+          </Route>
+          <Route path="/login" exact={true}>
+            <LoginPage />
+          </Route>
+        </Switch>
       {isIngredientModalVisible && (
         <Modal handleClose={handleCloseIngredientModal}>
           <IngredientDetails />
