@@ -39,18 +39,21 @@ const BurgerIngredients = () => {
 
   const onScrollPosition = () => {
     const bunsPosition = () =>
+      bunsElem &&
       Math.abs(
         bunsElem.getBoundingClientRect().top -
           burgerIngredientsElem.getBoundingClientRect().top
       );
 
     const saucesPosition = () =>
+      saucesElem &&
       Math.abs(
         saucesElem.getBoundingClientRect().top -
           burgerIngredientsElem.getBoundingClientRect().top
       );
 
     const toppingPosition = () =>
+      toppingElem &&
       Math.abs(
         toppingElem.getBoundingClientRect().top -
           burgerIngredientsElem.getBoundingClientRect().top
@@ -105,35 +108,50 @@ const BurgerIngredients = () => {
         </Tab>
       </div>
       <div className={`${styles.container} mt-10`}>
-        <h2 className={`text text_type_main-medium`} id="bun" ref={bunRef}>
-          Булки
-        </h2>
-        <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeBun.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
-          ))}
-        </ul>
-
-        <h2 className={`text text_type_main-medium`} id="sauce" ref={saucesRef}>
-          Соусы
-        </h2>
-        <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeSauce.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
-          ))}
-        </ul>
-        <h2
-          className={`text text_type_main-medium mb-3`}
-          id="topping"
-          ref={toppingRef}
-        >
-          Начинки
-        </h2>
-        <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
-          {typeTopping.map((item) => (
-            <Ingredient key={item._id} ingredient={item} />
-          ))}
-        </ul>
+        {typeBun.length !== 0 ? (
+          <>
+            <h2 className={`text text_type_main-medium`} id="bun" ref={bunRef}>
+              Булки
+            </h2>
+            <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
+              {typeBun.map((item) => (
+                <Ingredient key={item._id} ingredient={item} />
+              ))}
+            </ul>
+          </>
+        ) : null}
+        {typeSauce.length !== 0 ? (
+          <>
+            <h2
+              className={`text text_type_main-medium`}
+              id="sauce"
+              ref={saucesRef}
+            >
+              Соусы
+            </h2>
+            <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
+              {typeSauce.map((item) => (
+                <Ingredient key={item._id} ingredient={item} />
+              ))}
+            </ul>
+          </>
+        ) : null}
+        {typeTopping.length !== 0 ? (
+          <>
+            <h2
+              className={`text text_type_main-medium mb-3`}
+              id="topping"
+              ref={toppingRef}
+            >
+              Начинки
+            </h2>
+            <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
+              {typeTopping.map((item) => (
+                <Ingredient key={item._id} ingredient={item} />
+              ))}
+            </ul>
+          </>
+        ) : null}
       </div>
     </section>
   );
