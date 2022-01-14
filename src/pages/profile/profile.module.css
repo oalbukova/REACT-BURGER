@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  width: 1280px;
+  margin: 120px auto 0;
+}
+
+.list {
+  list-style-type: none;
+  padding-inline-start: 20px;
+}
+
+.description {
+  margin-top: 94px;
+}
+
+.form {
+  margin-left: 64px;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.form > div {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.form > div > div {
+  width: 100%;
+}
+
