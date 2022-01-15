@@ -30,7 +30,9 @@ import LoginPage from "../../pages/login/login";
 import RegisterPage from "../../pages/register/register";
 import ForgotPasswordPage from "../../pages/forgot-password/forgot-password";
 import ResetPasswordPage from "../../pages/reset-password/reset-password";
-import ProfilePage from '../../pages/profile/profile';
+import ProfilePage from "../../pages/profile/profile";
+import IngredientPage from "../../pages/ingredient/ingredient";
+import NotFound404 from "../../pages/err404/err404";
 
 // styles
 import styles from "./app.module.css";
@@ -77,26 +79,32 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-        <Switch>
-          <Route path="/" exact={true}>
-            <Main />
-          </Route>
-          <Route path="/login" exact={true}>
-            <LoginPage />
-          </Route>
-          <Route path="/register" exact={true}>
-            <RegisterPage />
-          </Route>
-          <Route path="/forgot-password" exact={true}>
-            <ForgotPasswordPage />
-          </Route>
-          <Route path="/reset-password" exact={true}>
-            <ResetPasswordPage />
-          </Route>
-          <Route path="/profile" exact={true}>
-            <ProfilePage />
-          </Route>
-        </Switch>
+      <Switch>
+        <Route path="/" exact={true}>
+          <Main />
+        </Route>
+        <Route path="/login" exact={true}>
+          <LoginPage />
+        </Route>
+        <Route path="/register" exact={true}>
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPasswordPage />
+        </Route>
+        <Route path="/profile" exact={true}>
+          <ProfilePage />
+        </Route>
+        <Route path="/ingredients/:id" exact={true}>
+          <IngredientPage />
+        </Route>
+        <Route>
+          <NotFound404 />
+        </Route>
+      </Switch>
       {isIngredientModalVisible && (
         <Modal handleClose={handleCloseIngredientModal}>
           <IngredientDetails />

@@ -8,9 +8,13 @@
   list-style-type: none;
   padding-inline-start: 20px;
 }
+.item {
+  cursor: pointer;
+}
 
 .description {
   margin-top: 94px;
+  opacity: 0.4;
 }
 
 .form {

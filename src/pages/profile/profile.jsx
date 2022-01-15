@@ -33,11 +33,11 @@ const ProfilePage = () => {
     <div className={styles.wrapper}>
       <nav>
         <ul className={`${styles.list} mb-4`}>
-          <li className={`text text_type_main-medium mb-9`}>Профиль</li>
-          <li className="text text_type_main-medium text_color_inactive  mb-9">
+          <li className={`${styles.item} text text_type_main-medium  mb-9`}>Профиль</li>
+          <li className={`${styles.item} text text_type_main-medium text_color_inactive mb-9`}>
             История заказов
           </li>
-          <li className="text text_type_main-medium text_color_inactive">
+          <li className={`${styles.item} text text_type_main-medium text_color_inactive`}>
             Выход
           </li>
         </ul>
