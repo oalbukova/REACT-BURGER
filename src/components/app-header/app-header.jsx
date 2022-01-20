@@ -1,5 +1,7 @@
 // react redux types
 import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // styles
 import styles from "./app-header.module.css";
@@ -13,6 +15,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const AppHeader = () => {
+  const { currentUser } = useSelector((state) => state.currentUserReducer);
+
+  const userName =
+    currentUser && currentUser.user ? currentUser.user.name : "Личный кабинет";
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -29,12 +36,16 @@ const AppHeader = () => {
           </a>
         </nav>
         <Logo />
-        <a href="#" className={`${styles.navLink} pl-5 pr-5`}>
+        <Link
+          to={{ pathname: `/profile` }}
+          className={`${styles.navLink} pl-5 pr-5`}
+        >
           <ProfileIcon type="secondary" />
+
           <p className="text text_type_main-default text_color_inactive ml-2">
-            Личный кабинет
+            {userName}
           </p>
-        </a>
+        </Link>
       </div>
     </header>
   );

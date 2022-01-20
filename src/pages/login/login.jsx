@@ -1,6 +1,9 @@
 // react redux types
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { authorize } from "../../services/actions/login";
+import { getUser } from "../../services/actions/user";
 
 // styles
 import styles from "./login.module.css";
@@ -13,30 +16,43 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const LoginPage = () => {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state.loginReducer);
 
-  const onChangeEmail = (e) => {
-    setEmailValue(e.target.value);
+  const [form, setValue] = useState({ email: "", password: "" });
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onChangePassword = (e) => {
-    setPasswordValue(e.target.value);
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(authorize(form.email, form.password));
+    },
+    [dispatch, form]
+  );
+
+  if (auth.user) {
+  //  dispatch(getUser());
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
-      <form className={`${styles.form}`}>
+      <form className={`${styles.form}`} onSubmit={handleSubmit}>
         <h1 className={`text text_type_main-medium mb-6`}>Вход</h1>
-        <EmailInput
-          onChange={onChangeEmail}
-          value={emailValue}
-          name={"email"}
-        />
+        <EmailInput value={form.email} name="email" onChange={onChange} />
         <PasswordInput
-          onChange={onChangePassword}
-          value={passwordValue}
-          name={"password"}
+          value={form.password}
+          name="password"
+          onChange={onChange}
         />
         <div className={`${styles.container}`}>
           <Button type="primary" size="medium">
@@ -45,11 +61,21 @@ const LoginPage = () => {
         </div>
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вы — новый пользователь?
-          <Link to="/register" className={`${styles.link} ml-2`}>Зарегистрироваться</Link>
+          <Link
+            to={{ pathname: "/register" }}
+            className={`${styles.link} ml-2`}
+          >
+            Зарегистрироваться
+          </Link>
         </p>
         <p className="text text_type_main-default text_color_inactive">
           Забыли пароль?
-          <Link to="/forgot-password" className={`${styles.link} ml-2`}>Восстановить пароль</Link>
+          <Link
+            to={{ pathname: "/forgot-password" }}
+            className={`${styles.link} ml-2`}
+          >
+            Восстановить пароль
+          </Link>
         </p>
       </form>
     </div>

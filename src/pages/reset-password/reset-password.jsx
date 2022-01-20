@@ -1,6 +1,8 @@
 // react redux types
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { resetPassword } from "../../services/actions/password";
 
 // styles
 import styles from "./reset-password.module.css";
@@ -13,33 +15,53 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const ResetPasswordPage = () => {
-  const [codeValue, setCodeValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const dispatch = useDispatch();
 
-  const onChangeCode = (e) => {
-    setCodeValue(e.target.value);
+  const { reset_password } = useSelector((state) => state.resetPasswordReducer);
+
+  const [form, setValue] = useState({
+    code: "",
+    password: "",
+  });
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onChangePassword = (e) => {
-    setPasswordValue(e.target.value);
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(resetPassword(form.password, form.code));
+    },
+    [dispatch, form]
+  );
+
+  if (reset_password && reset_password.success) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
-      <form className={`${styles.form}`}>
+      <form className={`${styles.form}`} onSubmit={handleSubmit}>
         <h1 className={`text text_type_main-medium mb-6`}>
           Восстановление пароля
         </h1>
         <PasswordInput
-          onChange={onChangePassword}
-          value={passwordValue}
-          name={"password"}
+          value={form.password}
+          name="password"
+          onChange={onChange}
         />
         <Input
           type={"text"}
           placeholder={"Введите код из письма"}
-          onChange={onChangeCode}
-          value={codeValue}
+          onChange={onChange}
+          value={form.code}
           name={"code"}
           error={false}
           errorText={"Ошибка"}
@@ -52,7 +74,9 @@ const ResetPasswordPage = () => {
         </div>
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вспомнили пароль?
-          <Link to="/login" className={`${styles.link} ml-2`}>Войти</Link>
+          <Link to={{ pathname: "/login" }} className={`${styles.link} ml-2`}>
+            Войти
+          </Link>
         </p>
       </form>
     </div>

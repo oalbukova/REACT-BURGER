@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
+
 import {
   CLOSE_INGREDIENT_MODAL,
   CLOSE_ORDER_MODAL,
@@ -40,6 +41,7 @@ import styles from "./app.module.css";
 const App = () => {
   const { isIngredientModalVisible, isOrderModalVisible, isErrModalVisible } =
     useSelector((state) => state.modalReducer);
+
   const dispatch = useDispatch();
 
   useEffect(() => {

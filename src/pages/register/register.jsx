@@ -1,6 +1,8 @@
 // react redux types
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { register } from "../../services/actions/register";
 
 // styles
 import styles from "./register.module.css";
@@ -14,44 +16,56 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const RegisterPage = () => {
-  const [nameValue, setNameValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const dispatch = useDispatch();
+  
+  const { user } = useSelector((state) => state.registerReducer);
 
-  const onChangeName = (e) => {
-    setNameValue(e.target.value);
+  const [form, setValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onChangeEmail = (e) => {
-    setEmailValue(e.target.value);
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(register(form.email, form.password, form.name));
+    },
+    [dispatch, form]
+  );
 
-  const onChangePassword = (e) => {
-    setPasswordValue(e.target.value);
-  };
+  if (user.user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
-      <form className={`${styles.form}`}>
+      <form className={`${styles.form}`} onSubmit={handleSubmit}>
         <h1 className={`text text_type_main-medium mb-6`}>Регистрация</h1>
         <Input
           type={"text"}
           placeholder={"Имя"}
-          onChange={onChangeName}
-          value={nameValue}
-          name={"name"}
+          value={form.name}
+          name="name"
+          onChange={onChange}
           error={false}
           errorText={"Ошибка"}
         />
-        <EmailInput
-          onChange={onChangeEmail}
-          value={emailValue}
-          name={"email"}
-        />
+        <EmailInput value={form.email} name="email" onChange={onChange} />
         <PasswordInput
-          onChange={onChangePassword}
-          value={passwordValue}
-          name={"password"}
+          value={form.password}
+          name="password"
+          onChange={onChange}
         />
         <div className={`${styles.container}`}>
           <Button type="primary" size="medium">
@@ -60,7 +74,9 @@ const RegisterPage = () => {
         </div>
         <p className="text text_type_main-default text_color_inactive mb-4">
           Уже зарегистрированы?
-          <Link to="/login" className={`${styles.link} ml-2`}>Войти</Link>
+          <Link to={{ pathname: "/login" }} className={`${styles.link} ml-2`}>
+            Войти
+          </Link>
         </p>
       </form>
     </div>
