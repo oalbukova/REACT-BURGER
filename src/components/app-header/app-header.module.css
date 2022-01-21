@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.logoContainer {
+  cursor: pointer;
+}
+
 .nav {
   display: flex;
   margin-right: -175px;
@@ -23,5 +27,8 @@
 .navLink {
   display: flex;
   text-decoration: none;
+}
+
+.activeNavLink {
   color: #f2f2f3;
 }

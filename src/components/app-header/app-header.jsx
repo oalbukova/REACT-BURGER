@@ -1,10 +1,15 @@
 // react redux types
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 // styles
 import styles from "./app-header.module.css";
+
+//utils
+import { getCookie } from "../../utils/utils";
+
+import { updateToken } from "../../services/actions/user";
 
 // ui-components
 import {
@@ -19,10 +24,19 @@ const AppHeader = () => {
   const { user } = useSelector((state) => state.userReducer);
   const [userName, setUserName] = useState("");
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     user?.user && setUserName(user?.user?.name);
     user?.user && localStorage.setItem("userName", user?.user?.name);
   }, [user?.user]);
+
+  useEffect(() => {
+    console.log(getCookie("token"));
+    console.log(user);
+    console.log(localStorage.getItem("refreshToken"));
+    dispatch(updateToken(localStorage.getItem("refreshToken")));
+  }, []);
 
   useEffect(() => {
     const currentUserName = localStorage.getItem("userName");
@@ -34,22 +48,38 @@ const AppHeader = () => {
 
   const isToken = localStorage.getItem("refreshToken");
 
+  const typeForConstructor = pathname === "/" ? "primary" : "secondary";
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <nav className={styles.nav}>
-          <a href="/" className={`${styles.navLink} pl-5 pr-5`}>
-            <BurgerIcon type="primary" />
-            <p className="text text_type_main-default ml-2">Конструктор</p>
-          </a>
-          <a href="#" className={`${styles.navLink} pl-5 pr-5 ml-2`}>
+          <div className={`${styles.navLink} pl-5 pr-5`}>
+            <BurgerIcon type={typeForConstructor} />
+            <NavLink
+              to={{ pathname: `/` }}
+              className={`${styles.navLink} ml-2 text_type_main-medium text_color_inactive`}
+              activeClassName={`${styles.activeNavLink}`}
+              exact
+            >
+              Конструктор
+            </NavLink>
+          </div>
+          <div className={`${styles.navLink} pl-5 pr-5`}>
             <ListIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive ml-2">
+            <NavLink
+              to={{ pathname: `#` }}
+              exact
+              className={`${styles.navLink} ml-2 text_type_main-medium text_color_inactive`}
+              activeClassName={`${styles.activeNavLink} text_type_main-medium`}
+            >
               Лента заказов
-            </p>
-          </a>
+            </NavLink>
+          </div>
         </nav>
-        <Logo />
+        <Link to={{ pathname: `/` }} exact className={styles.logoContainer}>
+          <Logo />
+        </Link>
         <Link
           to={isToken ? { pathname: `/profile` } : { pathname: `/login` }}
           className={`${styles.navLink} pl-5 pr-5`}

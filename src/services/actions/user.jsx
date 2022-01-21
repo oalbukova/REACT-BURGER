@@ -24,6 +24,10 @@ export const DELETE_USER_FAILED = "DELETE_USER_FAILED";
 export const DELETE_USER_REQUEST = "DELETE_USER_REQUEST";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 
+export const UPDATE_TOKEN_FAILED = "UPDATE_TOKEN_FAILED";
+export const UPDATE_TOKEN_REQUEST = "UPDATE_TOKEN_REQUEST";
+export const UPDATE_TOKEN_SUCCESS = "UPDATE_TOKEN_SUCCESS";
+
 export function register(email, password, name) {
   return function (dispatch) {
     dispatch({
@@ -70,6 +74,74 @@ export function register(email, password, name) {
   };
 }
 
+export function updateToken() {
+  return function (dispatch) {
+    dispatch({
+      type: UPDATE_TOKEN_REQUEST,
+    });
+    fetch(`${API_URL}auth/token`, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        token: `${localStorage.getItem('refreshToken')}`
+    }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          dispatch({
+            type: UPDATE_TOKEN_FAILED,
+          });
+        }
+        return Promise.reject(res.status);
+      })
+
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: AUTHORIZE_SUCCESS,
+            user: data,
+          });
+          let accessToken = data.accessToken.split("Bearer ")[1];
+          if (accessToken) {
+            setCookie("token", accessToken);
+          }
+
+          let authToken = data.refreshToken;
+          if (authToken) {
+            localStorage.setItem("refreshToken", authToken);
+          }
+          dispatch(getUser());
+          // if (data.success) {
+          //   dispatch({
+          //     type: UPDATE_TOKEN_SUCCESS,
+          //     token: data,
+          //   });
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: UPDATE_TOKEN_FAILED,
+        });
+        dispatch({
+          type: OPEN_ERR_MODAL,
+        });
+        dispatch({
+          type: SET_ERR,
+          text: err,
+        });
+      });
+  };
+}
+
 export function getUser() {
   return function (dispatch) {
     dispatch({
@@ -99,6 +171,9 @@ export function getUser() {
         return Promise.reject(res.status);
       })
       .then((data) => {
+        if (!data.success) {
+          dispatch(updateToken());
+        }
         if (data.success) {
           dispatch({
             type: GET_USER_SUCCESS,
@@ -164,7 +239,7 @@ export function authorize(email, password) {
           if (authToken) {
             localStorage.setItem("refreshToken", authToken);
           }
-          getUser();
+          dispatch(getUser());
         }
       })
       .catch((err) => {
@@ -250,7 +325,7 @@ export function updateUser(email, password, name) {
 export function deleteUser(token) {
   return function (dispatch) {
     dispatch({
-      type: AUTHORIZE_REQUEST,
+      type: DELETE_USER_REQUEST,
     });
     fetch(`${API_URL}auth/logout`, {
       method: "POST",
@@ -282,35 +357,19 @@ export function deleteUser(token) {
             user: data,
           });
           deleteCookie("token");
-          // deleteCookie("authToken");
-          // localStorage.removeItem("refreshToken");
-          // localStorage.removeItem("userName");
         }
       })
       .catch((err) => {
-        if (err === 401) {
-          dispatch({
-            type: AUTHORIZE_FAILED,
-          });
-          dispatch({
-            type: SET_ERR,
-            text: `${err} Неправильные почта или пароль`,
-          });
-          dispatch({
-            type: OPEN_ERR_MODAL,
-          });
-        } else {
-          dispatch({
-            type: AUTHORIZE_FAILED,
-          });
-          dispatch({
-            type: SET_ERR,
-            text: err,
-          });
-          dispatch({
-            type: OPEN_ERR_MODAL,
-          });
-        }
+        dispatch({
+          type: DELETE_USER_FAILED,
+        });
+        dispatch({
+          type: OPEN_ERR_MODAL,
+        });
+        dispatch({
+          type: SET_ERR,
+          text: err,
+        });
       });
   };
 }

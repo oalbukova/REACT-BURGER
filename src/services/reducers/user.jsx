@@ -14,10 +14,14 @@ import {
   DELETE_USER_FAILED,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
+  UPDATE_TOKEN_FAILED,
+  UPDATE_TOKEN_REQUEST,
+  UPDATE_TOKEN_SUCCESS,
 } from "../actions/user";
 
 const initialUserState = {
   user: [],
+  token: {},
 
   userRequest: false,
   userFailed: false,
@@ -30,6 +34,9 @@ const initialUserState = {
 
   deleteUserRequest: false,
   deleteUserFailed: false,
+
+  updateTokenRequest: false,
+  updateTokenFailed: false,
 };
 
 export const userReducer = (state = initialUserState, action) => {
@@ -122,6 +129,24 @@ export const userReducer = (state = initialUserState, action) => {
     }
     case DELETE_USER_FAILED: {
       return { ...state, deleteUserFailed: true, deleteUserRequest: false };
+    }
+
+    case UPDATE_TOKEN_REQUEST: {
+      return {
+        ...state,
+        updateTokenRequest: true,
+      };
+    }
+    case UPDATE_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        updateTokenFailed: false,
+        token: action.token,
+        updateTokenRequest: false,
+      };
+    }
+    case UPDATE_TOKEN_FAILED: {
+      return { ...state, updateTokenFailed: true, updateTokenRequest: false };
     }
 
     default: {
