@@ -13,6 +13,13 @@
   text-decoration: none;
 }
 
+.exit {
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  padding: 0;
+}
+
 .activeItem {
   color: #fff;
 }
@@ -21,5 +28,3 @@
   margin-top: 94px;
   opacity: 0.4;
 }
-
-

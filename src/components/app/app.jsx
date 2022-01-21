@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
+import { getUser } from "../../services/actions/user";
 
 import {
   CLOSE_INGREDIENT_MODAL,
@@ -41,6 +42,7 @@ import styles from "./app.module.css";
 const App = () => {
   const { isIngredientModalVisible, isOrderModalVisible, isErrModalVisible } =
     useSelector((state) => state.modalReducer);
+  //  const { user } = useSelector((state) => state.userReducer);
 
   const dispatch = useDispatch();
 
@@ -82,27 +84,13 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       <Switch>
-        <Route path="/" exact={true}>
-          <Main />
-        </Route>
-        <Route path="/login" exact={true}>
-          <LoginPage />
-        </Route>
-        <Route path="/register" exact={true}>
-          <RegisterPage />
-        </Route>
-        <Route path="/forgot-password" exact={true}>
-          <ForgotPasswordPage />
-        </Route>
-        <Route path="/reset-password" exact={true}>
-          <ResetPasswordPage />
-        </Route>
-        <Route path="/profile" exact={true}>
-          <ProfilePage />
-        </Route>
-        <Route path="/ingredients/:id" exact={true}>
-          <IngredientPage />
-        </Route>
+        <Route exact path="/" children={<Main />} />
+        <Route path="/login" children={<LoginPage />} />
+        <Route path="/register" children={<RegisterPage />} />
+        <Route path="/forgot-password" children={<ForgotPasswordPage />} />
+        <Route path="/reset-password" children={<ResetPasswordPage />} />
+        <Route path="/profile" children={<ProfilePage />} />
+        <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route>
           <NotFound404 />
         </Route>

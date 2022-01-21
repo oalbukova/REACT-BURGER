@@ -1,9 +1,8 @@
 // react redux types
-import React, { useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-import { authorize } from "../../services/actions/login";
-import { getUser } from "../../services/actions/user";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { authorize } from "../../services/actions/user";
 
 // styles
 import styles from "./login.module.css";
@@ -17,7 +16,7 @@ import {
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state.loginReducer);
+  const history = useHistory();
 
   const [form, setValue] = useState({ email: "", password: "" });
 
@@ -25,24 +24,17 @@ const LoginPage = () => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      dispatch(authorize(form.email, form.password));
-    },
-    [dispatch, form]
-  );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(authorize(form.email, form.password));
+  };
 
-  if (auth.user) {
-  //  dispatch(getUser());
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
-  }
+  setTimeout(() => {
+    const isToken = localStorage.getItem("refreshToken");
+    if (isToken) {
+      history.push("/");
+    }
+  }, 2000);
 
   return (
     <div className={styles.wrapper}>

@@ -17,9 +17,9 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 const Main = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, [dispatch]);
   
   return (
     <main className={`${styles.main} pl-5 pr-5`}>

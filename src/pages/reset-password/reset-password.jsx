@@ -40,7 +40,7 @@ const ResetPasswordPage = () => {
     return (
       <Redirect
         to={{
-          pathname: "/",
+          pathname: "/login",
         }}
       />
     );

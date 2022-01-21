@@ -1,6 +1,10 @@
 // react redux types
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+
+import { getUser, deleteUser } from "../../services/actions/user";
 
 // styles
 import styles from "./profile.module.css";
@@ -8,8 +12,22 @@ import styles from "./profile.module.css";
 // components
 import UserForm from "../../components/user-form/user-form";
 
-
 const ProfilePage = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
+  const token = localStorage.getItem("refreshToken");
+
+  const logout = () => {
+    dispatch(deleteUser(token));
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userName");
+    history.push("/login");
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -20,13 +38,15 @@ const ProfilePage = () => {
               to={{ pathname: `/profile` }}
               className={`${styles.item} text_type_main-medium text_color_inactive`}
               activeClassName={`${styles.activeItem}`}
+              exact
             >
               Профиль
             </NavLink>
           </li>
           <li className={`mb-9`}>
             <NavLink
-              to={{ pathname: `/profile/orders` }}
+              to={{ pathname: "/profile/orders" }}
+              exact
               className={`${styles.item} text_type_main-medium text_color_inactive`}
               activeClassName={`${styles.activeItem}`}
             >
@@ -34,13 +54,12 @@ const ProfilePage = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to={{ pathname: `/profile/orders/:id` }}
-              className={`${styles.item} text_type_main-medium text_color_inactive`}
-              activeClassName={`${styles.activeItem}`}
+            <button
+              onClick={logout}
+              className={`${styles.exit} text_type_main-medium text_color_inactive`}
             >
               Выход
-            </NavLink>
+            </button>
           </li>
         </ul>
         <p

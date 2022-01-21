@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { register } from "../../services/actions/register";
+import { register } from "../../services/actions/user";
 
 // styles
 import styles from "./register.module.css";
@@ -17,8 +17,8 @@ import {
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
-  
-  const { user } = useSelector((state) => state.registerReducer);
+
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState({
     name: "",
