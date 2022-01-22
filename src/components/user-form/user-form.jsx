@@ -60,10 +60,6 @@ const UserForm = () => {
     setShowButton(false);
   };
 
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, [dispatch]);
-
   return (
     <form onSubmit={handleSubmit} className={`${styles.form}`}>
       <Input

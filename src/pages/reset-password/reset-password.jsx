@@ -16,8 +16,12 @@ import {
 
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-
+  
+  const { forgot_password } = useSelector(
+    (state) => state.forgotPasswordReducer
+  );
   const { reset_password } = useSelector((state) => state.resetPasswordReducer);
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState({
     code: "",
@@ -35,6 +39,16 @@ const ResetPasswordPage = () => {
     },
     [dispatch, form]
   );
+
+  if (user?.user || (!user?.user && !forgot_password.success)) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   if (reset_password && reset_password.success) {
     return (

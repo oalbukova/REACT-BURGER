@@ -38,7 +38,7 @@ const RegisterPage = () => {
     [dispatch, form]
   );
 
-  if (user.user) {
+  if (user?.user) {
     return (
       <Redirect
         to={{

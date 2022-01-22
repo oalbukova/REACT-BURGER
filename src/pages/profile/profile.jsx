@@ -1,6 +1,6 @@
 // react redux types
 import React, { useEffect } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
@@ -11,23 +11,26 @@ import styles from "./profile.module.css";
 
 // components
 import UserForm from "../../components/user-form/user-form";
+import OrderHistory from "../../components/order-history/order-history";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { pathname } = useLocation();
 
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, [dispatch]);
 
   const token = localStorage.getItem("refreshToken");
 
   const logout = () => {
     dispatch(deleteUser(token));
     localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userName");
+    localStorage.removeItem('userName');
     history.push("/login");
   };
+ 
 
   return (
     <div className={styles.wrapper}>
@@ -46,7 +49,7 @@ const ProfilePage = () => {
           <li className={`mb-9`}>
             <NavLink
               to={{ pathname: "/profile/orders" }}
-              exact
+              
               className={`${styles.item} text_type_main-medium text_color_inactive`}
               activeClassName={`${styles.activeItem}`}
             >
@@ -68,7 +71,8 @@ const ProfilePage = () => {
           В этом разделе вы можете <br /> изменить свои персональные данные
         </p>
       </nav>
-      <UserForm />
+      {pathname === "/profile" && <UserForm />}
+      {pathname === "/profile/orders" && <OrderHistory />}
     </div>
   );
 };

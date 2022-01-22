@@ -19,6 +19,7 @@ const ForgotPasswordPage = () => {
   const { forgot_password } = useSelector(
     (state) => state.forgotPasswordReducer
   );
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState("");
 
@@ -34,7 +35,17 @@ const ForgotPasswordPage = () => {
     [dispatch, form]
   );
 
-  if (forgot_password.success === true) {
+  if (user?.user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
+
+  if (forgot_password.success) {
     return (
       <Redirect
         to={{

@@ -1,6 +1,7 @@
 // react redux types
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from 'react-router-dom';
 
 // services
 import { GET_CURRENT_INGREDIENT } from "../../../services/actions/current-item";
@@ -23,6 +24,8 @@ import { typeOfIngredient } from "../../../utils/types";
 
 const Ingredient = ({ ingredient }) => {
   const dispatch = useDispatch();
+  let location = useLocation();
+
   const { selectedBun, selectedToppings } = useSelector(
     (state) => state.selectedItemsReducer
   );
@@ -54,21 +57,32 @@ const Ingredient = ({ ingredient }) => {
   };
 
   return (
-    <li
-      className={`${styles.item} mb-7`}
-      onClick={handleOpenModal}
-      style={{ opacity }}
-      ref={dragRef}
+    <Link
+    className={`${styles.link}`}
+      key={ingredient._id}
+      to={{
+        pathname: `/ingredients/${ingredient._id}`,
+        state: { background: location },
+      }}
     >
-      {count !== 0 ? <Counter count={count} size="default" /> : null}
+      <li
+        className={`${styles.item} mb-7`}
+        onClick={handleOpenModal}
+        style={{ opacity }}
+        ref={dragRef}
+      >
+        {count !== 0 ? <Counter count={count} size="default" /> : null}
 
-      <img src={ingredient.image} alt="ingredient" />
-      <div className={`${styles.price} mt-1 mb-2`}>
-        <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
-        <CurrencyIcon type="primary" />
-      </div>
-      <p className="text text_type_main-default">{ingredient.name}</p>
-    </li>
+        <img src={ingredient.image} alt="ingredient" />
+        <div className={`${styles.price} mt-1 mb-2`}>
+          <p className="text text_type_digits-default mr-2">
+            {ingredient.price}
+          </p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p className="text text_type_main-default">{ingredient.name}</p>
+      </li>
+    </Link>
   );
 };
 

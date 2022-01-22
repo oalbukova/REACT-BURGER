@@ -1,6 +1,7 @@
 // react redux types
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
@@ -31,9 +32,11 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const BurgerConstructor = () => {
+  const history = useHistory();
   const { selectedBun, selectedToppings } = useSelector(
     (state) => state.selectedItemsReducer
   );
+  const { user } = useSelector((state) => state.userReducer);
   const { isBtnDisabled } = useSelector((state) => state.buttonReducer);
   const dispatch = useDispatch();
 
@@ -84,7 +87,12 @@ const BurgerConstructor = () => {
   }, [selectedBun, selectedToppings]);
 
   const handleOpenOrderModal = () => {
-    dispatch(getOrder(selectedId));
+    if (user.user) {
+      dispatch(getOrder(selectedId));
+    } else {
+      history.replace({ pathname: '/login' });
+      return
+    }
   };
 
   const renderCard = (item, index) => {

@@ -1,7 +1,7 @@
 // react redux types
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
@@ -26,6 +26,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import Err from "../err/err";
+import ProtectedRoute from "../protected-route/protected-route";
 
 // pages
 import LoginPage from "../../pages/login/login";
@@ -45,9 +46,13 @@ const App = () => {
   //  const { user } = useSelector((state) => state.userReducer);
 
   const dispatch = useDispatch();
+  let location = useLocation();
+
+  let background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(getItems());
+    dispatch(getUser());
   }, [dispatch]);
 
   const handleCloseIngredientModal = () => {
@@ -83,22 +88,34 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route exact path="/" children={<Main />} />
         <Route path="/login" children={<LoginPage />} />
         <Route path="/register" children={<RegisterPage />} />
         <Route path="/forgot-password" children={<ForgotPasswordPage />} />
         <Route path="/reset-password" children={<ResetPasswordPage />} />
-        <Route path="/profile" children={<ProfilePage />} />
+        <ProtectedRoute path="/">
+          <Route path="/profile" children={<ProfilePage />} />
+        </ProtectedRoute>
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route>
           <NotFound404 />
         </Route>
       </Switch>
-      {isIngredientModalVisible && (
+      {/* {isIngredientModalVisible && (
         <Modal handleClose={handleCloseIngredientModal}>
           <IngredientDetails />
         </Modal>
+      )} */}
+      {background && (
+        <Route
+          path="/ingredients/:id"
+          children={
+            <Modal handleClose={handleCloseIngredientModal}>
+              <IngredientDetails />
+            </Modal>
+          }
+        />
       )}
       {isOrderModalVisible && (
         <Modal handleClose={handleCloseOrderModal}>

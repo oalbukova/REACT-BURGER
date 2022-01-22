@@ -7,9 +7,9 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import styles from "./app-header.module.css";
 
 //utils
-import { getCookie } from "../../utils/utils";
+// import { getCookie } from "../../utils/utils";
 
-import { updateToken } from "../../services/actions/user";
+// import { updateToken } from "../../services/actions/user";
 
 // ui-components
 import {
@@ -24,26 +24,26 @@ const AppHeader = () => {
   const { user } = useSelector((state) => state.userReducer);
   const [userName, setUserName] = useState("");
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
   useEffect(() => {
     user?.user && setUserName(user?.user?.name);
     user?.user && localStorage.setItem("userName", user?.user?.name);
   }, [user?.user]);
 
-  useEffect(() => {
-    console.log(getCookie("token"));
-    console.log(user);
-    console.log(localStorage.getItem("refreshToken"));
-    dispatch(updateToken(localStorage.getItem("refreshToken")));
-  }, []);
+  // useEffect(() => {
+  //   console.log(getCookie("token"));
+  //   console.log(user);
+  //   console.log(localStorage.getItem("refreshToken"));
+  //   dispatch(updateToken(localStorage.getItem("refreshToken")));
+  // }, []);
 
   useEffect(() => {
     const currentUserName = localStorage.getItem("userName");
     setUserName(currentUserName);
-    if (pathname === "/login") {
-      setUserName("Личный кабинет");
-    }
+    // if (pathname === "/login") {
+    //   setUserName("Личный кабинет");
+    // }
   }, [pathname]);
 
   const isToken = localStorage.getItem("refreshToken");
@@ -58,7 +58,7 @@ const AppHeader = () => {
             <BurgerIcon type={typeForConstructor} />
             <NavLink
               to={{ pathname: `/` }}
-              className={`${styles.navLink} ml-2 text_type_main-medium text_color_inactive`}
+              className={`${styles.navLink} ml-2 text text_type_main-defaul`}
               activeClassName={`${styles.activeNavLink}`}
               exact
             >
@@ -70,23 +70,24 @@ const AppHeader = () => {
             <NavLink
               to={{ pathname: `#` }}
               exact
-              className={`${styles.navLink} ml-2 text_type_main-medium text_color_inactive`}
-              activeClassName={`${styles.activeNavLink} text_type_main-medium`}
+              className={`${styles.navLink} ml-2 text text_type_main-default`}
+              activeClassName={`${styles.activeNavLink}`}
             >
               Лента заказов
             </NavLink>
           </div>
         </nav>
-        <Link to={{ pathname: `/` }} exact className={styles.logoContainer}>
+        <Link to={{ pathname: `/` }} className={styles.logoContainer}>
           <Logo />
         </Link>
         <Link
-          to={isToken ? { pathname: `/profile` } : { pathname: `/login` }}
+          to={{ pathname: `/profile` }}
+          // to={isToken ? { pathname: `/profile` } : { pathname: `/login` }}
           className={`${styles.navLink} pl-5 pr-5`}
         >
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">
-            {userName ? userName : "Личный кабинет"}
+            {isToken ? userName : "Личный кабинет"}
           </p>
         </Link>
       </div>

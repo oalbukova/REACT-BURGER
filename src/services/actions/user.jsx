@@ -90,8 +90,8 @@ export function updateToken() {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        token: `${localStorage.getItem('refreshToken')}`
-    }),
+        token: `${localStorage.getItem("refreshToken")}`,
+      }),
     })
       .then((res) => {
         if (res.ok) {
@@ -103,7 +103,6 @@ export function updateToken() {
         }
         return Promise.reject(res.status);
       })
-
       .then((data) => {
         if (data.success) {
           dispatch({
@@ -125,19 +124,14 @@ export function updateToken() {
           //     type: UPDATE_TOKEN_SUCCESS,
           //     token: data,
           //   });
+          // }
         }
       })
       .catch((err) => {
         dispatch({
           type: UPDATE_TOKEN_FAILED,
         });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
+        console.log(err);
       });
   };
 }
@@ -185,13 +179,7 @@ export function getUser() {
         dispatch({
           type: GET_USER_FAILED,
         });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
+        console.log(err);
       });
   };
 }
