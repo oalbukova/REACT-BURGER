@@ -43,7 +43,7 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const background = location.state && location.state.background;
+  const background = location?.state && location?.state?.background;
 
   const { isOrderModalVisible, isErrModalVisible } = useSelector(
     (state) => state.modalReducer

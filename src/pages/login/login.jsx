@@ -33,7 +33,7 @@ const LoginPage = () => {
 
   const isToken = localStorage.getItem("refreshToken");
   if (isToken && user?.user) {
-    return <Redirect to={location.state?.from || "/"} />;
+    return <Redirect to={location?.state?.from || "/"} />;
   }
 
   return (
