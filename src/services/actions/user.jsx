@@ -118,8 +118,10 @@ export function updateToken(email, password, name) {
           if (authToken) {
             localStorage.setItem("refreshToken", authToken);
           }
-          dispatch(getUser());
-          name && dispatch(updateUser(email, password, name));
+
+          name
+            ? dispatch(updateUser(email, password, name))
+            : dispatch(getUser());
         }
       })
       .catch((err) => {
@@ -293,8 +295,8 @@ export function updateUser(email, password, name) {
       .catch((err) => {
         if (err === 403) {
           dispatch(updateToken(email, password, name));
-          
-  //        return dispatch(updateUser(email, password, name));
+
+          //        return dispatch(updateUser(email, password, name));
         }
         dispatch({
           type: UPDATE_USER_FAILED,
