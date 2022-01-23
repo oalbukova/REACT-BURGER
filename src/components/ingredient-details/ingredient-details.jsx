@@ -9,7 +9,7 @@ import styles from "./ingredient-details.module.css";
 const IngredientDetails = () => {
   const { items } = useSelector((state) => state.ingredientsReducer);
 
-  let ID = useParams().id;
+  const ID = useParams().id;
 
   const currentIngredient = useMemo(
     () => items.filter((item) => item._id === ID)[0],

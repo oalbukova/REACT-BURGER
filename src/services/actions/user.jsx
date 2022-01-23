@@ -109,12 +109,12 @@ export function updateToken() {
             type: UPDATE_TOKEN_SUCCESS,
             token: data,
           });
-          let accessToken = data.accessToken.split("Bearer ")[1];
+          const accessToken = data.accessToken.split("Bearer ")[1];
           if (accessToken) {
             setCookie("token", accessToken);
           }
 
-          let authToken = data.refreshToken;
+          const authToken = data.refreshToken;
           if (authToken) {
             localStorage.setItem("refreshToken", authToken);
           }
@@ -210,12 +210,12 @@ export function authorize(email, password) {
             type: AUTHORIZE_SUCCESS,
             user: data,
           });
-          let accessToken = data.accessToken.split("Bearer ")[1];
+          const accessToken = data.accessToken.split("Bearer ")[1];
           if (accessToken) {
             setCookie("token", accessToken);
           }
 
-          let authToken = data.refreshToken;
+          const authToken = data.refreshToken;
           if (authToken) {
             localStorage.setItem("refreshToken", authToken);
           }

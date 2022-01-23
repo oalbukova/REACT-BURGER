@@ -19,7 +19,7 @@ import { typeOfIngredient } from "../../../utils/types";
 import styles from "./ingredient.module.css";
 
 const Ingredient = ({ ingredient }) => {
-  let location = useLocation();
+  const location = useLocation();
 
   const { selectedBun, selectedToppings } = useSelector(
     (state) => state.selectedItemsReducer

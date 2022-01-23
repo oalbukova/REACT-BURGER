@@ -40,10 +40,10 @@ import styles from "./app.module.css";
 
 const App = () => {
   const dispatch = useDispatch();
-  let location = useLocation();
-  let history = useHistory();
+  const location = useLocation();
+  const history = useHistory();
 
-  let background = location.state && location.state.background;
+  const background = location.state && location.state.background;
 
   const { isOrderModalVisible, isErrModalVisible } = useSelector(
     (state) => state.modalReducer
@@ -52,7 +52,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getItems());
     dispatch(getUser());
-    updateToken()
+    updateToken();
   }, [dispatch]);
 
   const handleCloseIngredientModal = () => {
