@@ -63,7 +63,7 @@ const Ingredient = ({ item, index, id, type, text }) => {
         return;
       }
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
 
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
@@ -96,7 +96,7 @@ const Ingredient = ({ item, index, id, type, text }) => {
 
   return (
     <>
-      {item.type === "bun" ? (
+      {item?.type === "bun" ? (
         <li className={`ml-8 mb-4`}>
           <ConstructorElement
             type={type}

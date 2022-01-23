@@ -53,7 +53,7 @@ const AppHeader = () => {
         <Link to={{ pathname: `/profile` }} className={`${styles.profile}`}>
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">
-            {user?.user && user?.user.name ? user?.user.name : "Личный кабинет"}
+            {user?.user?.name ? user.user.name : "Личный кабинет"}
           </p>
         </Link>
       </div>

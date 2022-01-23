@@ -40,7 +40,7 @@ const ResetPasswordPage = () => {
     [dispatch, form]
   );
 
-  if (reset_password && reset_password?.success) {
+  if (reset_password?.success) {
     return (
       <Redirect
         to={{

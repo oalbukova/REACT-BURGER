@@ -44,7 +44,7 @@ const BurgerConstructor = () => {
 
   const handleDrop = (item) => {
     item.uuid = uuidv4();
-    item.type === "bun"
+    item?.type === "bun"
       ? dispatch({
           type: ADD_SELECTED_BUN,
           item,
@@ -75,7 +75,7 @@ const BurgerConstructor = () => {
   }, [selectedToppings, selectedBun]);
 
   useEffect(() => {
-    totalPrice === 0 || selectedBun.length === 0
+    totalPrice === 0 || selectedBun?.length === 0
       ? dispatch({
           type: SET_BTN_DISABLED,
         })
@@ -89,7 +89,7 @@ const BurgerConstructor = () => {
   }, [selectedBun, selectedToppings]);
 
   const handleOpenOrderModal = () => {
-    if (user.user) {
+    if (user?.user) {
       dispatch(getOrder(selectedId));
     } else {
       history.replace({ pathname: "/login" });
@@ -144,7 +144,7 @@ const BurgerConstructor = () => {
             />
           ))}
       </ul>
-      {selectedBun.length !== 0 || selectedToppings.length !== 0 ? (
+      {selectedBun?.length !== 0 || selectedToppings?.length !== 0 ? (
         <div className={`${styles.summary} mt-10 pr-4`}>
           <div className={`${styles.price} mr-10`}>
             <p className="text text_type_digits-medium pr-2">{totalPrice}</p>

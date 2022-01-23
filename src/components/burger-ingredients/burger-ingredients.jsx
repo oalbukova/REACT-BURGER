@@ -108,7 +108,7 @@ const BurgerIngredients = () => {
         </Tab>
       </div>
       <div className={`${styles.container} mt-10`}>
-        {typeBun.length !== 0 ? (
+        {typeBun?.length !== 0 ? (
           <>
             <h2 className={`text text_type_main-medium`} id="bun" ref={bunRef}>
               Булки
@@ -120,7 +120,7 @@ const BurgerIngredients = () => {
             </ul>
           </>
         ) : null}
-        {typeSauce.length !== 0 ? (
+        {typeSauce?.length !== 0 ? (
           <>
             <h2
               className={`text text_type_main-medium`}
@@ -136,7 +136,7 @@ const BurgerIngredients = () => {
             </ul>
           </>
         ) : null}
-        {typeTopping.length !== 0 ? (
+        {typeTopping?.length !== 0 ? (
           <>
             <h2
               className={`text text_type_main-medium mb-3`}

@@ -74,7 +74,7 @@ export function register(email, password, name) {
   };
 }
 
-export function updateToken() {
+export function updateToken(email, password, name) {
   return function (dispatch) {
     dispatch({
       type: UPDATE_TOKEN_REQUEST,
@@ -119,6 +119,7 @@ export function updateToken() {
             localStorage.setItem("refreshToken", authToken);
           }
           dispatch(getUser());
+          name && dispatch(updateUser(email, password, name));
         }
       })
       .catch((err) => {
@@ -167,7 +168,9 @@ export function getUser() {
         }
       })
       .catch((err) => {
-        dispatch(updateToken());
+        if (err === 403) {
+          dispatch(updateToken());
+        }
         dispatch({
           type: GET_USER_FAILED,
         });
@@ -288,15 +291,13 @@ export function updateUser(email, password, name) {
         }
       })
       .catch((err) => {
+        if (err === 403) {
+          dispatch(updateToken(email, password, name));
+          
+  //        return dispatch(updateUser(email, password, name));
+        }
         dispatch({
           type: UPDATE_USER_FAILED,
-        });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
-        dispatch({
-          type: SET_ERR,
-          text: err,
         });
       });
   };

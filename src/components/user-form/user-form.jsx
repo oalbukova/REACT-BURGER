@@ -18,6 +18,7 @@ const UserForm = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.userReducer);
+
   const [showButton, setShowButton] = useState(false);
 
   const [form, setValue] = useState({
@@ -27,17 +28,16 @@ const UserForm = () => {
   });
 
   useEffect(() => {
-    user.user &&
+    user?.user &&
       setValue({
         name: user.user.name,
         email: user.user.email,
         password: "",
       });
-  }, [user.user]);
+  }, [user?.user]);
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
-
     setShowButton(true);
   };
 

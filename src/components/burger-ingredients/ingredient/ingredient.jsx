@@ -27,7 +27,7 @@ const Ingredient = ({ ingredient }) => {
 
   const count = useMemo(
     () =>
-      ingredient.type === "bun"
+      ingredient?.type === "bun"
         ? selectedBun.filter((item) => item._id === ingredient._id).length * 2
         : selectedToppings.filter((item) => item._id === ingredient._id).length,
     [ingredient.type, selectedBun, selectedToppings, ingredient._id]
