@@ -165,9 +165,7 @@ export function getUser() {
         return Promise.reject(res.status);
       })
       .then((data) => {
-        if (!data.success) {
-          dispatch(updateToken());
-        }
+
         if (data.success) {
           dispatch({
             type: GET_USER_SUCCESS,
@@ -176,6 +174,7 @@ export function getUser() {
         }
       })
       .catch((err) => {
+        dispatch(updateToken());
         dispatch({
           type: GET_USER_FAILED,
         });

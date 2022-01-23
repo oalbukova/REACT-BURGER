@@ -28,8 +28,17 @@
   display: flex;
   text-decoration: none;
   color: #8585AD;
+
 }
 
 .activeNavLink {
   color: #f2f2f3;
+}
+
+.profile {
+  display: flex;
+  text-decoration: none;
+  color: #8585AD;
+  width: 207px;
+  justify-content: end;
 }

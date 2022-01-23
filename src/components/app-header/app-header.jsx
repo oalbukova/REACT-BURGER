@@ -38,13 +38,13 @@ const AppHeader = () => {
   //   dispatch(updateToken(localStorage.getItem("refreshToken")));
   // }, []);
 
-  useEffect(() => {
-    const currentUserName = localStorage.getItem("userName");
-    setUserName(currentUserName);
+ useEffect(() => {
+   const currentUserName = localStorage.getItem("userName");
+   setUserName(currentUserName);
     // if (pathname === "/login") {
     //   setUserName("Личный кабинет");
     // }
-  }, [pathname]);
+  }, []);
 
   const isToken = localStorage.getItem("refreshToken");
 
@@ -54,7 +54,7 @@ const AppHeader = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <nav className={styles.nav}>
-          <div className={`${styles.navLink} pl-5 pr-5`}>
+          <div className={`${styles.navLink} pl-5 pr-6`}>
             <BurgerIcon type={typeForConstructor} />
             <NavLink
               to={{ pathname: `/` }}
@@ -65,7 +65,7 @@ const AppHeader = () => {
               Конструктор
             </NavLink>
           </div>
-          <div className={`${styles.navLink} pl-5 pr-5`}>
+          <div className={`${styles.navLink} pl-6 pr-5`}>
             <ListIcon type="secondary" />
             <NavLink
               to={{ pathname: `#` }}
@@ -82,8 +82,7 @@ const AppHeader = () => {
         </Link>
         <Link
           to={{ pathname: `/profile` }}
-          // to={isToken ? { pathname: `/profile` } : { pathname: `/login` }}
-          className={`${styles.navLink} pl-5 pr-5`}
+          className={`${styles.profile}`}
         >
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">

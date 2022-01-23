@@ -7,20 +7,20 @@ import { getUser } from "../../services/actions/user";
 const ProtectedRoute = ({ children, ...rest }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userReducer);
-  // const [isUserLoaded, setUserLoaded] = useState(false);
+  const [isUserLoaded, setUserLoaded] = useState(false);
 
-  // const init = () => {
-  // //  dispatch(getUser());
-  //   setUserLoaded(true);
-  // };
+  const init = () => {
+  //  dispatch(getUser());
+    setUserLoaded(true);
+  };
 
-  // useEffect(() => {
-  //   init();
-  // }, []);
+  useEffect(() => {
+    init();
+  }, []);
 
-  // if (!isUserLoaded) {
-  //   return null;
-  // }
+  if (!isUserLoaded) {
+    return null;
+  }
   console.log(user);
   //console.log(isUserLoaded)
 

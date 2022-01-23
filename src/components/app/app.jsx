@@ -1,7 +1,7 @@
 // react redux types
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
@@ -47,6 +47,7 @@ const App = () => {
 
   const dispatch = useDispatch();
   let location = useLocation();
+  let history = useHistory();
 
   let background = location.state && location.state.background;
 
@@ -56,12 +57,13 @@ const App = () => {
   }, [dispatch]);
 
   const handleCloseIngredientModal = () => {
-    dispatch({
-      type: CLOSE_INGREDIENT_MODAL,
-    });
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT,
-    });
+    history.goBack();
+    // dispatch({
+    //   type: CLOSE_INGREDIENT_MODAL,
+    // });
+    // dispatch({
+    //   type: DELETE_CURRENT_INGREDIENT,
+    // });
   };
 
   const handleCloseOrderModal = () => {
@@ -85,28 +87,43 @@ const App = () => {
     });
   };
 
+  // const ModalIngredient = useMemo(
+  //   () => (
+  //     <Modal handleClose={handleCloseIngredientModal}>
+  //     <IngredientDetails />
+  //   </Modal>
+  //   ),
+  //   [IngredientDetails]
+  // );
+
   return (
     <div className={styles.app}>
       <AppHeader />
       <Switch location={background || location}>
-        <Route exact path="/" children={<Main />} />
-        <Route path="/login" children={<LoginPage />} />
-        <Route path="/register" children={<RegisterPage />} />
-        <Route path="/forgot-password" children={<ForgotPasswordPage />} />
-        <Route path="/reset-password" children={<ResetPasswordPage />} />
-        <ProtectedRoute path="/">
-          <Route path="/profile" children={<ProfilePage />} />
-        </ProtectedRoute>
+        <Route path="/" exact>
+          <Main />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/register">
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password">
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password">
+          <ResetPasswordPage />
+        </Route>
         <Route path="/ingredients/:id" children={<IngredientPage />} />
+        <ProtectedRoute path="/profile">
+          <ProfilePage />
+        </ProtectedRoute>
+        {/* <Route children={<NotFound404 />} /> */}
         <Route>
           <NotFound404 />
         </Route>
       </Switch>
-      {/* {isIngredientModalVisible && (
-        <Modal handleClose={handleCloseIngredientModal}>
-          <IngredientDetails />
-        </Modal>
-      )} */}
       {background && (
         <Route
           path="/ingredients/:id"

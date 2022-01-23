@@ -23,7 +23,7 @@ const LoginPage = () => {
   const [form, setValue] = useState({ email: "", password: "" });
 
   useEffect(() => {
-  //  dispatch(getUser());
+    dispatch(getUser());
     localStorage.removeItem('userName');
   }, [dispatch]);
 
