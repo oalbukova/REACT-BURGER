@@ -29,7 +29,7 @@ export function setCookie(name, value, props) {
       updatedCookie += "=" + propValue;
     }
   }
-  document.cookie = `${updatedCookie}; max-age=30`;
+  document.cookie = `${updatedCookie}; max-age=1200`;
 }
 
 export function deleteCookie(name) {

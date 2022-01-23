@@ -19,6 +19,7 @@ const AppHeader = () => {
   const { user } = useSelector((state) => state.userReducer);
 
   const typeForConstructor = pathname === "/" ? "primary" : "secondary";
+  const typeForUser = pathname === "/profile" ? "primary" : "secondary";
 
   return (
     <header className={styles.header}>
@@ -50,12 +51,16 @@ const AppHeader = () => {
         <Link to={{ pathname: `/` }} className={styles.logoContainer}>
           <Logo />
         </Link>
-        <Link to={{ pathname: `/profile` }} className={`${styles.profile}`}>
-          <ProfileIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">
+        <div className={`${styles.profile}`}>
+          <ProfileIcon type={typeForUser} />
+          <NavLink
+            to={{ pathname: `/profile` }}
+            className={`${styles.navLink} text text_type_main-default ml-2`}
+            activeClassName={`${styles.activeNavLink}`}
+          >
             {user?.user?.name ? user.user.name : "Личный кабинет"}
-          </p>
-        </Link>
+          </NavLink>
+        </div>
       </div>
     </header>
   );

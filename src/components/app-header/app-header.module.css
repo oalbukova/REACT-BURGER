@@ -36,8 +36,6 @@
 
 .profile {
   display: flex;
-  text-decoration: none;
-  color: #8585ad;
   width: 207px;
   justify-content: flex-end;
 }
