@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { forgotPassword } from "../../services/actions/password";
 
-// styles
-import styles from "./forgot-password.module.css";
-
 // ui-components
 import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+// styles
+import styles from "./forgot-password.module.css";
 
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
@@ -21,18 +21,18 @@ const ForgotPasswordPage = () => {
   );
   const { user } = useSelector((state) => state.userReducer);
 
-  const [form, setValue] = useState("");
+  const [email, setEmailValue] = useState("");
 
   const onChangeEmail = (e) => {
-    setValue(e.target.value);
+    setEmailValue(e.target.value);
   };
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(forgotPassword(form));
+      dispatch(forgotPassword(email));
     },
-    [dispatch, form]
+    [dispatch, email]
   );
 
   if (user?.user) {
@@ -45,7 +45,7 @@ const ForgotPasswordPage = () => {
     );
   }
 
-  if (forgot_password.success) {
+  if (forgot_password?.success) {
     return (
       <Redirect
         to={{
@@ -61,7 +61,7 @@ const ForgotPasswordPage = () => {
         <h1 className={`text text_type_main-medium mb-6`}>
           Восстановление пароля
         </h1>
-        <EmailInput onChange={onChangeEmail} value={form.email} name="email" />
+        <EmailInput onChange={onChangeEmail} value={email} name="email" />
 
         <div className={`${styles.container}`}>
           <Button type="primary" size="medium">

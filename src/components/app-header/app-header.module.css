@@ -27,8 +27,7 @@
 .navLink {
   display: flex;
   text-decoration: none;
-  color: #8585AD;
-
+  color: #8585ad;
 }
 
 .activeNavLink {
@@ -38,7 +37,7 @@
 .profile {
   display: flex;
   text-decoration: none;
-  color: #8585AD;
+  color: #8585ad;
   width: 207px;
-  justify-content: end;
+  justify-content: flex-end;
 }

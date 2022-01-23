@@ -1,31 +1,20 @@
 // react redux types
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
-import { getItems } from "../../services/actions/ingredients";
 
 //styles
 import styles from "./ingredient-details.module.css";
 
 const IngredientDetails = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getItems());
-  }, [dispatch]);
-
   const { items } = useSelector((state) => state.ingredientsReducer);
-  // @ts-ignore
+
   let ID = useParams().id;
-  const currentIngredient = items.filter((item) => item._id === ID)[0];
-  // const { id } = useParams();
-  // console.log(id)
 
-  // const { currentIngredient } = useSelector(
-  //   (state) => state.currentItemReducer
-  // );
-
-  // console.log(currentIngredient._id)
+  const currentIngredient = useMemo(
+    () => items.filter((item) => item._id === ID)[0],
+    [items, ID]
+  );
 
   return (
     <>

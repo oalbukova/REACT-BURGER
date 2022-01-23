@@ -106,8 +106,8 @@ export function updateToken() {
       .then((data) => {
         if (data.success) {
           dispatch({
-            type: AUTHORIZE_SUCCESS,
-            user: data,
+            type: UPDATE_TOKEN_SUCCESS,
+            token: data,
           });
           let accessToken = data.accessToken.split("Bearer ")[1];
           if (accessToken) {
@@ -119,12 +119,6 @@ export function updateToken() {
             localStorage.setItem("refreshToken", authToken);
           }
           dispatch(getUser());
-          // if (data.success) {
-          //   dispatch({
-          //     type: UPDATE_TOKEN_SUCCESS,
-          //     token: data,
-          //   });
-          // }
         }
       })
       .catch((err) => {
@@ -165,7 +159,6 @@ export function getUser() {
         return Promise.reject(res.status);
       })
       .then((data) => {
-
         if (data.success) {
           dispatch({
             type: GET_USER_SUCCESS,

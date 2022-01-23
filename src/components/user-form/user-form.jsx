@@ -2,7 +2,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../services/actions/user";
-//import { getUser } from "../../services/actions/user";
 
 // styles
 import styles from "./user-form.module.css";
@@ -17,23 +16,24 @@ import {
 
 const UserForm = () => {
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.userReducer);
   const [showButton, setShowButton] = useState(false);
 
-    const [form, setValue] = useState({
-      name: '',
-      email: '',
-      password: "",
-    });
+  const [form, setValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-    useEffect(() => {
-      user.user &&
-        setValue({
-          name: user.user.name,
-          email: user.user.email,
-          password: "",
-        });
-    }, [user.user]);
+  useEffect(() => {
+    user.user &&
+      setValue({
+        name: user.user.name,
+        email: user.user.email,
+        password: "",
+      });
+  }, [user.user]);
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });

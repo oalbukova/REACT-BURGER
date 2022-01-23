@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
-import { getUser } from "../../services/actions/user";
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userReducer);
   const [isUserLoaded, setUserLoaded] = useState(false);
 
-  const init = () => {
-  //  dispatch(getUser());
-    setUserLoaded(true);
-  };
-
   useEffect(() => {
-    init();
+    setUserLoaded(true);
   }, []);
 
   if (!isUserLoaded) {
     return null;
   }
-  console.log(user);
-  //console.log(isUserLoaded)
+
 
   return (
     <Route

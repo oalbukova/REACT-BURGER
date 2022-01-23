@@ -1,6 +1,4 @@
 import {
-  OPEN_INGREDIENT_MODAL,
-  CLOSE_INGREDIENT_MODAL,
   OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
   OPEN_ERR_MODAL,
@@ -9,7 +7,6 @@ import {
 } from "../actions/modal";
 
 const initialModalState = {
-  isIngredientModalVisible: false,
   isOrderModalVisible: false,
   isErrModalVisible: false,
   error: "",
@@ -17,19 +14,6 @@ const initialModalState = {
 
 export const modalReducer = (state = initialModalState, action) => {
   switch (action.type) {
-    case OPEN_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        isIngredientModalVisible: true,
-      };
-    }
-    case CLOSE_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        isIngredientModalVisible: false,
-      };
-    }
-
     case OPEN_ORDER_MODAL: {
       return {
         ...state,

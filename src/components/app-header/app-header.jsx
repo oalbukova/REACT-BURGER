@@ -1,15 +1,10 @@
 // react redux types
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { NavLink, Link, useLocation } from "react-router-dom";
 
 // styles
 import styles from "./app-header.module.css";
-
-//utils
-// import { getCookie } from "../../utils/utils";
-
-// import { updateToken } from "../../services/actions/user";
 
 // ui-components
 import {
@@ -22,31 +17,6 @@ import {
 const AppHeader = () => {
   const { pathname } = useLocation();
   const { user } = useSelector((state) => state.userReducer);
-  const [userName, setUserName] = useState("");
-
-  //const dispatch = useDispatch();
-
-  useEffect(() => {
-    user?.user && setUserName(user?.user?.name);
-    user?.user && localStorage.setItem("userName", user?.user?.name);
-  }, [user?.user]);
-
-  // useEffect(() => {
-  //   console.log(getCookie("token"));
-  //   console.log(user);
-  //   console.log(localStorage.getItem("refreshToken"));
-  //   dispatch(updateToken(localStorage.getItem("refreshToken")));
-  // }, []);
-
- useEffect(() => {
-   const currentUserName = localStorage.getItem("userName");
-   setUserName(currentUserName);
-    // if (pathname === "/login") {
-    //   setUserName("Личный кабинет");
-    // }
-  }, []);
-
-  const isToken = localStorage.getItem("refreshToken");
 
   const typeForConstructor = pathname === "/" ? "primary" : "secondary";
 
@@ -80,13 +50,10 @@ const AppHeader = () => {
         <Link to={{ pathname: `/` }} className={styles.logoContainer}>
           <Logo />
         </Link>
-        <Link
-          to={{ pathname: `/profile` }}
-          className={`${styles.profile}`}
-        >
+        <Link to={{ pathname: `/profile` }} className={`${styles.profile}`}>
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">
-            {isToken ? userName : "Личный кабинет"}
+            {user?.user && user?.user.name ? user?.user.name : "Личный кабинет"}
           </p>
         </Link>
       </div>

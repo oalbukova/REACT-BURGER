@@ -1,18 +1,16 @@
 // react redux types
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
-import { getUser } from "../../services/actions/user";
+import { getUser, updateToken } from "../../services/actions/user";
 
 import {
-  CLOSE_INGREDIENT_MODAL,
   CLOSE_ORDER_MODAL,
   CLOSE_ERR_MODAL,
 } from "../../services/actions/modal";
-import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/current-item";
 import { DELETE_CURRENT_ORDER } from "../../services/actions/order";
 import {
   DELETE_SELECTED_BUNS,
@@ -41,29 +39,24 @@ import NotFound404 from "../../pages/err404/err404";
 import styles from "./app.module.css";
 
 const App = () => {
-  const { isIngredientModalVisible, isOrderModalVisible, isErrModalVisible } =
-    useSelector((state) => state.modalReducer);
-  //  const { user } = useSelector((state) => state.userReducer);
-
   const dispatch = useDispatch();
   let location = useLocation();
   let history = useHistory();
 
   let background = location.state && location.state.background;
 
+  const { isOrderModalVisible, isErrModalVisible } = useSelector(
+    (state) => state.modalReducer
+  );
+
   useEffect(() => {
     dispatch(getItems());
     dispatch(getUser());
+    updateToken()
   }, [dispatch]);
 
   const handleCloseIngredientModal = () => {
     history.goBack();
-    // dispatch({
-    //   type: CLOSE_INGREDIENT_MODAL,
-    // });
-    // dispatch({
-    //   type: DELETE_CURRENT_INGREDIENT,
-    // });
   };
 
   const handleCloseOrderModal = () => {
@@ -86,15 +79,6 @@ const App = () => {
       type: CLOSE_ERR_MODAL,
     });
   };
-
-  // const ModalIngredient = useMemo(
-  //   () => (
-  //     <Modal handleClose={handleCloseIngredientModal}>
-  //     <IngredientDetails />
-  //   </Modal>
-  //   ),
-  //   [IngredientDetails]
-  // );
 
   return (
     <div className={styles.app}>
@@ -119,7 +103,6 @@ const App = () => {
         <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>
-        {/* <Route children={<NotFound404 />} /> */}
         <Route>
           <NotFound404 />
         </Route>

@@ -1,36 +1,29 @@
 // react redux types
-import React, { useEffect } from "react";
+import React from "react";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 
-import { getUser, deleteUser } from "../../services/actions/user";
-
-// styles
-import styles from "./profile.module.css";
+import {  deleteUser } from "../../services/actions/user";
 
 // components
 import UserForm from "../../components/user-form/user-form";
 import OrderHistory from "../../components/order-history/order-history";
+
+// styles
+import styles from "./profile.module.css";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { pathname } = useLocation();
 
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, [dispatch]);
-
   const token = localStorage.getItem("refreshToken");
 
   const logout = () => {
     dispatch(deleteUser(token));
     localStorage.removeItem("refreshToken");
-    localStorage.removeItem('userName');
     history.push("/login");
   };
- 
 
   return (
     <div className={styles.wrapper}>
@@ -49,7 +42,6 @@ const ProfilePage = () => {
           <li className={`mb-9`}>
             <NavLink
               to={{ pathname: "/profile/orders" }}
-              
               className={`${styles.item} text_type_main-medium text_color_inactive`}
               activeClassName={`${styles.activeItem}`}
             >

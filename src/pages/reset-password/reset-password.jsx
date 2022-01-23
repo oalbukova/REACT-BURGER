@@ -16,11 +16,11 @@ import {
 
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  
+
+  const { reset_password } = useSelector((state) => state.resetPasswordReducer);
   const { forgot_password } = useSelector(
     (state) => state.forgotPasswordReducer
   );
-  const { reset_password } = useSelector((state) => state.resetPasswordReducer);
   const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState({
@@ -40,7 +40,17 @@ const ResetPasswordPage = () => {
     [dispatch, form]
   );
 
-  if (user?.user || (!user?.user && !forgot_password.success)) {
+  if (reset_password && reset_password?.success) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+        }}
+      />
+    );
+  }
+
+  if (user?.user || forgot_password?.success === undefined) {
     return (
       <Redirect
         to={{
@@ -50,15 +60,7 @@ const ResetPasswordPage = () => {
     );
   }
 
-  if (reset_password && reset_password.success) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/login",
-        }}
-      />
-    );
-  }
+
 
   return (
     <div className={styles.wrapper}>

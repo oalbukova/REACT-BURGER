@@ -29,10 +29,7 @@ export function setCookie(name, value, props) {
       updatedCookie += "=" + propValue;
     }
   }
-
-  value === 'accessToken' ? document.cookie = `${updatedCookie}; max-age=1200` : document.cookie = updatedCookie;
-  // document.cookie = `${updatedCookie}; max-age=1200`;
- // document.cookie = updatedCookie;
+  document.cookie = `${updatedCookie}; max-age=1200`;
 }
 
 export function deleteCookie(name) {

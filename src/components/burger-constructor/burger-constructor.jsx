@@ -2,11 +2,12 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
+import { getOrder } from "../../services/actions/order";
 import {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
 } from "../../services/actions/selected-items";
-import { getOrder } from "../../services/actions/order";
 import {
   SET_BTN_ACTIVE,
   SET_BTN_DISABLED,
@@ -14,9 +15,6 @@ import {
 
 // dnd
 import { useDrop } from "react-dnd";
-
-// styles
-import styles from "./burger-constructor.module.css";
 
 // children component
 import Ingredient from "./ingredient/ingredient";
@@ -31,14 +29,18 @@ import {
 // utils
 import { v4 as uuidv4 } from "uuid";
 
+// styles
+import styles from "./burger-constructor.module.css";
+
 const BurgerConstructor = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+
   const { selectedBun, selectedToppings } = useSelector(
     (state) => state.selectedItemsReducer
   );
   const { user } = useSelector((state) => state.userReducer);
   const { isBtnDisabled } = useSelector((state) => state.buttonReducer);
-  const dispatch = useDispatch();
 
   const handleDrop = (item) => {
     item.uuid = uuidv4();
@@ -90,8 +92,8 @@ const BurgerConstructor = () => {
     if (user.user) {
       dispatch(getOrder(selectedId));
     } else {
-      history.replace({ pathname: '/login' });
-      return
+      history.replace({ pathname: "/login" });
+      return;
     }
   };
 
