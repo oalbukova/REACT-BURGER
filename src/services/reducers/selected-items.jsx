@@ -5,7 +5,7 @@ import {
   DELETE_SELECTED_TOPPINGS,
   DELETE_SELECTED_TOPPING,
   SORT_TOPPING,
-} from "../actions/selected-items";
+} from "../actions/actionTypes";
 
 const initialSelectedItemsState = {
   selectedBun: [],

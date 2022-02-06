@@ -14,9 +14,9 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const AppHeader = () => {
+const AppHeader = (): JSX.Element => {
   const { pathname } = useLocation();
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
 
   const typeForConstructor = pathname === "/" ? "primary" : "secondary";
   const typeForUser = pathname === "/profile" ? "primary" : "secondary";

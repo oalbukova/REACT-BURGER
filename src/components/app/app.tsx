@@ -1,21 +1,15 @@
 // react redux types
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Route, Switch, useLocation, useHistory } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {Route, Switch, useHistory, useLocation} from "react-router-dom";
 
 // services
-import { getItems } from "../../services/actions/ingredients";
-import { getUser, updateToken } from "../../services/actions/user";
+import {getItems} from "../../services/actions/ingredients";
+import {getUser, updateToken} from "../../services/actions/user";
 
-import {
-  CLOSE_ORDER_MODAL,
-  CLOSE_ERR_MODAL,
-} from "../../services/actions/modal";
-import { DELETE_CURRENT_ORDER } from "../../services/actions/order";
-import {
-  DELETE_SELECTED_BUNS,
-  DELETE_SELECTED_TOPPINGS,
-} from "../../services/actions/selected-items";
+import {closeErrModal, closeOrderModal} from "../../services/actions/modal";
+import {deleteCurrentOrder} from "../../services/actions/order";
+import {deleteSelectedBuns, deleteSelectedToppings,} from "../../services/actions/selected-items";
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -35,18 +29,23 @@ import ProfilePage from "../../pages/profile/profile";
 import IngredientPage from "../../pages/ingredient/ingredient";
 import NotFound404 from "../../pages/err404/err404";
 
+// utils
+import { TLocationState } from '../../utils/type';
+
 // styles
 import styles from "./app.module.css";
 
-const App = () => {
+const App = (): JSX.Element => {
   const dispatch = useDispatch();
-  const location = useLocation();
+
+  const location = useLocation<TLocationState>();
   const history = useHistory();
+
 
   const background = location?.state && location.state.background;
 
-  const { isOrderModalVisible, isErrModalVisible } = useSelector(
-    (state) => state.modalReducer
+  const {isOrderModalVisible, isErrModalVisible} = useSelector(
+    (state: any) => state.modalReducer
   );
 
   useEffect(() => {
@@ -60,51 +59,41 @@ const App = () => {
   };
 
   const handleCloseOrderModal = () => {
-    dispatch({
-      type: CLOSE_ORDER_MODAL,
-    });
-    dispatch({
-      type: DELETE_CURRENT_ORDER,
-    });
-    dispatch({
-      type: DELETE_SELECTED_BUNS,
-    });
-    dispatch({
-      type: DELETE_SELECTED_TOPPINGS,
-    });
+    dispatch(closeOrderModal());
+    dispatch(deleteCurrentOrder());
+    dispatch(deleteSelectedBuns());
+    dispatch(deleteSelectedToppings());
   };
 
   const handleCloseErrModal = () => {
-    dispatch({
-      type: CLOSE_ERR_MODAL,
-    });
+    dispatch(closeErrModal());
   };
 
   return (
     <div className={styles.app}>
-      <AppHeader />
+      <AppHeader/>
       <Switch location={background || location}>
         <Route path="/" exact>
-          <Main />
+          <Main/>
         </Route>
         <Route path="/login">
-          <LoginPage />
+          <LoginPage/>
         </Route>
         <Route path="/register">
-          <RegisterPage />
+          <RegisterPage/>
         </Route>
         <Route path="/forgot-password">
-          <ForgotPasswordPage />
+          <ForgotPasswordPage/>
         </Route>
         <Route path="/reset-password">
-          <ResetPasswordPage />
+          <ResetPasswordPage/>
         </Route>
-        <Route path="/ingredients/:id" children={<IngredientPage />} />
+        <Route path="/ingredients/:id" children={<IngredientPage/>}/>
         <ProtectedRoute path="/profile">
-          <ProfilePage />
+          <ProfilePage/>
         </ProtectedRoute>
         <Route>
-          <NotFound404 />
+          <NotFound404/>
         </Route>
       </Switch>
       {background && (
@@ -112,19 +101,19 @@ const App = () => {
           path="/ingredients/:id"
           children={
             <Modal handleClose={handleCloseIngredientModal}>
-              <IngredientDetails />
+              <IngredientDetails/>
             </Modal>
           }
         />
       )}
       {isOrderModalVisible && (
         <Modal handleClose={handleCloseOrderModal}>
-          <OrderDetails />
+          <OrderDetails/>
         </Modal>
       )}
       {isErrModalVisible && (
         <Modal handleClose={handleCloseErrModal}>
-          <Err />
+          <Err/>
         </Modal>
       )}
     </div>

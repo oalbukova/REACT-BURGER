@@ -1,4 +1,4 @@
-import { SET_BTN_DISABLED, SET_BTN_ACTIVE } from "../actions/button";
+import { SET_BTN_DISABLED, SET_BTN_ACTIVE } from "../actions/actionTypes";
 
 const initialButtonState = {
   isBtnDisabled: false,

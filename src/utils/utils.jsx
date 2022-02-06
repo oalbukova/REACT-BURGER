@@ -1,24 +1,22 @@
+import { MILLISECONDS } from "./constants";
+
 export function getCookie(name) {
   const matches = document.cookie.match(
-    new RegExp(
-      "(?:^|; )" +
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-        "=([^;]*)"
-    )
+    new RegExp('(?:^|; )' + name.replace(/([$?*|{}\]\\^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name, value, props) {
-  props = props || {};
+export function setCookie(name, value, cookieProps) {
+  const props = { ...cookieProps };
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
-    const d = new Date();
-    d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
+    const date = new Date();
+    date.setTime(date.getTime() + exp * MILLISECONDS);
+    exp = date;
   }
   if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
+    exp = exp.toUTCString();
   }
   value = encodeURIComponent(value);
   let updatedCookie = name + "=" + value;
@@ -29,7 +27,7 @@ export function setCookie(name, value, props) {
       updatedCookie += "=" + propValue;
     }
   }
-  document.cookie = `${updatedCookie}; max-age=1200`;
+  document.cookie = `${updatedCookie}; max-age=30`;
 }
 
 export function deleteCookie(name) {

@@ -1,13 +1,13 @@
-import { OPEN_ORDER_MODAL, OPEN_ERR_MODAL, SET_ERR } from "./modal";
+import {
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED,
+  DELETE_CURRENT_ORDER,
+} from "./actionTypes";
+import { openOrderModal, openErrModal, setError } from "./modal";
 
 // utils
 import { API_URL } from "../../utils/constants";
-
-export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
-export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
-export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
-
-export const DELETE_CURRENT_ORDER = "DELETE_CURRENT_ORDER";
 
 export function getOrder(selectedId) {
   return function (dispatch) {
@@ -38,21 +38,18 @@ export function getOrder(selectedId) {
           type: GET_ORDER_SUCCESS,
           order: data.order,
         });
-        dispatch({
-          type: OPEN_ORDER_MODAL,
-        });
+        dispatch(openOrderModal());
       })
       .catch((err) => {
         dispatch({
           type: GET_ORDER_FAILED,
         });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
+        dispatch(setError(`getOrder ${err}`));
+        dispatch(openErrModal());
       });
   };
 }
+
+export const deleteCurrentOrder = () => ({
+  type: DELETE_CURRENT_ORDER,
+});

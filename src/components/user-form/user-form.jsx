@@ -19,8 +19,14 @@ const UserForm = () => {
 
   const { user } = useSelector((state) => state.userReducer);
 
-  const [showButton, setShowButton] = useState(false);
+  const nameRef = React.useRef(null);
+  const emailRef = React.useRef(null);
 
+  const [showButton, setShowButton] = useState(false);
+  const [icon, setIcon] = useState("EditIcon");
+  const [focus, setFocus] = useState(false);
+  const [nameErr, setNameErr] = useState(false);
+  const [emailErr, setEmailErr] = useState(false);
   const [form, setValue] = useState({
     name: "",
     email: "",
@@ -37,6 +43,12 @@ const UserForm = () => {
   }, [user?.user]);
 
   const onChange = (e) => {
+    e.target.name === "name" && e.target.value.length < 1
+      ? setNameErr(true)
+      : setNameErr(false);
+    e.target.name === "email" && e.target.value.length < 1
+      ? setEmailErr(true)
+      : setEmailErr(false);
     setValue({ ...form, [e.target.name]: e.target.value });
     setShowButton(true);
   };
@@ -44,13 +56,19 @@ const UserForm = () => {
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(updateUser(form.email, form.password, form.name));
+      const reg = /^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$)$/;
+      if (form.name.length < 1) {
+        setNameErr(true);
+      } else if (form.email.length < 1 || reg.test(form.email) === false) {
+        setEmailErr(true);
+      } else dispatch(updateUser(form.email, form.password, form.name));
       setShowButton(false);
     },
     [dispatch, form]
   );
 
   const handleCancel = () => {
+    setNameErr(false);
     setValue({
       name: user.user.name,
       email: user.user.email,
@@ -58,6 +76,28 @@ const UserForm = () => {
     });
 
     setShowButton(false);
+  };
+
+  const changeIconOnFocus = () => {
+    setFocus(true);
+    setIcon("CloseIcon");
+  };
+
+  const changeIconOnBlur = () => {
+    setFocus(false);
+    setIcon("EditIcon");
+  };
+
+  const handleNameIconClick = (e) => {
+    setFocus(true);
+    setNameErr(false);
+    setTimeout(() => {nameRef.current.focus()}, 0);
+  };
+
+  const handleEmailIconClick = (e) => {
+    setFocus(true);
+    setEmailErr(false);
+    setTimeout(() => {emailRef.current.focus()}, 0);
   };
 
   return (
@@ -68,11 +108,31 @@ const UserForm = () => {
         value={form.name}
         name="name"
         onChange={onChange}
-        icon={"EditIcon"}
-        error={false}
-        errorText={"Ошибка"}
+        icon={icon}
+        error={nameErr}
+        errorText={`Ошибка. Поле "Имя" не может быть пустым.`}
+        onFocus={changeIconOnFocus}
+        onBlur={changeIconOnBlur}
+        ref={nameRef}
+        onIconClick={handleNameIconClick}
+        disabled={!focus}
       />
-      <EmailInput value={form.email} name="email" onChange={onChange} />
+      <Input
+        type={"email"}
+        placeholder={"Email"}
+        value={form.email}
+        name="email"
+        onChange={onChange}
+        icon={icon}
+        error={emailErr}
+        errorText={`Ошибка. Введите корректный адрес Email.`}
+        onFocus={changeIconOnFocus}
+        onBlur={changeIconOnBlur}
+        ref={emailRef}
+        onIconClick={handleEmailIconClick}
+        disabled={!focus}
+      />
+      {/* <EmailInput value={form.email} name="email" onChange={onChange} /> */}
       <PasswordInput
         value={form.password}
         name="password"

@@ -3,16 +3,19 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+// utils
+import {TIngredient} from "../../utils/type";
+
 //styles
 import styles from "./ingredient-details.module.css";
 
-const IngredientDetails = () => {
-  const { items } = useSelector((state) => state.ingredientsReducer);
+const IngredientDetails = (): JSX.Element => {
+  const { items } = useSelector((state: any) => state.ingredientsReducer);
 
-  const ID = useParams().id;
+  const ID: string = useParams<{id: string}>().id;
 
-  const currentIngredient = useMemo(
-    () => items.filter((item) => item._id === ID)[0],
+  const currentIngredient = useMemo<TIngredient>(
+    () => items.filter((item: TIngredient) => item._id === ID)[0],
     [items, ID]
   );
 

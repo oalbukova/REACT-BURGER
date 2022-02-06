@@ -1,15 +1,16 @@
-import { OPEN_ERR_MODAL, SET_ERR } from "./modal";
+import { openErrModal, setError } from "./modal";
+import {
+  SET_FORGOT_PASSWORD_REQUEST,
+  SET_FORGOT_PASSWORD_SUCCESS,
+  SET_FORGOT_PASSWORD_FAILED,
+  SET_RESET_PASSWORD_REQUEST,
+  SET_RESET_PASSWORD_SUCCESS,
+  SET_RESET_PASSWORD_FAILED
+} from "./actionTypes";
 
 // utils
 import { API_URL } from "../../utils/constants";
 
-export const SET_FORGOT_PASSWORD_REQUEST = "SET_FORGOT_PASSWORD_REQUEST";
-export const SET_FORGOT_PASSWORD_SUCCESS = "SET_FORGOT_PASSWORD_SUCCESS";
-export const SET_FORGOT_PASSWORD_FAILED = "SET_FORGOT_PASSWORD_FAILED";
-
-export const SET_RESET_PASSWORD_REQUEST = "SET_FORGOT_PASSWORD_REQUEST";
-export const SET_RESET_PASSWORD_SUCCESS = "SET_FORGOT_PASSWORD_SUCCESS";
-export const SET_RESET_PASSWORD_FAILED = "SET_FORGOT_PASSWORD_FAILED";
 
 export function forgotPassword(email) {
   return function (dispatch) {
@@ -45,13 +46,8 @@ export function forgotPassword(email) {
         dispatch({
           type: SET_FORGOT_PASSWORD_FAILED,
         });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
+        dispatch(setError(`forgotPassword ${err}`));
+        dispatch(openErrModal());
       });
   };
 }
@@ -90,13 +86,8 @@ export function resetPassword(password, token) {
         dispatch({
           type: SET_RESET_PASSWORD_FAILED,
         });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
+        dispatch(setError(`resetPassword ${err}`));
+        dispatch(openErrModal());
       });
   };
 }

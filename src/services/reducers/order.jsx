@@ -3,7 +3,7 @@ import {
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
   DELETE_CURRENT_ORDER,
-} from "../actions/order";
+} from "../actions/actionTypes";
 
 const initialOrderState = {
   order: {},

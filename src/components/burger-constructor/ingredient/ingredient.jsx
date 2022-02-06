@@ -3,8 +3,8 @@ import React, { useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import {
-  DELETE_SELECTED_TOPPING,
-  SORT_TOPPING,
+  deleteSelectedTopping,
+  sortTopping,
 } from "../../../services/actions/selected-items";
 
 // ui-components
@@ -20,25 +20,18 @@ import { useDrag, useDrop } from "react-dnd";
 import styles from "./ingredient.module.css";
 
 // utils
-import { typeOfIngredient } from "../../../utils/types";
+import { typeOfIngredient } from "../../../utils/type";
 
 const Ingredient = ({ item, index, id, type, text }) => {
   const dispatch = useDispatch();
 
   const onDelete = () => {
-    dispatch({
-      type: DELETE_SELECTED_TOPPING,
-      item,
-    });
+    dispatch(deleteSelectedTopping(item));
   };
 
   const moveTopping = useCallback(
     (dragIndex, hoverIndex) => {
-      dispatch({
-        type: SORT_TOPPING,
-        dragIndex,
-        hoverIndex,
-      });
+      dispatch(sortTopping(dragIndex, hoverIndex));
     },
     [dispatch]
   );
@@ -126,12 +119,12 @@ const Ingredient = ({ item, index, id, type, text }) => {
   );
 };
 
-Ingredient.propTypes = {
-  index: PropTypes.number.isRequired,
-  item: typeOfIngredient.isRequired,
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-};
+// Ingredient.propTypes = {
+//   index: PropTypes.number.isRequired,
+//   item: typeOfIngredient.isRequired,
+//   id: PropTypes.string.isRequired,
+//   type: PropTypes.string.isRequired,
+//   text: PropTypes.string.isRequired,
+// };
 
 export default Ingredient;

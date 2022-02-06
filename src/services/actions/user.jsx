@@ -1,32 +1,29 @@
-import { OPEN_ERR_MODAL, SET_ERR } from "./modal";
+import { openErrModal, setError } from "./modal";
+import {
+  SET_USER_REQUEST,
+  SET_USER_SUCCESS,
+  SET_USER_FAILED,
+  AUTHORIZE_REQUEST,
+  AUTHORIZE_SUCCESS,
+  AUTHORIZE_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED, 
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS, 
+  DELETE_USER_FAILED, 
+  UPDATE_TOKEN_REQUEST, 
+  UPDATE_TOKEN_SUCCESS,
+  UPDATE_TOKEN_FAILED, 
+} from "./actionTypes";
 
 // utils
 import { API_URL } from "../../utils/constants";
 import { setCookie, getCookie, deleteCookie } from "../../utils/utils";
 
-export const SET_USER_REQUEST = "SET_USER_REQUEST";
-export const SET_USER_SUCCESS = "SET_USER_SUCCESS";
-export const SET_USER_FAILED = "SET_USER_FAILED";
-
-export const AUTHORIZE_REQUEST = "AUTHORIZE_REQUEST";
-export const AUTHORIZE_SUCCESS = "AUTHORIZE_SUCCESS";
-export const AUTHORIZE_FAILED = "AUTHORIZE_FAILED";
-
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const GET_USER_FAILED = "GET_USER_FAILED";
-
-export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
-export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
-export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
-
-export const DELETE_USER_FAILED = "DELETE_USER_FAILED";
-export const DELETE_USER_REQUEST = "DELETE_USER_REQUEST";
-export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
-
-export const UPDATE_TOKEN_FAILED = "UPDATE_TOKEN_FAILED";
-export const UPDATE_TOKEN_REQUEST = "UPDATE_TOKEN_REQUEST";
-export const UPDATE_TOKEN_SUCCESS = "UPDATE_TOKEN_SUCCESS";
 
 export function register(email, password, name) {
   return function (dispatch) {
@@ -63,18 +60,13 @@ export function register(email, password, name) {
         dispatch({
           type: SET_USER_FAILED,
         });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
+        dispatch(setError(`register ${err}`));
+        dispatch(openErrModal());
       });
   };
 }
 
-export function updateToken(email, password, name) {
+export function updateToken(callback) {
   return function (dispatch) {
     dispatch({
       type: UPDATE_TOKEN_REQUEST,
@@ -118,17 +110,14 @@ export function updateToken(email, password, name) {
           if (authToken) {
             localStorage.setItem("refreshToken", authToken);
           }
-
-          name
-            ? dispatch(updateUser(email, password, name))
-            : dispatch(getUser());
+          callback && callback();
         }
       })
       .catch((err) => {
         dispatch({
           type: UPDATE_TOKEN_FAILED,
         });
-        console.log(err);
+        dispatch(setError(`${err} token не обновлен`));
       });
   };
 }
@@ -170,13 +159,13 @@ export function getUser() {
         }
       })
       .catch((err) => {
-        if (err === 403) {
-          dispatch(updateToken());
-        }
         dispatch({
           type: GET_USER_FAILED,
         });
-        console.log(err);
+        if (err === 403) {
+          dispatch(updateToken(() => dispatch(getUser())));
+        }
+        dispatch(setError(`getUser ${err}`));
       });
   };
 }
@@ -232,24 +221,14 @@ export function authorize(email, password) {
           dispatch({
             type: AUTHORIZE_FAILED,
           });
-          dispatch({
-            type: SET_ERR,
-            text: `${err} Неправильные почта или пароль`,
-          });
-          dispatch({
-            type: OPEN_ERR_MODAL,
-          });
+          dispatch(setError(`${err} Неправильные почта или пароль`));
+          dispatch(openErrModal());
         } else {
           dispatch({
             type: AUTHORIZE_FAILED,
           });
-          dispatch({
-            type: SET_ERR,
-            text: err,
-          });
-          dispatch({
-            type: OPEN_ERR_MODAL,
-          });
+          dispatch(setError(`authorize ${err}`));
+          dispatch(openErrModal());
         }
       });
   };
@@ -294,13 +273,14 @@ export function updateUser(email, password, name) {
       })
       .catch((err) => {
         if (err === 403) {
-          dispatch(updateToken(email, password, name));
-
-          //        return dispatch(updateUser(email, password, name));
+          dispatch(
+            updateToken(() => dispatch(updateUser(email, password, name)))
+          );
         }
         dispatch({
           type: UPDATE_USER_FAILED,
         });
+        dispatch(setError(`updateUser ${err}`));
       });
   };
 }
@@ -346,13 +326,8 @@ export function deleteUser(token) {
         dispatch({
           type: DELETE_USER_FAILED,
         });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
+        dispatch(openErrModal());
+        dispatch(setError(`deleteUser ${err}`));
       });
   };
 }

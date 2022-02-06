@@ -5,12 +5,12 @@ import { useHistory } from "react-router-dom";
 
 import { getOrder } from "../../services/actions/order";
 import {
-  ADD_SELECTED_BUN,
-  ADD_SELECTED_TOPPING,
+  addSelectedBun,
+  addSelectedTopping,
 } from "../../services/actions/selected-items";
 import {
-  SET_BTN_ACTIVE,
-  SET_BTN_DISABLED,
+  setButtonActive,
+  setButtonDisabled,
 } from "../../services/actions/button";
 
 // dnd
@@ -45,14 +45,8 @@ const BurgerConstructor = () => {
   const handleDrop = (item) => {
     item.uuid = uuidv4();
     item?.type === "bun"
-      ? dispatch({
-          type: ADD_SELECTED_BUN,
-          item,
-        })
-      : dispatch({
-          type: ADD_SELECTED_TOPPING,
-          item,
-        });
+      ? dispatch(addSelectedBun(item))
+      : dispatch(addSelectedTopping(item));
   };
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -76,12 +70,8 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     totalPrice === 0 || selectedBun?.length === 0
-      ? dispatch({
-          type: SET_BTN_DISABLED,
-        })
-      : dispatch({
-          type: SET_BTN_ACTIVE,
-        });
+      ? dispatch(setButtonDisabled())
+      : dispatch(setButtonActive());
   }, [dispatch, totalPrice, selectedBun]);
 
   const selectedId = useMemo(() => {

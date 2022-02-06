@@ -4,7 +4,7 @@ import {
   OPEN_ERR_MODAL,
   CLOSE_ERR_MODAL,
   SET_ERR,
-} from "../actions/modal";
+} from "../actions/actionTypes";
 
 const initialModalState = {
   isOrderModalVisible: false,

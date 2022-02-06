@@ -5,7 +5,7 @@ import {
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
   SET_RESET_PASSWORD_FAILED,
-} from "../actions/password";
+} from "../actions/actionTypes";
 
 const initialForgotPasswordState = {
   forgot_password: {},

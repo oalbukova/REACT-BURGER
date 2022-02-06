@@ -1,3 +1,12 @@
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .orderDetails {
   display: flex;
   flex-direction: column;
@@ -12,4 +21,37 @@
 .image {
   width: 120px;
   height: 120px;
+  position: relative;
+  display: flex;
+}
+
+.stroke {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.vector1 {
+  animation: rotation 30s ease-in-out infinite reverse;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  transform: translate(-20%, -20%);
+}
+
+.vector2 {
+  animation: rotation 20s ease-in-out infinite;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transform: translate(-10%, -10%);
+}
+
+.vector3 {
+  animation: rotation 10s ease-in-out infinite reverse;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transform: translate(-10%, -10%);
 }
