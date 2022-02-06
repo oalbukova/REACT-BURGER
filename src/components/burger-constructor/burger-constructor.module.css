@@ -6,7 +6,7 @@
 
 .text {
   text-align: center;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .burgerImg {
@@ -21,7 +21,7 @@
 .burgerImg * {
   width: 60%;
   height: 60%;
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .list {

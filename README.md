@@ -9,6 +9,8 @@
 * React
 * CSS-модули
 * Fetch API
+* Redux
+* React-DND
 
 ##### Установка
 * Клонировать репозиторий

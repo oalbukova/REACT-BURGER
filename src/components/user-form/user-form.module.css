@@ -1,0 +1,21 @@
+.form {
+  margin-left: 64px;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.form > div {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.form > div > div {
+  width: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}

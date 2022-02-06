@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 //styles
 import styles from "./err.module.css";
 
-const Err = () => {
-  const { error } = useSelector((state) => state.modalReducer);
+const Err = (): JSX.Element => {
+  const { error } = useSelector((state: any) => state.modalReducer);
 
   return (
     <div className={`${styles.container} mt-20 mb-20`}>

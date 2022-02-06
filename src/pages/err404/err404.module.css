@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  background-image: url("../../images/person-bg.svg");
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: bottom;
+  background-position-x: -25vw;
+  background-repeat: no-repeat;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 300px auto;
+  text-align: center;
+}
+
+.content {
+}
+
+.link {
+  color: #ebcf47;
+  opacity: 0.5;
+}

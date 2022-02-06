@@ -1,11 +1,8 @@
-import { OPEN_ERR_MODAL, SET_ERR } from "./modal";
+import { GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from "./actionTypes";
+import { openErrModal, setError } from "./modal";
 
 // utils
 import { API_URL } from "../../utils/constants";
-
-export const GET_ITEMS_REQUEST = "GET_ITEMS_REQUEST";
-export const GET_ITEMS_SUCCESS = "GET_ITEMS_SUCCESS";
-export const GET_ITEMS_FAILED = "GET_ITEMS_FAILED";
 
 export function getItems() {
   return function (dispatch) {
@@ -33,13 +30,8 @@ export function getItems() {
         dispatch({
           type: GET_ITEMS_FAILED,
         });
-        dispatch({
-          type: OPEN_ERR_MODAL,
-        });
-        dispatch({
-          type: SET_ERR,
-          text: err,
-        });
+        dispatch(openErrModal());
+        dispatch(setError(`getItems ${err}`));
       });
   };
 }

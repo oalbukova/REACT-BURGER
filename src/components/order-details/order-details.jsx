@@ -3,7 +3,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 // image
-import done from "../../images/done.png";
+import vector1 from "../../images/vector1.svg";
+import vector2 from "../../images/vector2.svg";
+import vector3 from "../../images/vector3.svg";
+import stroke from "../../images/stroke.svg";
 
 //styles
 import styles from "./order-details.module.css";
@@ -17,7 +20,12 @@ const OrderDetails = () => {
         {order.number}
       </h2>
       <p className="text text_type_main-medium">идентификатор заказа</p>
-      <img src={done} className={`${styles.image} mt-15 mb-15`} alt="готово" />
+      <div className={`${styles.image} mt-15 mb-15`}>
+        <img src={vector1} className={`${styles.vector1}`} alt="готово" />
+        <img src={vector2} className={`${styles.vector2}`} alt="готово" />
+        <img src={vector3} className={`${styles.vector3}`} alt="готово" />
+        <img src={stroke} className={`${styles.stroke} `} alt="готово" />
+      </div>
       <p className="text text_type_main-default mb-2">
         Ваш заказ начали готовить
       </p>

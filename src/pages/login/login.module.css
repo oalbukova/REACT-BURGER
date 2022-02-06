@@ -1,0 +1,30 @@
+.wrapper {
+  margin: 200px auto 0;
+}
+
+.form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.form > div {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.form > div > div {
+  width: 100%;
+}
+
+.container button {
+  display: block;
+  margin: 0 auto 56px;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+  cursor: pointer;
+}

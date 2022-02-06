@@ -1,21 +1,20 @@
 // react redux types
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_SELECTED_BUN,
-  ADD_SELECTED_TOPPING,
-} from "../../services/actions/selected-items";
+import { useHistory } from "react-router-dom";
+
 import { getOrder } from "../../services/actions/order";
 import {
-  SET_BTN_ACTIVE,
-  SET_BTN_DISABLED,
+  addSelectedBun,
+  addSelectedTopping,
+} from "../../services/actions/selected-items";
+import {
+  setButtonActive,
+  setButtonDisabled,
 } from "../../services/actions/button";
 
 // dnd
 import { useDrop } from "react-dnd";
-
-// styles
-import styles from "./burger-constructor.module.css";
 
 // children component
 import Ingredient from "./ingredient/ingredient";
@@ -30,24 +29,24 @@ import {
 // utils
 import { v4 as uuidv4 } from "uuid";
 
+// styles
+import styles from "./burger-constructor.module.css";
+
 const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const { selectedBun, selectedToppings } = useSelector(
     (state) => state.selectedItemsReducer
   );
+  const { user } = useSelector((state) => state.userReducer);
   const { isBtnDisabled } = useSelector((state) => state.buttonReducer);
-  const dispatch = useDispatch();
 
   const handleDrop = (item) => {
     item.uuid = uuidv4();
-    item.type === "bun"
-      ? dispatch({
-          type: ADD_SELECTED_BUN,
-          item,
-        })
-      : dispatch({
-          type: ADD_SELECTED_TOPPING,
-          item,
-        });
+    item?.type === "bun"
+      ? dispatch(addSelectedBun(item))
+      : dispatch(addSelectedTopping(item));
   };
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -70,13 +69,9 @@ const BurgerConstructor = () => {
   }, [selectedToppings, selectedBun]);
 
   useEffect(() => {
-    totalPrice === 0 || selectedBun.length === 0
-      ? dispatch({
-          type: SET_BTN_DISABLED,
-        })
-      : dispatch({
-          type: SET_BTN_ACTIVE,
-        });
+    totalPrice === 0 || selectedBun?.length === 0
+      ? dispatch(setButtonDisabled())
+      : dispatch(setButtonActive());
   }, [dispatch, totalPrice, selectedBun]);
 
   const selectedId = useMemo(() => {
@@ -84,7 +79,12 @@ const BurgerConstructor = () => {
   }, [selectedBun, selectedToppings]);
 
   const handleOpenOrderModal = () => {
-    dispatch(getOrder(selectedId));
+    if (user?.user) {
+      dispatch(getOrder(selectedId));
+    } else {
+      history.replace({ pathname: "/login" });
+      return;
+    }
   };
 
   const renderCard = (item, index) => {
@@ -134,7 +134,7 @@ const BurgerConstructor = () => {
             />
           ))}
       </ul>
-      {selectedBun.length !== 0 || selectedToppings.length !== 0 ? (
+      {selectedBun?.length !== 0 || selectedToppings?.length !== 0 ? (
         <div className={`${styles.summary} mt-10 pr-4`}>
           <div className={`${styles.price} mr-10`}>
             <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
