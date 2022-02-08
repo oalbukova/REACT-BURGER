@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState } from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import { authorize } from "../../services/actions/user";
@@ -13,25 +13,26 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import {TLocationState} from "../../utils/type";
 
-const LoginPage = () => {
+const LoginPage = (): JSX.Element => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation<TLocationState>();
 
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
 
   const [form, setValue] = useState({ email: "", password: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
     dispatch(authorize(form.email, form.password));
   };
 
-  const isToken = localStorage.getItem("refreshToken");
+  const isToken: string | null = localStorage.getItem("refreshToken");
   if (isToken && user?.user) {
     return <Redirect to={location?.state?.from || "/"} />;
   }
@@ -52,7 +53,7 @@ const LoginPage = () => {
           </Button>
         </div>
         <p className="text text_type_main-default text_color_inactive mb-4">
-          Вы — новый пользователь?
+          Вы — новый пользователь?
           <Link
             to={{ pathname: "/register" }}
             className={`${styles.link} ml-2`}

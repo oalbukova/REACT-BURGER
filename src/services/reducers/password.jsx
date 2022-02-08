@@ -1,11 +1,13 @@
-import {
+import { Password } from "../actions/actionTypes";
+
+const {
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS,
   SET_FORGOT_PASSWORD_FAILED,
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
   SET_RESET_PASSWORD_FAILED,
-} from "../actions/actionTypes";
+} = Password;
 
 const initialForgotPasswordState = {
   forgot_password: {},

@@ -1,5 +1,11 @@
 import { openErrModal, setError } from "./modal";
-import {
+import { User } from "./actionTypes";
+
+// utils
+import { API_URL } from "../../utils/constants";
+import { deleteCookie, getCookie, setTokens } from "../../utils/utils";
+
+const {
   SET_USER_REQUEST,
   SET_USER_SUCCESS,
   SET_USER_FAILED,
@@ -11,19 +17,14 @@ import {
   GET_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILED, 
+  UPDATE_USER_FAILED,
   DELETE_USER_REQUEST,
-  DELETE_USER_SUCCESS, 
-  DELETE_USER_FAILED, 
-  UPDATE_TOKEN_REQUEST, 
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAILED,
+  UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS,
-  UPDATE_TOKEN_FAILED, 
-} from "./actionTypes";
-
-// utils
-import { API_URL } from "../../utils/constants";
-import { setCookie, getCookie, deleteCookie } from "../../utils/utils";
-
+  UPDATE_TOKEN_FAILED,
+} = User;
 
 export function register(email, password, name) {
   return function (dispatch) {
@@ -54,6 +55,8 @@ export function register(email, password, name) {
             type: SET_USER_SUCCESS,
             user: data,
           });
+          setTokens(data);
+          dispatch(getUser());
         }
       })
       .catch((err) => {
@@ -101,15 +104,7 @@ export function updateToken(callback) {
             type: UPDATE_TOKEN_SUCCESS,
             token: data,
           });
-          const accessToken = data.accessToken.split("Bearer ")[1];
-          if (accessToken) {
-            setCookie("token", accessToken);
-          }
-
-          const authToken = data.refreshToken;
-          if (authToken) {
-            localStorage.setItem("refreshToken", authToken);
-          }
+          setTokens(data);
           callback && callback();
         }
       })
@@ -197,22 +192,14 @@ export function authorize(email, password) {
         }
         return Promise.reject(res.status);
       })
-
       .then((data) => {
         if (data.success) {
           dispatch({
             type: AUTHORIZE_SUCCESS,
             user: data,
           });
-          const accessToken = data.accessToken.split("Bearer ")[1];
-          if (accessToken) {
-            setCookie("token", accessToken);
-          }
 
-          const authToken = data.refreshToken;
-          if (authToken) {
-            localStorage.setItem("refreshToken", authToken);
-          }
+          setTokens(data);
           dispatch(getUser());
         }
       })
@@ -239,7 +226,6 @@ export function updateUser(email, password, name) {
     dispatch({
       type: UPDATE_USER_REQUEST,
     });
-
     fetch(`${API_URL}auth/user`, {
       method: "PATCH",
       mode: "cors",
@@ -312,7 +298,6 @@ export function deleteUser(token) {
         }
         return Promise.reject(res.status);
       })
-
       .then((data) => {
         if (data.success) {
           dispatch({

@@ -1,11 +1,13 @@
-import {
+import { SelectedItems } from "./actionTypes";
+
+const {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
   DELETE_SELECTED_BUNS,
   DELETE_SELECTED_TOPPINGS,
   DELETE_SELECTED_TOPPING,
   SORT_TOPPING,
-} from "./actionTypes";
+} = SelectedItems;
 
 export const addSelectedBun = (item) => ({
   type: ADD_SELECTED_BUN,

@@ -4,7 +4,7 @@ import React from "react";
 //styles
 import styles from "./modal-overlay.module.css";
 
-const ModalOverlay = () => {
+const ModalOverlay = (): JSX.Element => {
   return <div className={`modalOverlay ${styles.modalOverlay}`} />;
 };
 

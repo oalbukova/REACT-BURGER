@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import styles from "./err404.module.css";
 
-const NotFound404 = () => {
+const NotFound404 = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

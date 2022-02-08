@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useCallback } from "react";
+import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { resetPassword } from "../../services/actions/password";
@@ -14,26 +14,29 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const ResetPasswordPage = () => {
+// utils
+import {TResetPasswordForm} from "../../utils/type";
+
+const ResetPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { reset_password } = useSelector((state) => state.resetPasswordReducer);
+  const { reset_password } = useSelector((state: any) => state.resetPasswordReducer);
   const { forgot_password } = useSelector(
-    (state) => state.forgotPasswordReducer
+    (state: any) => state.forgotPasswordReducer
   );
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
 
-  const [form, setValue] = useState({
+  const [form, setValue] = useState<TResetPasswordForm>({
     code: "",
     password: "",
   });
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: FormEvent): void => {
       e.preventDefault();
       dispatch(resetPassword(form.password, form.code));
     },
@@ -59,7 +62,6 @@ const ResetPasswordPage = () => {
       />
     );
   }
-
 
 
   return (

@@ -1,10 +1,12 @@
-import {
+import { Modal } from "../actions/actionTypes";
+
+const {
   OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
   OPEN_ERR_MODAL,
   CLOSE_ERR_MODAL,
   SET_ERR,
-} from "../actions/actionTypes";
+} = Modal;
 
 const initialModalState = {
   isOrderModalVisible: false,

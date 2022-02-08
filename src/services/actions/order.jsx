@@ -1,13 +1,15 @@
-import {
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-  DELETE_CURRENT_ORDER,
-} from "./actionTypes";
+import { Order } from "./actionTypes";
 import { openOrderModal, openErrModal, setError } from "./modal";
 
 // utils
 import { API_URL } from "../../utils/constants";
+
+const {
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED,
+  DELETE_CURRENT_ORDER,
+} = Order;
 
 export function getOrder(selectedId) {
   return function (dispatch) {

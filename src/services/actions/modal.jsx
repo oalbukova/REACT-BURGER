@@ -1,10 +1,12 @@
-import {
+import { Modal } from "./actionTypes";
+
+const {
   OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
   OPEN_ERR_MODAL,
   CLOSE_ERR_MODAL,
   SET_ERR,
-} from "./actionTypes";
+} = Modal;
 
 export const openOrderModal = () => ({
   type: OPEN_ORDER_MODAL,

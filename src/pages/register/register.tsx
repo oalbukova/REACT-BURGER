@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useCallback } from "react";
+import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { register } from "../../services/actions/user";
@@ -14,24 +14,25 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import {TForm} from "../../utils/type";
 
-const RegisterPage = () => {
+const RegisterPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
 
-  const [form, setValue] = useState({
+  const [form, setValue] = useState<TForm>({
     name: "",
     email: "",
     password: "",
   });
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: FormEvent): void => {
       e.preventDefault();
       dispatch(register(form.email, form.password, form.name));
     },

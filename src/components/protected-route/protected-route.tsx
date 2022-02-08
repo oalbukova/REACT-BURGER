@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, RouteProps } from "react-router-dom";
 
-
-const ProtectedRoute = ({ children, ...rest }) => {
-  const { user } = useSelector((state) => state.userReducer);
-  const [isUserLoaded, setUserLoaded] = useState(false);
+//RouteProps
+const ProtectedRoute = ({ children, ...rest }: RouteProps) => {
+  const { user } = useSelector((state: any) => state.userReducer);
+  const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     setUserLoaded(true);
@@ -14,7 +14,6 @@ const ProtectedRoute = ({ children, ...rest }) => {
   if (!isUserLoaded) {
     return null;
   }
-
 
   return (
     <Route

@@ -1,7 +1,6 @@
 // react redux types
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 
 //components
 import ModalOverlay from "../modal-overlay/modal-overlay";
@@ -12,18 +11,24 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 //styles
 import styles from "./modal.module.css";
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals") as HTMLElement;
 
-const Modal = ({ handleClose, children }) => {
+type TModal = {
+  handleClose: () => void;
+  children: JSX.Element;
+};
+
+const Modal: FC<TModal> = ({ handleClose, children }) => {
   useEffect(() => {
-    const handleEscClose = (e) => {
+    const handleEscClose = (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         handleClose();
       }
     };
 
-    const handlerOverlayClick = (e) => {
-      if (e.target.classList.contains("modalOverlay")) {
+    const handlerOverlayClick = ({ target }: MouseEvent) => {
+      const targetDivElement: HTMLDivElement = target as HTMLDivElement;
+      if (targetDivElement.classList.contains("modalOverlay")) {
         handleClose();
       }
     };
@@ -49,11 +54,6 @@ const Modal = ({ handleClose, children }) => {
     </>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  handleClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

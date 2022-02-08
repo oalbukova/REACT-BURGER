@@ -12,12 +12,15 @@ import OrderHistory from "../../components/order-history/order-history";
 // styles
 import styles from "./profile.module.css";
 
-const ProfilePage = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { pathname } = useLocation();
+// utils
+import {THistoryState, TLocationState} from "../../utils/type";
+import { token } from "../../utils/constants";
 
-  const token = localStorage.getItem("refreshToken");
+const ProfilePage = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const history = useHistory<THistoryState>();
+  const { pathname } = useLocation<TLocationState>();
+
 
   const logout = () => {
     dispatch(deleteUser(token));

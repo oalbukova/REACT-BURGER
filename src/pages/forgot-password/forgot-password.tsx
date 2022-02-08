@@ -1,5 +1,5 @@
 // react redux types
-import React, { useState, useCallback } from "react";
+import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { forgotPassword } from "../../services/actions/password";
@@ -13,22 +13,22 @@ import {
 // styles
 import styles from "./forgot-password.module.css";
 
-const ForgotPasswordPage = () => {
+const ForgotPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const { forgot_password } = useSelector(
-    (state) => state.forgotPasswordReducer
+    (state: any) => state.forgotPasswordReducer
   );
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
 
-  const [email, setEmailValue] = useState("");
+  const [email, setEmailValue] = useState<string>("");
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value);
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: FormEvent): void => {
       e.preventDefault();
       dispatch(forgotPassword(email));
     },

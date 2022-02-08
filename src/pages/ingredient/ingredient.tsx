@@ -7,7 +7,7 @@ import styles from "./ingredient.module.css";
 // components
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 
-const IngredientPage = () => {
+const IngredientPage = (): JSX.Element => {
   return (
     <div className={styles.container}>
       <IngredientDetails />
