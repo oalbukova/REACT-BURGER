@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children, ...rest }: RouteProps) => {
   if (!isUserLoaded) {
     return null;
   }
-
+ 
   return (
     <Route
       {...rest}
