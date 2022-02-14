@@ -1,4 +1,6 @@
-import {
+import { User } from "../actions/actionTypes";
+
+const {
   SET_USER_REQUEST,
   SET_USER_SUCCESS,
   SET_USER_FAILED,
@@ -17,7 +19,7 @@ import {
   UPDATE_TOKEN_FAILED,
   UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS,
-} from "../actions/actionTypes";
+} = User;
 
 const initialUserState = {
   user: [],

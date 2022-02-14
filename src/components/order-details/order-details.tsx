@@ -11,8 +11,8 @@ import stroke from "../../images/stroke.svg";
 //styles
 import styles from "./order-details.module.css";
 
-const OrderDetails = () => {
-  const { order } = useSelector((state) => state.orderReducer);
+const OrderDetails = (): JSX.Element => {
+  const { order } = useSelector((state: any) => state.orderReducer);
 
   return (
     <div className={`${styles.orderDetails} pt-20 pb-15`}>

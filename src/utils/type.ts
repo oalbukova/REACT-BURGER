@@ -1,10 +1,19 @@
-import {Location} from "history";
+import { Location, History } from "history";
+
+export type TLocationState = {
+  background: Location;
+  from?: { pathname: string };
+};
+
+export type THistoryState = {
+  history: History;
+};
 
 export type TIngredient = {
   _id: string;
   name: string;
   type: string;
-  proteins:number;
+  proteins: number;
   fat: number;
   carbohydrates: number;
   calories: number;
@@ -13,9 +22,45 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number;
-  //uuid: string;
+  uuid: string;
 };
 
-export type TLocationState = {
-  background: Location;
+export type TConstructorIngredient = {
+  item: TIngredient;
+  index: number;
+  key: string;
+  id: string;
+  type: "top" | "bottom" | undefined;
+  text: string;
+};
+
+export type DragItem = {
+  index: number;
+  id: string;
+  type: string;
+};
+
+export type TForm = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export type TResetPasswordForm = {
+  code: string;
+  password: string;
+};
+
+export type TCookieProps = {
+  [name: string]: string | Date | number | boolean;
+};
+
+export type TData = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user?: {
+    email: string,
+    name: string
+  },
 };

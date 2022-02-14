@@ -1,11 +1,13 @@
-import {
+import { SelectedItems } from "../actions/actionTypes";
+
+const {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
   DELETE_SELECTED_BUNS,
   DELETE_SELECTED_TOPPINGS,
   DELETE_SELECTED_TOPPING,
   SORT_TOPPING,
-} from "../actions/actionTypes";
+} = SelectedItems;
 
 const initialSelectedItemsState = {
   selectedBun: [],

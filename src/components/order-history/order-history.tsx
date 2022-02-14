@@ -4,7 +4,7 @@ import React from "react";
 //styles
 //import styles from "./order-history.module.css";
 
-const OrderHistory = () => {
+const OrderHistory = (): JSX.Element => {
   return <></>;
 };
 

@@ -27,22 +27,23 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
+import { TIngredient, THistoryState } from "../../utils/type";
 import { v4 as uuidv4 } from "uuid";
 
 // styles
 import styles from "./burger-constructor.module.css";
 
-const BurgerConstructor = () => {
+const BurgerConstructor = (): JSX.Element => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useHistory<THistoryState>();
 
   const { selectedBun, selectedToppings } = useSelector(
-    (state) => state.selectedItemsReducer
+    (state: any) => state.selectedItemsReducer
   );
-  const { user } = useSelector((state) => state.userReducer);
-  const { isBtnDisabled } = useSelector((state) => state.buttonReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
+  const { isBtnDisabled } = useSelector((state: any) => state.buttonReducer);
 
-  const handleDrop = (item) => {
+  const handleDrop = (item: TIngredient): void => {
     item.uuid = uuidv4();
     item?.type === "bun"
       ? dispatch(addSelectedBun(item))
@@ -51,20 +52,26 @@ const BurgerConstructor = () => {
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
-      handleDrop(item);
-    },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
+    drop(item: TIngredient) {
+      handleDrop(item);
+    },
   });
 
-  const borderColor = isHover ? "rgb(133, 133, 173)" : "transparent";
+  const borderColor: string = isHover ? "rgb(133, 133, 173)" : "transparent";
 
-  const totalPrice = useMemo(() => {
+  const totalPrice = useMemo<number>(() => {
     return (
-      selectedToppings.reduce((sum, item) => sum + item.price, 0) +
-      selectedBun.reduce((sum, item) => sum + item.price * 2, 0)
+      selectedToppings.reduce(
+        (sum: number, item: TIngredient) => sum + item.price,
+        0
+      ) +
+      selectedBun.reduce(
+        (sum: number, item: TIngredient) => sum + item.price * 2,
+        0
+      )
     );
   }, [selectedToppings, selectedBun]);
 
@@ -74,11 +81,11 @@ const BurgerConstructor = () => {
       : dispatch(setButtonActive());
   }, [dispatch, totalPrice, selectedBun]);
 
-  const selectedId = useMemo(() => {
-    return selectedBun.concat(selectedToppings).map((item) => item._id);
+  const selectedId = useMemo<Array<string>>(() => {
+    return selectedBun.concat(selectedToppings).map((item: any) => item._id);
   }, [selectedBun, selectedToppings]);
 
-  const handleOpenOrderModal = () => {
+  const handleOpenOrderModal = (): void => {
     if (user?.user) {
       dispatch(getOrder(selectedId));
     } else {
@@ -87,14 +94,14 @@ const BurgerConstructor = () => {
     }
   };
 
-  const renderCard = (item, index) => {
+  const renderCard = (item: TIngredient, index: number): JSX.Element => {
     return (
       <Ingredient
         item={item}
         index={index}
         key={item.uuid}
         id={item._id}
-        type={""}
+        type="top"
         text={item.name}
       />
     );
@@ -108,7 +115,7 @@ const BurgerConstructor = () => {
     >
       <ul className={`${styles.list}`}>
         {selectedBun &&
-          selectedBun.map((item, index) => (
+          selectedBun.map((item: TIngredient, index: number) => (
             <Ingredient
               item={item}
               key={item.uuid}
@@ -120,10 +127,12 @@ const BurgerConstructor = () => {
           ))}
         <div className={`${styles.middleContainer} pr-2`}>
           {selectedToppings &&
-            selectedToppings.map((item, index) => renderCard(item, index))}
+            selectedToppings.map((item: TIngredient, index: number) =>
+              renderCard(item, index)
+            )}
         </div>
         {selectedBun &&
-          selectedBun.map((item, index) => (
+          selectedBun.map((item: TIngredient, index: number) => (
             <Ingredient
               item={item}
               key={item.uuid}
@@ -144,7 +153,6 @@ const BurgerConstructor = () => {
             type="primary"
             size="large"
             onClick={handleOpenOrderModal}
-            id="orderBtn"
             disabled={isBtnDisabled}
           >
             Оформить заказ

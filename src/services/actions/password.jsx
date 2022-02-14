@@ -1,16 +1,17 @@
 import { openErrModal, setError } from "./modal";
-import {
+import { Password } from "./actionTypes";
+
+// utils
+import { API_URL } from "../../utils/constants";
+
+const {
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS,
   SET_FORGOT_PASSWORD_FAILED,
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
-  SET_RESET_PASSWORD_FAILED
-} from "./actionTypes";
-
-// utils
-import { API_URL } from "../../utils/constants";
-
+  SET_RESET_PASSWORD_FAILED,
+} = Password;
 
 export function forgotPassword(email) {
   return function (dispatch) {

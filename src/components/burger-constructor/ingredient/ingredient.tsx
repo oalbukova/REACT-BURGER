@@ -1,7 +1,6 @@
 // react redux types
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, FC } from "react";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 import {
   deleteSelectedTopping,
   sortTopping,
@@ -15,37 +14,48 @@ import {
 
 // dnd
 import { useDrag, useDrop } from "react-dnd";
+import type { XYCoord, Identifier } from "dnd-core";
 
 // styles
 import styles from "./ingredient.module.css";
 
 // utils
-import { typeOfIngredient } from "../../../utils/type";
+import { TConstructorIngredient, DragItem } from "../../../utils/type";
 
-const Ingredient = ({ item, index, id, type, text }) => {
+const Ingredient: FC<TConstructorIngredient> = ({
+  item,
+  index,
+  id,
+  type,
+  text,
+}) => {
   const dispatch = useDispatch();
 
-  const onDelete = () => {
+  const onDelete = (): void => {
     dispatch(deleteSelectedTopping(item));
   };
 
   const moveTopping = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       dispatch(sortTopping(dragIndex, hoverIndex));
     },
     [dispatch]
   );
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
     accept: "constructor",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -63,7 +73,7 @@ const Ingredient = ({ item, index, id, type, text }) => {
 
       const clientOffset = monitor.getClientOffset();
 
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -75,12 +85,13 @@ const Ingredient = ({ item, index, id, type, text }) => {
       item.index = hoverIndex;
     },
   });
+
   const [{ isDragging }, drag] = useDrag({
     type: "constructor",
     item: () => {
       return { id, index };
     },
-    collect: (monitor) => ({
+    collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
   });
@@ -118,13 +129,5 @@ const Ingredient = ({ item, index, id, type, text }) => {
     </>
   );
 };
-
-// Ingredient.propTypes = {
-//   index: PropTypes.number.isRequired,
-//   item: typeOfIngredient.isRequired,
-//   id: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   text: PropTypes.string.isRequired,
-// };
 
 export default Ingredient;

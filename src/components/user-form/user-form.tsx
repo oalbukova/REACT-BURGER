@@ -1,5 +1,12 @@
 // react redux types
-import React, { useState, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  ChangeEvent,
+  FocusEvent,
+  FormEvent,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../services/actions/user";
 
@@ -9,31 +16,41 @@ import styles from "./user-form.module.css";
 // ui-components
 import {
   Input,
-  EmailInput,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TForm } from "../../utils/type";
+import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 
-const UserForm = () => {
+const UserForm = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.userReducer);
+  const { user } = useSelector((state: any) => state.userReducer);
 
-  const nameRef = React.useRef(null);
-  const emailRef = React.useRef(null);
+  const nameRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = React.useRef<HTMLInputElement>(null);
 
-  const [showButton, setShowButton] = useState(false);
-  const [icon, setIcon] = useState("EditIcon");
-  const [focus, setFocus] = useState(false);
-  const [nameErr, setNameErr] = useState(false);
-  const [emailErr, setEmailErr] = useState(false);
-  const [form, setValue] = useState({
+  const [form, setValue] = useState<TForm>({
     name: "",
     email: "",
     password: "",
   });
 
-  useEffect(() => {
+  const [showButton, setShowButton] = useState<boolean>(false);
+  const [iconOnName, setIconOnName] = useState<keyof TICons | undefined>(
+    "EditIcon"
+  );
+  const [iconOnEmail, setIconOnEmail] = useState<keyof TICons | undefined>(
+    "EditIcon"
+  );
+
+  const [focusOnName, setFocusOnName] = useState<boolean>(false);
+  const [focusOnEmail, setFocusOnEmail] = useState<boolean>(false);
+
+  const [nameErr, setNameErr] = useState<boolean>(false);
+  const [emailErr, setEmailErr] = useState<boolean>(false);
+
+  useEffect((): void => {
     user?.user &&
       setValue({
         name: user.user.name,
@@ -42,7 +59,7 @@ const UserForm = () => {
       });
   }, [user?.user]);
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     e.target.name === "name" && e.target.value.length < 1
       ? setNameErr(true)
       : setNameErr(false);
@@ -54,7 +71,7 @@ const UserForm = () => {
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       e.preventDefault();
       const reg = /^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$)$/;
       if (form.name.length < 1) {
@@ -67,37 +84,51 @@ const UserForm = () => {
     [dispatch, form]
   );
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     setNameErr(false);
+    setEmailErr(false);
     setValue({
       name: user.user.name,
       email: user.user.email,
       password: "",
     });
-
     setShowButton(false);
   };
 
-  const changeIconOnFocus = () => {
-    setFocus(true);
-    setIcon("CloseIcon");
+  const changeIconOnFocus = (e: FocusEvent<HTMLInputElement>): void => {
+    if (e.target.name === "name") {
+      setFocusOnName(true);
+      setIconOnName("CloseIcon");
+    } else if (e.target.name === "email") {
+      setFocusOnEmail(true);
+      setIconOnEmail("CloseIcon");
+    }
   };
 
-  const changeIconOnBlur = () => {
-    setFocus(false);
-    setIcon("EditIcon");
+  const changeIconOnBlur = (e: FocusEvent<HTMLInputElement>): void => {
+    if (e.target.name === "name") {
+      setFocusOnName(false);
+      setIconOnName("EditIcon");
+    } else if (e.target.name === "email") {
+      setFocusOnEmail(false);
+      setIconOnEmail("EditIcon");
+    }
   };
 
-  const handleNameIconClick = (e) => {
-    setFocus(true);
+  const handleNameIconClick = () => {
+    setFocusOnName(true);
     setNameErr(false);
-    setTimeout(() => {nameRef.current.focus()}, 0);
+    setTimeout(() => {
+      nameRef.current?.focus();
+    }, 0);
   };
 
-  const handleEmailIconClick = (e) => {
-    setFocus(true);
+  const handleEmailIconClick = () => {
+    setFocusOnEmail(true);
     setEmailErr(false);
-    setTimeout(() => {emailRef.current.focus()}, 0);
+    setTimeout(() => {
+      emailRef.current?.focus();
+    }, 0);
   };
 
   return (
@@ -108,14 +139,14 @@ const UserForm = () => {
         value={form.name}
         name="name"
         onChange={onChange}
-        icon={icon}
+        icon={iconOnName}
         error={nameErr}
         errorText={`Ошибка. Поле "Имя" не может быть пустым.`}
         onFocus={changeIconOnFocus}
         onBlur={changeIconOnBlur}
         ref={nameRef}
         onIconClick={handleNameIconClick}
-        disabled={!focus}
+        disabled={!focusOnName}
       />
       <Input
         type={"email"}
@@ -123,16 +154,15 @@ const UserForm = () => {
         value={form.email}
         name="email"
         onChange={onChange}
-        icon={icon}
+        icon={iconOnEmail}
         error={emailErr}
         errorText={`Ошибка. Введите корректный адрес Email.`}
         onFocus={changeIconOnFocus}
         onBlur={changeIconOnBlur}
         ref={emailRef}
         onIconClick={handleEmailIconClick}
-        disabled={!focus}
+        disabled={!focusOnEmail}
       />
-      {/* <EmailInput value={form.email} name="email" onChange={onChange} /> */}
       <PasswordInput
         value={form.password}
         name="password"

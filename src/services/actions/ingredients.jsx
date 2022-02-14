@@ -1,16 +1,19 @@
-import { GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from "./actionTypes";
+import { Ingredients } from "./actionTypes";
 import { openErrModal, setError } from "./modal";
 
 // utils
 import { API_URL } from "../../utils/constants";
 
 export function getItems() {
+  const { GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } =
+    Ingredients;
+
   return function (dispatch) {
     dispatch({
       type: GET_ITEMS_REQUEST,
     });
     fetch(`${API_URL}ingredients`)
-      .then((res) => {
+      .then((res /*: Response*/) => {
         if (res.ok) {
           return res.json();
         } else {

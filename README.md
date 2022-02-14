@@ -11,6 +11,7 @@
 * Fetch API
 * Redux
 * React-DND
+* TypeScript
 
 ##### Установка
 * Клонировать репозиторий
