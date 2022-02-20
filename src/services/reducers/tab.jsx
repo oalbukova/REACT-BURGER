@@ -1,6 +1,4 @@
-import { Tab } from "../actions/actionTypes";
-
-const { TAB_SWITCH } = Tab;
+import { TAB_SWITCH } from "../constants";
 
 const initialTabState = {
   currentTab: "bun",

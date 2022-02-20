@@ -1,5 +1,5 @@
 import { openErrModal, setError } from "./modal";
-import { User } from "./actionTypes";
+import { User } from "../constants";
 
 // utils
 import { API_URL } from "../../utils/constants";
@@ -316,3 +316,4 @@ export function deleteUser(token) {
       });
   };
 }
+

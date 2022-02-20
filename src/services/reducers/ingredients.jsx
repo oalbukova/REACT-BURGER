@@ -1,13 +1,10 @@
-import {Ingredients} from "../actions/actionTypes";
+import {GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS} from "../constants";
 
 const initialIngredientsState = {
   items: [], itemsRequest: false, itemsFailed: false, isLoad: false,
 };
 
 export const ingredientsReducer = (state = initialIngredientsState, action) => {
-  const {
-    GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,
-  } = Ingredients;
 
   switch (action.type) {
     case GET_ITEMS_REQUEST: {

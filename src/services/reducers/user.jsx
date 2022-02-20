@@ -1,4 +1,4 @@
-import { User } from "../actions/actionTypes";
+import { User } from "../constants";
 
 const {
   SET_USER_REQUEST,
@@ -27,6 +27,7 @@ const initialUserState = {
 
   userRequest: false,
   userFailed: false,
+  isLoggedIn: false,
 
   authRequest: false,
   authFailed: false,
@@ -91,6 +92,7 @@ export const userReducer = (state = initialUserState, action) => {
         currentUserFailed: false,
         user: action.user,
         currentUserRequest: false,
+        // isLoggedIn: true,
       };
     }
     case GET_USER_FAILED: {

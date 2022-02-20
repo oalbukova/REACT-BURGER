@@ -1,13 +1,4 @@
-import {
-Order
-} from "../actions/actionTypes";
-
-const {
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-  DELETE_CURRENT_ORDER,
-} = Order;
+import {DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS,} from "../constants";
 
 
 const initialOrderState = {
@@ -33,11 +24,11 @@ export const orderReducer = (state = initialOrderState, action) => {
       };
     }
     case GET_ORDER_FAILED: {
-      return { ...state, orderFailed: true, orderRequest: false };
+      return {...state, orderFailed: true, orderRequest: false};
     }
 
     case DELETE_CURRENT_ORDER: {
-      return { ...state, order: {} };
+      return {...state, order: {}};
     }
     default: {
       return state;

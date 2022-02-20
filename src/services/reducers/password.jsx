@@ -1,4 +1,4 @@
-import { Password } from "../actions/actionTypes";
+import { Password } from "../constants";
 
 const {
   SET_FORGOT_PASSWORD_REQUEST,

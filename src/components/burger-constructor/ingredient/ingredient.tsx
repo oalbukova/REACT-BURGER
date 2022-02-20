@@ -20,7 +20,7 @@ import type { XYCoord, Identifier } from "dnd-core";
 import styles from "./ingredient.module.css";
 
 // utils
-import { TConstructorIngredient, DragItem } from "../../../utils/type";
+import { TConstructorIngredient, TDragItem } from "../../../utils/type";
 
 const Ingredient: FC<TConstructorIngredient> = ({
   item,
@@ -45,7 +45,7 @@ const Ingredient: FC<TConstructorIngredient> = ({
   const ref = useRef<HTMLLIElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
-    DragItem,
+    TDragItem,
     void,
     { handlerId: Identifier | null }
   >({
@@ -55,7 +55,7 @@ const Ingredient: FC<TConstructorIngredient> = ({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: TDragItem, monitor) {
       if (!ref.current) {
         return;
       }

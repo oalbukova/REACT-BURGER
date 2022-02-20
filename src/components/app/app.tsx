@@ -1,18 +1,15 @@
 // react redux types
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {Route, Switch, useHistory, useLocation} from "react-router-dom";
 
 // services
-import { getItems } from "../../services/actions/ingredients";
-import { getUser, updateToken } from "../../services/actions/user";
+import {getItems} from "../../services/actions/ingredients";
+import {getUser, updateToken} from "../../services/actions/user";
 
-import { closeErrModal, closeOrderModal } from "../../services/actions/modal";
-import { deleteCurrentOrder } from "../../services/actions/order";
-import {
-  deleteSelectedBuns,
-  deleteSelectedToppings,
-} from "../../services/actions/selected-items";
+import {closeErrModal, closeOrderModal} from "../../services/actions/modal";
+import {deleteCurrentOrder} from "../../services/actions/order";
+import {deleteSelectedBuns, deleteSelectedToppings,} from "../../services/actions/selected-items";
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -33,7 +30,7 @@ import IngredientPage from "../../pages/ingredient/ingredient";
 import NotFound404 from "../../pages/err404/err404";
 
 // utils
-import { THistoryState, TLocationState } from "../../utils/type";
+import {THistoryState, TLocationState} from "../../utils/type";
 
 // styles
 import styles from "./app.module.css";
@@ -43,11 +40,14 @@ const App = (): JSX.Element => {
   const location = useLocation<TLocationState>();
   const history = useHistory<THistoryState>();
 
+  const {items} = useSelector((state: any) => state.ingredientsReducer);
+
   const background = location?.state && location.state.background;
 
-  const { isOrderModalVisible, isErrModalVisible } = useSelector(
+  const {isOrderModalVisible, isErrModalVisible} = useSelector(
     (state: any) => state.modalReducer
   );
+  const {user} = useSelector((state: any) => state.userReducer);
 
   useEffect(() => {
     dispatch(getItems());
@@ -70,51 +70,53 @@ const App = (): JSX.Element => {
     dispatch(closeErrModal());
   };
 
+
   return (
+
     <div className={styles.app}>
-      <AppHeader />
+      <AppHeader/>
       <Switch location={background || location}>
         <Route path="/" exact>
-          <Main />
+          <Main/>
         </Route>
         <Route path="/login">
-          <LoginPage />
+          <LoginPage/>
         </Route>
         <Route path="/register">
-          <RegisterPage />
+          <RegisterPage/>
         </Route>
         <Route path="/forgot-password">
-          <ForgotPasswordPage />
+          <ForgotPasswordPage/>
         </Route>
         <Route path="/reset-password">
-          <ResetPasswordPage />
+          <ResetPasswordPage/>
         </Route>
-        <Route path="/ingredients/:id" children={<IngredientPage />} />
+        <Route path="/ingredients/:id" children={<IngredientPage/>}/>
         <ProtectedRoute path="/profile">
-          <ProfilePage />
+          <ProfilePage/>
         </ProtectedRoute>
         <Route>
-          <NotFound404 />
+          <NotFound404/>
         </Route>
       </Switch>
-      {background && (
+      {background && items.length !== 0 ? (
         <Route
           path="/ingredients/:id"
           children={
             <Modal handleClose={handleCloseIngredientModal}>
-              <IngredientDetails />
+              <IngredientDetails/>
             </Modal>
           }
         />
-      )}
+      ) : null}
       {isOrderModalVisible && (
         <Modal handleClose={handleCloseOrderModal}>
-          <OrderDetails />
+          <OrderDetails/>
         </Modal>
       )}
       {isErrModalVisible && (
         <Modal handleClose={handleCloseErrModal}>
-          <Err />
+          <Err/>
         </Modal>
       )}
     </div>

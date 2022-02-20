@@ -1,5 +1,5 @@
 import { openErrModal, setError } from "./modal";
-import { Password } from "./actionTypes";
+import { Password } from "../constants";
 
 // utils
 import { API_URL } from "../../utils/constants";

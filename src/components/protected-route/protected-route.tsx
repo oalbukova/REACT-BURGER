@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import React from "react";
+import {useSelector} from "react-redux";
+import {Redirect, Route, RouteProps} from "react-router-dom";
+// styles
+import styles from "./protected-route.module.css";
+import {BallTriangle} from "react-loader-spinner";
+
 
 //RouteProps
-const ProtectedRoute = ({ children, ...rest }: RouteProps) => {
-  const { user } = useSelector((state: any) => state.userReducer);
-  const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
+const ProtectedRoute = ({children, ...rest}: RouteProps) => {
+  const {user} = useSelector((state: any) => state.userReducer);
 
-  useEffect(() => {
-    setUserLoaded(true);
-  }, []);
-
-  if (!isUserLoaded) {
-    return null;
+  if (!user?.user) {
+    return <div className={styles.loader}>
+      <BallTriangle
+        color="#4c4cff"
+        height={200}
+        width={200}
+        visible={true}
+      />
+    </div>
   }
- 
+
+
   return (
     <Route
       {...rest}
@@ -35,3 +42,4 @@ const ProtectedRoute = ({ children, ...rest }: RouteProps) => {
 };
 
 export default ProtectedRoute;
+

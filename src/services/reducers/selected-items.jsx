@@ -1,13 +1,12 @@
-import { SelectedItems } from "../actions/actionTypes";
-
-const {
+import {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
   DELETE_SELECTED_BUNS,
-  DELETE_SELECTED_TOPPINGS,
   DELETE_SELECTED_TOPPING,
+  DELETE_SELECTED_TOPPINGS,
   SORT_TOPPING,
-} = SelectedItems;
+} from "../constants";
+
 
 const initialSelectedItemsState = {
   selectedBun: [],
@@ -22,13 +21,13 @@ export const selectedItemsReducer = (
     case ADD_SELECTED_BUN: {
       return {
         ...state,
-        selectedBun: [{ ...action.item }],
+        selectedBun: [{...action.item}],
       };
     }
     case ADD_SELECTED_TOPPING: {
       return {
         ...state,
-        selectedToppings: [...state.selectedToppings, { ...action.item }],
+        selectedToppings: [...state.selectedToppings, {...action.item}],
       };
     }
 

@@ -1,6 +1,6 @@
 // react redux types
 import React, { FC, useMemo } from "react";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 // dnd
@@ -47,6 +47,7 @@ const Ingredient: FC<TBurgerIngredient> = ({ ingredient }) => {
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
+
 
   return (
     <li className={`${styles.item} mb-7`} style={{ opacity }} ref={dragRef}>

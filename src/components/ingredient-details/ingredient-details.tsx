@@ -1,27 +1,33 @@
 // react redux types
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useMemo} from "react";
+import {useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
 
 // utils
-import { TIngredient } from "../../utils/type";
+import {TIngredient} from "../../utils/type";
 
 //styles
 import styles from "./ingredient-details.module.css";
+import {BallTriangle} from "react-loader-spinner";
+
 
 const IngredientDetails = (): JSX.Element => {
-  const { items } = useSelector((state: any) => state.ingredientsReducer);
+  const {items} = useSelector((state: any) => state.ingredientsReducer);
 
   const ID: string = useParams<{ id: string }>().id;
 
   const currentIngredient = useMemo<TIngredient>(
-    () => items.filter((item: TIngredient) => item._id === ID)[0],
+    () =>
+      items.filter((item: TIngredient) => item._id === ID)[0],
     [items, ID]
   );
 
+
+  console.log(items, currentIngredient)
+
   return (
     <>
-      {currentIngredient && (
+      {currentIngredient ? (
         <div className={`${styles.container} mt-3`}>
           <h2 className="text text_type_main-large">Детали ингредиента</h2>
           <div className={`${styles.ingredient} mt-3`}>
@@ -77,7 +83,7 @@ const IngredientDetails = (): JSX.Element => {
             </ul>
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 };

@@ -75,6 +75,8 @@ const BurgerConstructor = (): JSX.Element => {
     );
   }, [selectedToppings, selectedBun]);
 
+
+
   useEffect(() => {
     totalPrice === 0 || selectedBun?.length === 0
       ? dispatch(setButtonDisabled())

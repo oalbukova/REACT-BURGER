@@ -34,7 +34,11 @@ export type TConstructorIngredient = {
   text: string;
 };
 
-export type DragItem = {
+export type TOrder = {
+  number: number;
+};
+
+export type TDragItem = {
   index: number;
   id: string;
   type: string;
