@@ -1,25 +1,24 @@
-import { User } from "../constants";
-
-const {
-  SET_USER_REQUEST,
-  SET_USER_SUCCESS,
-  SET_USER_FAILED,
+import {
+  AUTHORIZE_FAILED,
   AUTHORIZE_REQUEST,
   AUTHORIZE_SUCCESS,
-  AUTHORIZE_FAILED,
-  GET_USER_FAILED,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  UPDATE_USER_FAILED,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
   DELETE_USER_FAILED,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  SET_USER_FAILED,
+  SET_USER_REQUEST,
+  SET_USER_SUCCESS,
   UPDATE_TOKEN_FAILED,
   UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS,
-} = User;
+  UPDATE_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+} from "../constants";
+
 
 const initialUserState = {
   user: [],
@@ -59,7 +58,7 @@ export const userReducer = (state = initialUserState, action) => {
       };
     }
     case SET_USER_FAILED: {
-      return { ...state, userFailed: true, userRequest: false };
+      return {...state, userFailed: true, userRequest: false};
     }
 
     case AUTHORIZE_REQUEST: {
@@ -77,7 +76,7 @@ export const userReducer = (state = initialUserState, action) => {
       };
     }
     case AUTHORIZE_FAILED: {
-      return { ...state, authFailed: true, authRequest: false };
+      return {...state, authFailed: true, authRequest: false};
     }
 
     case GET_USER_REQUEST: {
@@ -96,7 +95,7 @@ export const userReducer = (state = initialUserState, action) => {
       };
     }
     case GET_USER_FAILED: {
-      return { ...state, currentUserFailed: true, currentUserRequest: false };
+      return {...state, currentUserFailed: true, currentUserRequest: false};
     }
 
     case UPDATE_USER_REQUEST: {
@@ -114,7 +113,7 @@ export const userReducer = (state = initialUserState, action) => {
       };
     }
     case UPDATE_USER_FAILED: {
-      return { ...state, currentUserFailed: true, currentUserRequest: false };
+      return {...state, currentUserFailed: true, currentUserRequest: false};
     }
 
     case DELETE_USER_REQUEST: {
@@ -132,7 +131,7 @@ export const userReducer = (state = initialUserState, action) => {
       };
     }
     case DELETE_USER_FAILED: {
-      return { ...state, deleteUserFailed: true, deleteUserRequest: false };
+      return {...state, deleteUserFailed: true, deleteUserRequest: false};
     }
 
     case UPDATE_TOKEN_REQUEST: {
@@ -150,7 +149,7 @@ export const userReducer = (state = initialUserState, action) => {
       };
     }
     case UPDATE_TOKEN_FAILED: {
-      return { ...state, updateTokenFailed: true, updateTokenRequest: false };
+      return {...state, updateTokenFailed: true, updateTokenRequest: false};
     }
 
     default: {

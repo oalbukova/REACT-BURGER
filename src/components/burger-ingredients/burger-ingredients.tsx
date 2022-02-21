@@ -1,20 +1,16 @@
 // react redux types
-import React, { RefObject, useMemo, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { tabSwitch } from "../../services/actions/tab";
+import React, {RefObject, useMemo, useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {tabSwitch} from "../../services/actions/tab";
 
 // children components
 import Ingredient from "./ingredient/ingredient";
 
 // ui-components
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-
-// loader
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { BallTriangle } from "react-loader-spinner";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import { TIngredient } from "../../utils/type";
+import {TIngredient} from "../../utils/type";
 
 // styles
 import styles from "./burger-ingredients.module.css";
@@ -28,9 +24,9 @@ const BurgerIngredients = (): JSX.Element => {
   const toppingElem: HTMLElement | null = document.querySelector("#topping");
 
   const dispatch = useDispatch();
-  const { items } = useSelector((state: any) => state.ingredientsReducer);
-  const { currentTab } = useSelector((state: any) => state.tabReducer);
-  const { isLoad } = useSelector((state: any) => state.ingredientsReducer);
+  const {items} = useSelector((state: any) => state.ingredientsReducer);
+  const {currentTab} = useSelector((state: any) => state.tabReducer);
+  // const { isLoad } = useSelector((state: any) => state.ingredientsReducer);
 
   const bunRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);
@@ -41,31 +37,31 @@ const BurgerIngredients = (): JSX.Element => {
   };
   const setTab = (tab: string, tabRef: RefObject<HTMLHeadingElement>): void => {
     setCurrentTab(tab);
-    tabRef.current?.scrollIntoView({ behavior: "smooth" });
+    tabRef.current?.scrollIntoView({behavior: "smooth"});
   };
 
   const onScrollPosition = (): void => {
     if (bunsElem && saucesElem && toppingElem && burgerIngredientsElem) {
       const bunsPosition: number = Math.abs(
         bunsElem.getBoundingClientRect().top -
-          burgerIngredientsElem.getBoundingClientRect().top
+        burgerIngredientsElem.getBoundingClientRect().top
       );
 
       const saucesPosition: number = Math.abs(
         saucesElem.getBoundingClientRect().top -
-          burgerIngredientsElem.getBoundingClientRect().top
+        burgerIngredientsElem.getBoundingClientRect().top
       );
 
       const toppingPosition: number = Math.abs(
         toppingElem.getBoundingClientRect().top -
-          burgerIngredientsElem.getBoundingClientRect().top
+        burgerIngredientsElem.getBoundingClientRect().top
       );
 
       bunsPosition < saucesPosition
         ? setCurrentTab("bun")
         : saucesPosition < toppingPosition
-        ? setCurrentTab("sauce")
-        : setCurrentTab("topping");
+          ? setCurrentTab("sauce")
+          : setCurrentTab("topping");
     }
   };
 
@@ -87,7 +83,7 @@ const BurgerIngredients = (): JSX.Element => {
       id="burger-ingredients"
       onScroll={(): void => onScrollPosition()}
     >
-      <div style={{ display: "flex" }}>
+      <div style={{display: "flex"}}>
         <Tab
           value="bun"
           active={currentTab === "bun"}
@@ -110,14 +106,6 @@ const BurgerIngredients = (): JSX.Element => {
           Начинки
         </Tab>
       </div>
-      <div className={styles.loader}>
-        <BallTriangle
-          color="#4c4cff"
-          height={200}
-          width={200}
-          visible={isLoad}
-        />
-      </div>
       <div className={`${styles.container} mt-10`}>
         {typeBun?.length !== 0 ? (
           <>
@@ -126,7 +114,7 @@ const BurgerIngredients = (): JSX.Element => {
             </h2>
             <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
               {typeBun.map((item: TIngredient) => (
-                <Ingredient key={item._id} ingredient={item} />
+                <Ingredient key={item._id} ingredient={item}/>
               ))}
             </ul>
           </>
@@ -142,7 +130,7 @@ const BurgerIngredients = (): JSX.Element => {
             </h2>
             <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
               {typeSauce.map((item: TIngredient) => (
-                <Ingredient key={item._id} ingredient={item} />
+                <Ingredient key={item._id} ingredient={item}/>
               ))}
             </ul>
           </>
@@ -158,7 +146,7 @@ const BurgerIngredients = (): JSX.Element => {
             </h2>
             <ul className={`${styles.list} mt-6 mb-10 ml-4 mr-2`}>
               {typeTopping.map((item: TIngredient) => (
-                <Ingredient key={item._id} ingredient={item} />
+                <Ingredient key={item._id} ingredient={item}/>
               ))}
             </ul>
           </>

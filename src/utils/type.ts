@@ -5,6 +5,10 @@ export type TLocationState = {
   from?: { pathname: string };
 };
 
+export type TPathname = {
+  pathname: string
+};
+
 export type THistoryState = {
   history: History;
 };
@@ -50,6 +54,8 @@ export type TForm = {
   password: string;
 };
 
+export type TIconTypes = 'secondary' | 'primary' | 'error' | 'success';
+
 export type TResetPasswordForm = {
   code: string;
   password: string;
@@ -67,4 +73,23 @@ export type TData = {
     email: string,
     name: string
   },
+};
+
+export type TToken = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type TUserData = {
+  success: boolean;
+  user?: {
+    email: string,
+    name: string
+  },
+};
+
+export type TDeleteUserData = {
+  success: boolean;
+  message: string;
 };

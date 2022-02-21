@@ -1,13 +1,12 @@
-import { Password } from "../constants";
-
-const {
+import {
+  SET_FORGOT_PASSWORD_FAILED,
   SET_FORGOT_PASSWORD_REQUEST,
   SET_FORGOT_PASSWORD_SUCCESS,
-  SET_FORGOT_PASSWORD_FAILED,
+  SET_RESET_PASSWORD_FAILED,
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
-  SET_RESET_PASSWORD_FAILED,
-} = Password;
+} from "../constants";
+
 
 const initialForgotPasswordState = {
   forgot_password: {},

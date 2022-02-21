@@ -2,21 +2,23 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {Link, NavLink, useLocation} from "react-router-dom";
+import {TIconTypes, TLocationState, TPathname} from "../../utils/type";
 
 // styles
 import styles from "./app-header.module.css";
 
 // ui-components
-import {BurgerIcon, ListIcon, Logo, ProfileIcon,} from "@ya.praktikum/react-developer-burger-ui-components";
+import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+
 
 const AppHeader = (): JSX.Element => {
-  const {pathname} = useLocation();
+  const {pathname} = useLocation<TLocationState>();
   const {user, currentUserRequest} = useSelector((state: any) => state.userReducer);
 
-  const typeForConstructor = pathname === "/" ? "primary" : "secondary";
-  const typeForUser = pathname === "/profile" ? "primary" : "secondary";
+  const typeForConstructor: TIconTypes = pathname === "/" ? "primary" : "secondary";
+  const typeForUser: TIconTypes = pathname === "/profile" ? "primary" : "secondary";
 
-  const pathOnProfile = user?.user ? {pathname: `/profile`} : {pathname: `/login`};
+  const pathOnProfile: TPathname = user?.user ? {pathname: `/profile`} : {pathname: `/login`};
 
   return (
     <header className={styles.header}>

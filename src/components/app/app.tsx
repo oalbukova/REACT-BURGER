@@ -31,6 +31,7 @@ import NotFound404 from "../../pages/err404/err404";
 
 // utils
 import {THistoryState, TLocationState} from "../../utils/type";
+import {BallTriangle} from "react-loader-spinner";
 
 // styles
 import styles from "./app.module.css";
@@ -41,18 +42,18 @@ const App = (): JSX.Element => {
   const history = useHistory<THistoryState>();
 
   const {items} = useSelector((state: any) => state.ingredientsReducer);
+  const {user} = useSelector((state: any) => state.userReducer);
 
   const background = location?.state && location.state.background;
 
   const {isOrderModalVisible, isErrModalVisible} = useSelector(
     (state: any) => state.modalReducer
   );
-  const {user} = useSelector((state: any) => state.userReducer);
 
   useEffect(() => {
     dispatch(getItems());
     dispatch(getUser());
-    updateToken();
+    dispatch(updateToken(() => dispatch(getUser())));
   }, [dispatch]);
 
   const handleCloseIngredientModal = (): void => {
@@ -72,54 +73,76 @@ const App = (): JSX.Element => {
 
 
   return (
-
-    <div className={styles.app}>
-      <AppHeader/>
-      <Switch location={background || location}>
-        <Route path="/" exact>
-          <Main/>
-        </Route>
-        <Route path="/login">
-          <LoginPage/>
-        </Route>
-        <Route path="/register">
-          <RegisterPage/>
-        </Route>
-        <Route path="/forgot-password">
-          <ForgotPasswordPage/>
-        </Route>
-        <Route path="/reset-password">
-          <ResetPasswordPage/>
-        </Route>
-        <Route path="/ingredients/:id" children={<IngredientPage/>}/>
-        <ProtectedRoute path="/profile">
-          <ProfilePage/>
-        </ProtectedRoute>
-        <Route>
-          <NotFound404/>
-        </Route>
-      </Switch>
-      {background && items.length !== 0 ? (
-        <Route
-          path="/ingredients/:id"
-          children={
-            <Modal handleClose={handleCloseIngredientModal}>
-              <IngredientDetails/>
+    <>
+      {items.length !== 0 ? (
+        <div className={styles.app}>
+          <AppHeader/>
+          <Switch location={background || location}>
+            <Route path="/" exact>
+              <Main/>
+            </Route>
+            <Route path="/login">
+              <LoginPage/>
+            </Route>
+            <Route path="/register">
+              <RegisterPage/>
+            </Route>
+            <Route path="/forgot-password">
+              <ForgotPasswordPage/>
+            </Route>
+            <Route path="/reset-password">
+              <ResetPasswordPage/>
+            </Route>
+            <Route path="/ingredients/:id" children={<IngredientPage/>}/>
+            {user.length !== 0 ?
+              <ProtectedRoute path="/profile">
+                <ProfilePage/>
+              </ProtectedRoute>
+              :
+              <div className={styles.loader}>
+                <BallTriangle
+                  color="#4c4cff"
+                  height={200}
+                  width={200}
+                  visible={true}
+                />
+              </div>
+            }
+            <Route>
+              <NotFound404/>
+            </Route>
+          </Switch>
+          {background && (
+            <Route
+              path="/ingredients/:id"
+              children={
+                <Modal handleClose={handleCloseIngredientModal}>
+                  <IngredientDetails/>
+                </Modal>
+              }
+            />
+          )}
+          {isOrderModalVisible && (
+            <Modal handleClose={handleCloseOrderModal}>
+              <OrderDetails/>
             </Modal>
-          }
-        />
-      ) : null}
-      {isOrderModalVisible && (
-        <Modal handleClose={handleCloseOrderModal}>
-          <OrderDetails/>
-        </Modal>
+          )}
+          {isErrModalVisible && (
+            <Modal handleClose={handleCloseErrModal}>
+              <Err/>
+            </Modal>
+          )}
+        </div>) : (
+        <div className={styles.loader}>
+          <BallTriangle
+            color="#4c4cff"
+            height={200}
+            width={200}
+            visible={true}
+          />
+        </div>
       )}
-      {isErrModalVisible && (
-        <Modal handleClose={handleCloseErrModal}>
-          <Err/>
-        </Modal>
-      )}
-    </div>
+    </>
   );
 };
 
