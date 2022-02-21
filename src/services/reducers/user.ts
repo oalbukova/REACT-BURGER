@@ -18,11 +18,33 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
 } from "../constants";
+import {TUserActions} from "../actions/user";
+import {TData, TToken} from "../../utils/type";
 
 
-const initialUserState = {
-  user: [],
-  token: {},
+type TUserState = {
+  user:  TData | undefined,
+  token: TToken | undefined,
+
+  userRequest: boolean,
+  userFailed: boolean,
+  isLoggedIn: boolean,
+
+  authRequest: boolean,
+  authFailed: boolean,
+
+  currentUserRequest: boolean,
+  currentUserFailed: boolean,
+
+  deleteUserRequest: boolean,
+  deleteUserFailed: boolean,
+
+  updateTokenRequest: boolean,
+  updateTokenFailed: boolean,
+}
+const initialUserState: TUserState = {
+  user: undefined,
+  token: undefined,
 
   userRequest: false,
   userFailed: false,
@@ -41,7 +63,7 @@ const initialUserState = {
   updateTokenFailed: false,
 };
 
-export const userReducer = (state = initialUserState, action) => {
+export const userReducer = (state = initialUserState, action: TUserActions) => {
   switch (action.type) {
     case SET_USER_REQUEST: {
       return {
@@ -91,7 +113,6 @@ export const userReducer = (state = initialUserState, action) => {
         currentUserFailed: false,
         user: action.user,
         currentUserRequest: false,
-        // isLoggedIn: true,
       };
     }
     case GET_USER_FAILED: {
@@ -126,7 +147,7 @@ export const userReducer = (state = initialUserState, action) => {
       return {
         ...state,
         deleteUserFailed: false,
-        user: {},
+        user: null,
         deleteUserRequest: false,
       };
     }

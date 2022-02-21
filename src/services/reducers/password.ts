@@ -6,23 +6,35 @@ import {
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
 } from "../constants";
+import {TPasswordActions} from "../actions/password";
 
+type TForgotPasswordState = {
+  forgot_password: string,
+  forgot_passwordRequest: boolean,
+  forgot_passwordFailed: boolean,
+}
 
-const initialForgotPasswordState = {
-  forgot_password: {},
+type TResetPasswordState = {
+  reset_password: string,
+  reset_passwordRequest: boolean,
+  reset_passwordFailed: boolean,
+}
+
+const initialForgotPasswordState: TForgotPasswordState = {
+  forgot_password: '',
   forgot_passwordRequest: false,
   forgot_passwordFailed: false,
 };
 
-const initialResetPasswordState = {
-  reset_password: {},
+const initialResetPasswordState: TResetPasswordState = {
+  reset_password: '',
   reset_passwordRequest: false,
   reset_passwordFailed: false,
 };
 
 export const forgotPasswordReducer = (
   state = initialForgotPasswordState,
-  action
+  action: TPasswordActions
 ) => {
   switch (action.type) {
     case SET_FORGOT_PASSWORD_REQUEST: {
@@ -55,7 +67,7 @@ export const forgotPasswordReducer = (
 
 export const resetPasswordReducer = (
   state = initialResetPasswordState,
-  action
+  action: TPasswordActions
 ) => {
   switch (action.type) {
     case SET_RESET_PASSWORD_REQUEST: {

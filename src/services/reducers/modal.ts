@@ -1,12 +1,19 @@
 import {CLOSE_ERR_MODAL, CLOSE_ORDER_MODAL, OPEN_ERR_MODAL, OPEN_ORDER_MODAL, SET_ERR} from "../constants";
+import {TModalActions} from "../actions/modal";
 
-const initialModalState = {
+type TModalState = {
+  isOrderModalVisible: boolean,
+  isErrModalVisible: boolean,
+  error: string,
+}
+
+const initialModalState: TModalState = {
   isOrderModalVisible: false,
   isErrModalVisible: false,
   error: "",
 };
 
-export const modalReducer = (state = initialModalState, action) => {
+export const modalReducer = (state = initialModalState, action: TModalActions) => {
   switch (action.type) {
     case OPEN_ORDER_MODAL: {
       return {

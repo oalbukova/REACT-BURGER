@@ -1,10 +1,15 @@
 import { TAB_SWITCH } from "../constants";
+import {TTabActions} from "../actions/tab";
 
-const initialTabState = {
+type TTabState = {
+  currentTab: string;
+}
+
+const initialTabState: TTabState = {
   currentTab: "bun",
 };
 
-export const tabReducer = (state = initialTabState, action) => {
+export const tabReducer = (state = initialTabState, action: TTabActions) => {
   switch (action.type) {
     case TAB_SWITCH: {
       return {

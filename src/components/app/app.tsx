@@ -71,77 +71,75 @@ const App = (): JSX.Element => {
     dispatch(closeErrModal());
   };
 
+  const Loader = (): JSX.Element => {
+    return (
+      <div className={styles.loader}>
+        <BallTriangle
+          color="#4c4cff"
+          height={200}
+          width={200}
+          visible={true}
+        />
+      </div>
+    )
+  }
 
   return (
     <>
       {items.length !== 0 ? (
-        <div className={styles.app}>
-          <AppHeader/>
-          <Switch location={background || location}>
-            <Route path="/" exact>
-              <Main/>
-            </Route>
-            <Route path="/login">
-              <LoginPage/>
-            </Route>
-            <Route path="/register">
-              <RegisterPage/>
-            </Route>
-            <Route path="/forgot-password">
-              <ForgotPasswordPage/>
-            </Route>
-            <Route path="/reset-password">
-              <ResetPasswordPage/>
-            </Route>
-            <Route path="/ingredients/:id" children={<IngredientPage/>}/>
-            {user.length !== 0 ?
-              <ProtectedRoute path="/profile">
-                <ProfilePage/>
-              </ProtectedRoute>
-              :
-              <div className={styles.loader}>
-                <BallTriangle
-                  color="#4c4cff"
-                  height={200}
-                  width={200}
-                  visible={true}
-                />
-              </div>
-            }
-            <Route>
-              <NotFound404/>
-            </Route>
-          </Switch>
-          {background && (
-            <Route
-              path="/ingredients/:id"
-              children={
-                <Modal handleClose={handleCloseIngredientModal}>
-                  <IngredientDetails/>
-                </Modal>
+          <div className={styles.app}>
+            <AppHeader/>
+            <Switch location={background || location}>
+              <Route path="/" exact>
+                <Main/>
+              </Route>
+              <Route path="/login">
+                <LoginPage/>
+              </Route>
+              <Route path="/register">
+                <RegisterPage/>
+              </Route>
+              <Route path="/forgot-password">
+                <ForgotPasswordPage/>
+              </Route>
+              <Route path="/reset-password">
+                <ResetPasswordPage/>
+              </Route>
+              <Route path="/ingredients/:id" children={<IngredientPage/>}/>
+              {user?.length !== 0 ?
+                <ProtectedRoute path="/profile">
+                  <ProfilePage/>
+                </ProtectedRoute>
+                :
+                <Loader/>
               }
-            />
-          )}
-          {isOrderModalVisible && (
-            <Modal handleClose={handleCloseOrderModal}>
-              <OrderDetails/>
-            </Modal>
-          )}
-          {isErrModalVisible && (
-            <Modal handleClose={handleCloseErrModal}>
-              <Err/>
-            </Modal>
-          )}
-        </div>) : (
-        <div className={styles.loader}>
-          <BallTriangle
-            color="#4c4cff"
-            height={200}
-            width={200}
-            visible={true}
-          />
-        </div>
-      )}
+              <Route>
+                <NotFound404/>
+              </Route>
+            </Switch>
+            {background && (
+              <Route
+                path="/ingredients/:id"
+                children={
+                  <Modal handleClose={handleCloseIngredientModal}>
+                    <IngredientDetails/>
+                  </Modal>
+                }
+              />
+            )}
+            {isOrderModalVisible && (
+              <Modal handleClose={handleCloseOrderModal}>
+                <OrderDetails/>
+              </Modal>
+            )}
+            {isErrModalVisible && (
+              <Modal handleClose={handleCloseErrModal}>
+                <Err/>
+              </Modal>
+            )}
+          </div>) :
+        <Loader/>
+      }
     </>
   );
 };

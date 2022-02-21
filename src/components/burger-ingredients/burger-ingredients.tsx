@@ -26,7 +26,6 @@ const BurgerIngredients = (): JSX.Element => {
   const dispatch = useDispatch();
   const {items} = useSelector((state: any) => state.ingredientsReducer);
   const {currentTab} = useSelector((state: any) => state.tabReducer);
-  // const { isLoad } = useSelector((state: any) => state.ingredientsReducer);
 
   const bunRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);

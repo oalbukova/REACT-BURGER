@@ -1,11 +1,15 @@
 import {  SET_BTN_DISABLED, SET_BTN_ACTIVE } from "../constants";
+import { TButtonActions } from "../actions/button";
 
+type TButtonState = {
+  isBtnDisabled: boolean;
+}
 
-const initialButtonState = {
+const initialButtonState: TButtonState = {
   isBtnDisabled: false,
 };
 
-export const buttonReducer = (state = initialButtonState, action) => {
+export const buttonReducer = (state = initialButtonState, action: TButtonActions) => {
   switch (action.type) {
     case SET_BTN_DISABLED: {
       return {

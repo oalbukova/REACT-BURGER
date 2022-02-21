@@ -6,16 +6,22 @@ import {
   DELETE_SELECTED_TOPPINGS,
   SORT_TOPPING,
 } from "../constants";
+import {TSelectedItemsActions} from "../actions/selected-items";
+import {TIngredient} from "../../utils/type";
 
+type TSelectedItemsState = {
+  selectedBun: ReadonlyArray<TIngredient>,
+  selectedToppings: ReadonlyArray<TIngredient>,
+}
 
-const initialSelectedItemsState = {
+const initialSelectedItemsState: TSelectedItemsState = {
   selectedBun: [],
   selectedToppings: [],
 };
 
 export const selectedItemsReducer = (
   state = initialSelectedItemsState,
-  action
+  action: TSelectedItemsActions
 ) => {
   switch (action.type) {
     case ADD_SELECTED_BUN: {
