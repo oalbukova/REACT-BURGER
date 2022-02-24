@@ -1,12 +1,12 @@
 // react redux types
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 
 //styles
 import styles from "./err.module.css";
 
 const Err = (): JSX.Element => {
-  const { error } = useSelector((state: any) => state.modalReducer);
+  const { error } = useSelector((state) => state.modalReducer);
 
   return (
     <div className={`${styles.container} mt-20 mb-20`}>

@@ -1,6 +1,6 @@
 // react redux types
 import React, {RefObject, useMemo, useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../services/hooks";
 import {tabSwitch} from "../../services/actions/tab";
 
 // children components
@@ -24,8 +24,8 @@ const BurgerIngredients = (): JSX.Element => {
   const toppingElem: HTMLElement | null = document.querySelector("#topping");
 
   const dispatch = useDispatch();
-  const {items} = useSelector((state: any) => state.ingredientsReducer);
-  const {currentTab} = useSelector((state: any) => state.tabReducer);
+  const {items} = useSelector((state) => state.ingredientsReducer);
+  const {currentTab} = useSelector((state) => state.tabReducer);
 
   const bunRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);

@@ -1,6 +1,6 @@
 // react redux types
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 
 // image
 import vector1 from "../../images/vector1.svg";
@@ -12,7 +12,7 @@ import stroke from "../../images/stroke.svg";
 import styles from "./order-details.module.css";
 
 const OrderDetails = (): JSX.Element => {
-  const { order } = useSelector((state: any) => state.orderReducer);
+  const { order } = useSelector((state) => state.orderReducer);
 
   return (
     <div className={`${styles.orderDetails} pt-20 pb-15`}>

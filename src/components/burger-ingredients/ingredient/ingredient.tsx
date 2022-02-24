@@ -1,6 +1,6 @@
 // react redux types
 import React, { FC, useMemo } from "react";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../../services/hooks";
 import { Link, useLocation } from "react-router-dom";
 
 // dnd
@@ -26,7 +26,7 @@ const Ingredient: FC<TBurgerIngredient> = ({ ingredient }) => {
   const location = useLocation<TLocationState>();
 
   const { selectedBun, selectedToppings } = useSelector(
-    (state: any) => state.selectedItemsReducer
+    (state) => state.selectedItemsReducer
   );
 
   const count = useMemo<number>(

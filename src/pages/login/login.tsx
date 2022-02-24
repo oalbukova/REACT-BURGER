@@ -1,6 +1,6 @@
 // react redux types
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/hooks";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import { authorize } from "../../services/actions/user";
 
@@ -19,7 +19,7 @@ const LoginPage = (): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation<TLocationState>();
 
-  const { user } = useSelector((state: any) => state.userReducer);
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState({ email: "", password: "" });
 

@@ -1,6 +1,6 @@
 // react redux types
 import React, { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { useHistory } from "react-router-dom";
 
 import { getOrder } from "../../services/actions/order";
@@ -38,10 +38,10 @@ const BurgerConstructor = (): JSX.Element => {
   const history = useHistory<THistoryState>();
 
   const { selectedBun, selectedToppings } = useSelector(
-    (state: any) => state.selectedItemsReducer
+    (state) => state.selectedItemsReducer
   );
-  const { user } = useSelector((state: any) => state.userReducer);
-  const { isBtnDisabled } = useSelector((state: any) => state.buttonReducer);
+  const { user } = useSelector((state) => state.userReducer);
+  const { isBtnDisabled } = useSelector((state) => state.buttonReducer);
 
   const handleDrop = (item: TIngredient): void => {
     item.uuid = uuidv4();
@@ -84,7 +84,7 @@ const BurgerConstructor = (): JSX.Element => {
   }, [dispatch, totalPrice, selectedBun]);
 
   const selectedId = useMemo<Array<string>>(() => {
-    return selectedBun.concat(selectedToppings).map((item: any) => item._id);
+    return selectedBun.concat(selectedToppings).map((item: TIngredient) => item._id);
   }, [selectedBun, selectedToppings]);
 
   const handleOpenOrderModal = (): void => {

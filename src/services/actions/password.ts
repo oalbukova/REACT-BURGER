@@ -10,6 +10,7 @@ import {
 
 // utils
 import {forgotPasswordRequest, resetPasswordRequest} from "../api";
+import {AppDispatch, AppThunk, TRequestMessage} from "../../utils/type";
 
 export interface ISetForgotPasswordAction {
   readonly type: typeof SET_FORGOT_PASSWORD_REQUEST;
@@ -21,7 +22,7 @@ export interface ISetForgotPasswordFailedAction {
 
 export interface ISetForgotPasswordSuccessAction {
   readonly type: typeof SET_FORGOT_PASSWORD_SUCCESS;
-  readonly forgot_password: string;
+  readonly forgot_password: TRequestMessage;
 }
 
 export interface ISetResetPasswordAction {
@@ -34,7 +35,7 @@ export interface ISetResetPasswordFailedAction {
 
 export interface ISetResetPasswordSuccessAction {
   readonly type: typeof SET_RESET_PASSWORD_SUCCESS;
-  readonly reset_password: string;
+  readonly reset_password: TRequestMessage;
 }
 
 export type TPasswordActions =
@@ -53,7 +54,7 @@ export const setForgotPasswordFailed = (): ISetForgotPasswordFailedAction => ({
   type: SET_FORGOT_PASSWORD_FAILED
 });
 
-export const setForgotPasswordSuccess = (forgot_password: string): ISetForgotPasswordSuccessAction => ({
+export const setForgotPasswordSuccess = (forgot_password: TRequestMessage): ISetForgotPasswordSuccessAction => ({
   type: SET_FORGOT_PASSWORD_SUCCESS,
   forgot_password
 });
@@ -66,13 +67,13 @@ export const setResetPasswordFailed = (): ISetResetPasswordFailedAction => ({
   type: SET_RESET_PASSWORD_FAILED
 });
 
-export const setResetPasswordSuccess = (reset_password: string): ISetResetPasswordSuccessAction => ({
+export const setResetPasswordSuccess = (reset_password: TRequestMessage): ISetResetPasswordSuccessAction => ({
   type: SET_RESET_PASSWORD_SUCCESS,
   reset_password
 });
 
-export function forgotPassword(email: string) {
-  return function (dispatch: any) {
+export const forgotPassword: AppThunk = (email: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(setForgotPassword());
     forgotPasswordRequest(email)
       .then((res) => {
@@ -85,7 +86,7 @@ export function forgotPassword(email: string) {
       })
       .then((data) => {
         if (data.success) {
-          dispatch(setForgotPasswordSuccess(data));
+          dispatch(setForgotPasswordSuccess(data))
         }
       })
       .catch((err) => {
@@ -96,8 +97,8 @@ export function forgotPassword(email: string) {
   };
 }
 
-export function resetPassword(password: string, token: string) {
-  return function (dispatch: any) {
+export const resetPassword: AppThunk = (password: string, token: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(setResetPassword());
     resetPasswordRequest(password, token)
       .then((res) => {

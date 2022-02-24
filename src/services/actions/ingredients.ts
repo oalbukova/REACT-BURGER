@@ -2,8 +2,8 @@ import {GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,} from "../consta
 import {openErrModal, setError} from "./modal";
 
 // utils
-import {API_URL} from "../../utils/constants";
-import {TIngredient} from "../../utils/type";
+import {AppDispatch, AppThunk, TIngredient} from "../../utils/type";
+import {getIngredientsRequest} from "../api";
 
 
 export interface IGetIngredientsAction {
@@ -38,11 +38,10 @@ export const getIngredientsSuccessAction = (items: ReadonlyArray<TIngredient>): 
   items
 });
 
-export function getItems() {
-  return function (dispatch: any) {
+export const getItems: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch(getIngredientsAction());
-    fetch(`${API_URL}ingredients
-    `)
+    getIngredientsRequest()
       .then((res /*: Response*/) => {
         if (res.ok) {
           return res.json();

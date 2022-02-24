@@ -19,12 +19,13 @@ import {
   UPDATE_USER_SUCCESS,
 } from "../constants";
 import {TUserActions} from "../actions/user";
-import {TData, TToken} from "../../utils/type";
+import {TData, TToken, TUserData} from "../../utils/type";
 
 
 type TUserState = {
-  user:  TData | undefined,
-  token: TToken | undefined,
+  data: TData,
+  user: TUserData,
+  token: TToken,
 
   userRequest: boolean,
   userFailed: boolean,
@@ -43,8 +44,9 @@ type TUserState = {
   updateTokenFailed: boolean,
 }
 const initialUserState: TUserState = {
-  user: undefined,
-  token: undefined,
+  data: {},
+  user: {},
+  token: {},
 
   userRequest: false,
   userFailed: false,
@@ -75,7 +77,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       return {
         ...state,
         userFailed: false,
-        user: action.user,
+        data: action.user,
         userRequest: false,
       };
     }
@@ -93,7 +95,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       return {
         ...state,
         authFailed: false,
-        user: action.user,
+        data: action.user,
         authRequest: false,
       };
     }
@@ -125,6 +127,8 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
         currentUserRequest: true,
       };
     }
+
+
     case UPDATE_USER_SUCCESS: {
       return {
         ...state,
@@ -147,7 +151,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       return {
         ...state,
         deleteUserFailed: false,
-        user: null,
+        user: {},
         deleteUserRequest: false,
       };
     }

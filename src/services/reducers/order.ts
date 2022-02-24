@@ -5,11 +5,11 @@ import {TOrder} from "../../utils/type";
 type TOrderState = {
   orderRequest: boolean,
   orderFailed: boolean,
-  order: TOrder | null,
+  order: TOrder,
 }
 
 const initialOrderState: TOrderState = {
-  order: null,
+  order: {},
   orderRequest: false,
   orderFailed: false,
 };

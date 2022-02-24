@@ -17,12 +17,12 @@ import {
   UPDATE_TOKEN_SUCCESS,
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
+  UPDATE_USER_SUCCESS
 } from "../constants";
 
 // utils
 import {deleteCookie, setTokens} from "../../utils/utils";
-import {TData, TDeleteUserData, TToken, TUserData} from "../../utils/type";
+import {AppDispatch, AppThunk, TData, TRequestMessage, TToken, TUserData} from "../../utils/type";
 import {
   authorizeRequest,
   deleteUserRequest,
@@ -56,7 +56,7 @@ export interface IDeleteUserFailedAction {
 
 export interface IDeleteUserSuccessAction {
   readonly type: typeof DELETE_USER_SUCCESS;
-  readonly user: TDeleteUserData;
+  readonly user: TRequestMessage;
 }
 
 export interface IGetUserAction {
@@ -152,7 +152,7 @@ export const deleteUserFailedAction = (): IDeleteUserFailedAction => ({
   type: DELETE_USER_FAILED
 });
 
-export const deleteUserSuccessAction = (user: TDeleteUserData): IDeleteUserSuccessAction => ({
+export const deleteUserSuccessAction = (user: TRequestMessage): IDeleteUserSuccessAction => ({
   type: DELETE_USER_SUCCESS,
   user
 });
@@ -209,8 +209,9 @@ export const updateTokenSuccessAction = (token: TToken): IUpdateTokenSuccessActi
   token
 });
 
-export function register(email: string, password: string, name: string) {
-  return function (dispatch: any) {
+
+export const register: AppThunk = (email: string, password: string, name: string) => {
+  return function (dispatch: AppDispatch | AppThunk) {
     dispatch(setUserAction());
     registerRequest(email, password, name)
       .then((res) => {
@@ -236,8 +237,8 @@ export function register(email: string, password: string, name: string) {
   };
 }
 
-export function updateToken(callback: any) {
-  return function (dispatch: any) {
+export const updateToken: AppThunk = (callback: CallableFunction) => {
+  return function (dispatch: AppDispatch | AppThunk) {
     dispatch(updateTokenAction());
     updateTokenRequest()
       .then((res) => {
@@ -262,8 +263,8 @@ export function updateToken(callback: any) {
   };
 }
 
-export function getUser() {
-  return function (dispatch: any) {
+export const getUser: AppThunk = () => {
+  return function (dispatch: AppDispatch | AppThunk) {
     dispatch(getUserAction());
     getUserRequest()
       .then((res) => {
@@ -289,8 +290,10 @@ export function getUser() {
   };
 }
 
-export function authorize(email: string, password: string) {
-  return function (dispatch: any) {
+
+
+export const authorize: AppThunk = (email: string, password: string) => {
+  return function (dispatch: AppDispatch | AppThunk) {
     dispatch(authorizeAction());
     authorizeRequest(email, password)
       .then((res) => {
@@ -320,8 +323,8 @@ export function authorize(email: string, password: string) {
   };
 }
 
-export function updateUser(email: string, password: string, name: string) {
-  return function (dispatch: any) {
+export const updateUser: AppThunk = (email: string, password: string, name: string) => {
+  return function (dispatch: AppDispatch | AppThunk) {
     dispatch(updateUserAction());
     updateUserRequest(email, password, name)
       .then((res) => {
@@ -349,8 +352,8 @@ export function updateUser(email: string, password: string, name: string) {
   };
 }
 
-export function deleteUser(token: string | null) {
-  return function (dispatch: any) {
+export const deleteUser: AppThunk = (token: string | null) => {
+  return function (dispatch: AppDispatch) {
     dispatch(deleteUserAction());
     deleteUserRequest(token)
       .then((res) => {

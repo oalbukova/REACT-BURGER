@@ -1,6 +1,6 @@
 // react redux types
 import React, { useRef, useCallback, FC } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../../services/hooks";
 import {
   deleteSelectedTopping,
   sortTopping,
@@ -91,7 +91,7 @@ const Ingredient: FC<TConstructorIngredient> = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

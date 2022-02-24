@@ -1,31 +1,20 @@
 // react redux types
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  ChangeEvent,
-  FocusEvent,
-  FormEvent,
-} from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../services/actions/user";
+import React, {ChangeEvent, FocusEvent, FormEvent, useCallback, useEffect, useState,} from "react";
+import {useDispatch, useSelector} from "../../services/hooks";
+import {updateUser} from "../../services/actions/user";
 
 // styles
 import styles from "./user-form.module.css";
 
 // ui-components
-import {
-  Input,
-  PasswordInput,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { TForm } from "../../utils/type";
-import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
+import {Button, Input, PasswordInput,} from "@ya.praktikum/react-developer-burger-ui-components";
+import {TForm} from "../../utils/type";
+import {TICons} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 
 const UserForm = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state: any) => state.userReducer);
+  const {user} = useSelector((state) => state.userReducer);
 
   const nameRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
@@ -52,11 +41,11 @@ const UserForm = (): JSX.Element => {
 
   useEffect((): void => {
     user?.user &&
-      setValue({
-        name: user.user.name,
-        email: user.user.email,
-        password: "",
-      });
+    setValue({
+      name: user.user.name,
+      email: user.user.email,
+      password: "",
+    });
   }, [user?.user]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -66,7 +55,7 @@ const UserForm = (): JSX.Element => {
     e.target.name === "email" && e.target.value.length < 1
       ? setEmailErr(true)
       : setEmailErr(false);
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setValue({...form, [e.target.name]: e.target.value});
     setShowButton(true);
   };
 
@@ -87,6 +76,7 @@ const UserForm = (): JSX.Element => {
   const handleCancel = (): void => {
     setNameErr(false);
     setEmailErr(false);
+    user?.user &&
     setValue({
       name: user.user.name,
       email: user.user.email,

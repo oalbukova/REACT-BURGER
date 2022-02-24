@@ -1,7 +1,7 @@
 import {DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS} from "../constants";
-import { openOrderModal, openErrModal, setError } from "./modal";
+import {openErrModal, openOrderModal, setError} from "./modal";
 import {getOrderRequest} from '../api';
-import {TOrder} from "../../utils/type";
+import {AppDispatch, AppThunk, TOrder} from "../../utils/type";
 
 
 export interface IGetOrderAction {
@@ -44,8 +44,8 @@ export const deleteCurrentOrder = (): IDeleteOrderAction => ({
   type: DELETE_CURRENT_ORDER,
 });
 
-export const getOrder = (selectedId: ReadonlyArray<string>) => {
-  return function (dispatch: any) {
+export const getOrder: AppThunk = (selectedId: ReadonlyArray<string>) => {
+  return function (dispatch: AppDispatch) {
     dispatch(getOrderAction());
     getOrderRequest(selectedId)
       .then((res) => {

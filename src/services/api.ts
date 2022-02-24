@@ -1,31 +1,11 @@
 import {API_URL} from "../utils/constants";
-import {authorize, deleteUser, getUser, updateUser} from "./actions/user";
 import {getCookie} from "../utils/utils";
 
-type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
-  [key in TDataKey]: TDataType
-} & {
-  success: boolean; message?: string; headers?: Headers;
-};
 
-interface CustomBody<T extends any> extends Body {
-  json(): Promise<T>;
-}
+export const getIngredientsRequest = async (): Promise<Response>  =>
+  await fetch(`${API_URL}ingredients`)
 
-interface CustomResponse<T> extends CustomBody<T> {
-  readonly headers: Headers;
-  readonly ok: boolean;
-  readonly redirected: boolean;
-  readonly status: number;
-  readonly statusText: string;
-  readonly trailer: Promise<Headers>;
-  readonly type: ResponseType;
-  readonly url: string;
-
-  clone(): Response;
-}
-
-export const getOrderRequest = async (selectedId: ReadonlyArray<string>) =>
+export const getOrderRequest = async (selectedId: ReadonlyArray<string>)  =>
   await fetch(`${API_URL}orders`, {
     method: "POST",
     headers: {
@@ -36,7 +16,7 @@ export const getOrderRequest = async (selectedId: ReadonlyArray<string>) =>
     }),
   })
 
-export const forgotPasswordRequest = async (email: string) =>
+export const forgotPasswordRequest = async (email: string): Promise<Response> =>
   await fetch(`${API_URL}password-reset`, {
     method: "POST",
     headers: {
@@ -45,7 +25,7 @@ export const forgotPasswordRequest = async (email: string) =>
     body: JSON.stringify({email}),
   })
 
-export const resetPasswordRequest = async (password: string, token: string) =>
+export const resetPasswordRequest = async (password: string, token: string): Promise<Response> =>
   await fetch(`${API_URL}password-reset/reset`, {
     method: "POST",
     headers: {
@@ -54,7 +34,7 @@ export const resetPasswordRequest = async (password: string, token: string) =>
     body: JSON.stringify({password, token}),
   })
 
-export const registerRequest = async (email: string, password: string, name: string) =>
+export const registerRequest = async (email: string, password: string, name: string): Promise<Response> =>
   await fetch(`${API_URL}auth/register`, {
     method: "POST",
     headers: {
@@ -64,7 +44,7 @@ export const registerRequest = async (email: string, password: string, name: str
     body: JSON.stringify({email, password, name}),
   })
 
-export const updateTokenRequest = async () =>
+export const updateTokenRequest = async (): Promise<Response> =>
   await fetch(`${API_URL}auth/token`, {
     method: "POST",
     mode: "cors",
@@ -80,7 +60,7 @@ export const updateTokenRequest = async () =>
     }),
   })
 
-export const getUserRequest = async () =>
+export const getUserRequest = async (): Promise<Response> =>
   await fetch(`${API_URL}auth/user`, {
     method: "GET",
     mode: "cors",
@@ -94,7 +74,7 @@ export const getUserRequest = async () =>
     referrerPolicy: "no-referrer",
   })
 
-export const authorizeRequest = async (email: string, password: string) =>
+export const authorizeRequest = async (email: string, password: string): Promise<Response> =>
   await fetch(`${API_URL}auth/login`, {
     method: "POST",
     mode: "cors",
@@ -108,7 +88,7 @@ export const authorizeRequest = async (email: string, password: string) =>
     body: JSON.stringify({email, password}),
   })
 
-export const updateUserRequest = async (email: string, password: string, name: string) =>
+export const updateUserRequest = async (email: string, password: string, name: string): Promise<Response> =>
   await fetch(`${API_URL}auth/user`, {
     method: "PATCH",
     mode: "cors",
@@ -123,7 +103,7 @@ export const updateUserRequest = async (email: string, password: string, name: s
     body: JSON.stringify({email, password, name}),
   })
 
-export const deleteUserRequest = async (token: string | null) =>
+export const deleteUserRequest = async (token: string | null): Promise<Response> =>
   await  fetch(`${API_URL}auth/logout`, {
     method: "POST",
     mode: "cors",

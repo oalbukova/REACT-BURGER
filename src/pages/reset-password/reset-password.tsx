@@ -1,6 +1,6 @@
 // react redux types
 import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Link, Redirect } from "react-router-dom";
 import { resetPassword } from "../../services/actions/password";
 
@@ -20,11 +20,12 @@ import {TResetPasswordForm} from "../../utils/type";
 const ResetPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { reset_password } = useSelector((state: any) => state.resetPasswordReducer);
+  const { reset_password } = useSelector(state => state.resetPasswordReducer);
   const { forgot_password } = useSelector(
-    (state: any) => state.forgotPasswordReducer
+    state => state.forgotPasswordReducer
   );
-  const { user } = useSelector((state: any) => state.userReducer);
+
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState<TResetPasswordForm>({
     code: "",

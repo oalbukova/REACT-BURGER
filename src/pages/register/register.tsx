@@ -1,6 +1,6 @@
 // react redux types
 import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/hooks";
 import { Link, Redirect } from "react-router-dom";
 import { register } from "../../services/actions/user";
 
@@ -19,7 +19,7 @@ import {TForm} from "../../utils/type";
 const RegisterPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state: any) => state.userReducer);
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState<TForm>({
     name: "",

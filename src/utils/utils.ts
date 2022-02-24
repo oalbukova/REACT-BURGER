@@ -46,8 +46,8 @@ export function deleteCookie(name: string): void {
 }
 
 export function setTokens(data: TData): void {
-  const accessToken: string = data.accessToken.split("Bearer ")[1];
-  const authToken: string = data.refreshToken;
+  const accessToken: string | undefined = data.accessToken?.split("Bearer ")[1];
+  const authToken: string | undefined = data.refreshToken;
   accessToken && setCookie("token", accessToken, { "max-age": 30 });
   authToken && localStorage.setItem("refreshToken", authToken);
 }
