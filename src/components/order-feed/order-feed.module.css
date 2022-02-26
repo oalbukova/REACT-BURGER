@@ -1,0 +1,25 @@
+.main {
+  width: 600px;
+  position: relative;
+}
+
+.container {
+  padding-inline-start: 0;
+  max-height: 947px;
+  overflow-y: scroll;
+  scrollbar-color: #2f2f37 #8585ad;
+  scrollbar-width: thin;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: solid #8585ad;
+}

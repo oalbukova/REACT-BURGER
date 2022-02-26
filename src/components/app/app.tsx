@@ -35,6 +35,7 @@ import {BallTriangle} from "react-loader-spinner";
 
 // styles
 import styles from "./app.module.css";
+import OrderHistory from "../order-history/order-history";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -89,6 +90,9 @@ const App = (): JSX.Element => {
           <Switch location={background || location}>
             <Route path="/" exact>
               <Main/>
+            </Route>
+            <Route path="/feed">
+              <OrderHistory />
             </Route>
             <Route path="/login">
               <LoginPage/>

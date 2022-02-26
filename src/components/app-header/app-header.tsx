@@ -48,7 +48,7 @@ const AppHeader = (): JSX.Element => {
           <div className={`${styles.navLink} pl-6 pr-5`}>
             <ListIcon type="secondary" />
             <NavLink
-              to={{ pathname: `#` }}
+              to={{ pathname: `/feed` }}
               exact
               className={`${styles.navLink} ml-2 text text_type_main-default`}
               activeClassName={`${styles.activeNavLink}`}

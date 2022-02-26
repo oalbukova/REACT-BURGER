@@ -1,5 +1,5 @@
 import {History, Location} from "history";
-import {ThunkAction, ThunkDispatch} from 'redux-thunk';
+import {ThunkAction} from 'redux-thunk';
 import {Action, ActionCreator, Dispatch} from 'redux';
 import {store} from '../services/store';
 import {TButtonActions} from "../services/actions/button";
@@ -10,6 +10,7 @@ import {TPasswordActions} from "../services/actions/password";
 import {TSelectedItemsActions} from "../services/actions/selected-items";
 import {TTabActions} from "../services/actions/tab";
 import {TUserActions} from "../services/actions/user";
+import {number} from "prop-types";
 
 type TApplicationActions =
   TButtonActions
@@ -52,14 +53,9 @@ export type TDragItem = {
   index: number; id: string; type: string;
 };
 
-// export type TForm = {
-//   name: string | undefined; email: string | undefined; password: string;
-// };
-
 export type TForm = {
   name: string; email: string; password: string;
 };
-
 
 export type TIconTypes = 'secondary' | 'primary' | 'error' | 'success';
 
@@ -90,3 +86,23 @@ export type TUserData = {
 export type TRequestMessage = {
   success?: boolean; message?: string;
 };
+
+type TIngredientsId = ReadonlyArray<string>;
+
+export type TFeed = {
+  ingredients: TIngredientsId;
+  _id: string;
+  status: string;
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TOrderFeeds ={
+  success: boolean;
+  orders: Array<TFeed>;
+  total: number;
+  totalToday: number;
+};
+
