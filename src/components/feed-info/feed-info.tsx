@@ -328,7 +328,7 @@ const FeedInfo = (): JSX.Element => {
       return done;
     })
     return done;
-  }, [feeds]);
+  }, [feeds.orders]);
 
   const createdArr = useMemo<Array<number>>(() => {
     const created: Array<number> = [];
@@ -339,7 +339,7 @@ const FeedInfo = (): JSX.Element => {
       return created;
     })
     return created;
-  }, [feeds]);
+  }, [feeds.orders]);
 
 
   return (<section className={`${styles.main} mt-5`}>

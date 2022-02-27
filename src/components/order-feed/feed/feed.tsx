@@ -21,6 +21,7 @@ type TOrderFeed = {
 
 const Feed: FC<TOrderFeed> = ({feed}) => {
   const location = useLocation<TLocationState>();
+  const {pathname} = useLocation<TLocationState>();
   const {items} = useSelector((state) => state.ingredientsReducer);
 
   const date: moment.Moment = moment(feed.createdAt);
@@ -56,6 +57,9 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
     return images;
   }, [feed, items]);
 
+   const status = (feed.status === "created") ? "Создан" : (feed.status === "pending") ? "Готовится" : (feed.status === "done") ? "Выполнен" : '';
+
+const statusStyle = (feed.status === "done") ? {color: "#00CCCC"} : {color: "#F2F2F3"};
 
   return (<li className={`${styles.item} p-6 mb-4`}>
     <Link
@@ -68,8 +72,9 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
         <p className="text text_type_digits-default">#0{feed.number}</p>
         <p className="text text_type_main-default text_color_inactive">{dateFormatted}</p>
       </div>
-      <h2 className='text text_type_main-medium mt-6 mb-6'>{feed.name}</h2>
-      <div className={`${styles.container}`}>
+      <h2 className='text text_type_main-medium mt-6'>{feed.name}</h2>
+      {pathname === "/profile/orders" ? <p className={`text text_type_main-default mt-2`} style={statusStyle}>{status}</p> : null}
+      <div className={`${styles.container} mt-6`}>
         <div className={`${styles.images}`}>
           {imagesArr && imagesArr.map((el: string, index: number) => ((index < 6) &&
             <div key={index} className={`${styles.img_box}`}>

@@ -28,6 +28,7 @@ import ResetPasswordPage from "../../pages/reset-password/reset-password";
 import ProfilePage from "../../pages/profile/profile";
 import IngredientPage from "../../pages/ingredient/ingredient";
 import NotFound404 from "../../pages/err404/err404";
+import Feeds from "../../pages/feeds/feeds";
 
 // utils
 import {THistoryState, TLocationState} from "../../utils/type";
@@ -35,7 +36,7 @@ import {BallTriangle} from "react-loader-spinner";
 
 // styles
 import styles from "./app.module.css";
-import OrderHistory from "../order-history/order-history";
+
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ const App = (): JSX.Element => {
               <Main/>
             </Route>
             <Route path="/feed">
-              <OrderHistory />
+              <Feeds />
             </Route>
             <Route path="/login">
               <LoginPage/>
