@@ -10,7 +10,6 @@ import {TPasswordActions} from "../services/actions/password";
 import {TSelectedItemsActions} from "../services/actions/selected-items";
 import {TTabActions} from "../services/actions/tab";
 import {TUserActions} from "../services/actions/user";
-import {number} from "prop-types";
 
 type TApplicationActions =
   TButtonActions
@@ -90,19 +89,16 @@ export type TRequestMessage = {
 type TIngredientsId = ReadonlyArray<string>;
 
 export type TFeed = {
-  ingredients: TIngredientsId;
-  _id: string;
-  status: string;
-  number: number;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
+  ingredients: TIngredientsId; _id: string; status: string; number: number; name: string; createdAt: string; updatedAt: string;
 };
 
-export type TOrderFeeds ={
-  success: boolean;
-  orders: Array<TFeed>;
-  total: number;
-  totalToday: number;
+export type TOrderFeeds = {
+  success: boolean; orders: Array<TFeed>; total: number; totalToday: number;
+};
+
+export type TStatus = "Создан" | "Готовится" | "Выполнен" | string;
+
+export type TStatusStyle = {
+  color: string;
 };
 

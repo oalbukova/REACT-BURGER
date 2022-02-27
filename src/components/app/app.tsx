@@ -19,6 +19,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import Err from "../err/err";
 import ProtectedRoute from "../protected-route/protected-route";
+import Order from "../order/order";
 
 // pages
 import LoginPage from "../../pages/login/login";
@@ -44,23 +45,22 @@ const App = (): JSX.Element => {
   const history = useHistory<THistoryState>();
 
   const {items} = useSelector((state) => state.ingredientsReducer);
-  const {currentUserRequest} = useSelector(
-    (state) => state.userReducer
-  );
+  const {currentUserRequest} = useSelector((state) => state.userReducer);
 
   const background = location?.state && location.state.background;
 
-  const {isOrderModalVisible, isErrModalVisible} = useSelector(
-    (state) => state.modalReducer
-  );
+  const {isOrderModalVisible, isErrModalVisible} = useSelector((state) => state.modalReducer);
 
   useEffect(() => {
     dispatch(getItems());
     dispatch(getUser());
-    // dispatch(updateToken(() => dispatch(getUser())));
   }, [dispatch]);
 
   const handleCloseIngredientModal = (): void => {
+    history.goBack();
+  };
+
+  const handleCloseFeedModal = (): void => {
     history.goBack();
   };
 
@@ -76,24 +76,20 @@ const App = (): JSX.Element => {
   };
 
   const Loader = (): JSX.Element => {
-    return (
-      <div className={styles.loader}>
+    return (<div className={styles.loader}>
         <BallTriangle color="#4c4cff" height={200} width={200} visible={true}/>
-      </div>
-    );
+      </div>);
   };
 
-  return (
-    <>
-      {items.length !== 0 ? (
-        <div className={styles.app}>
+  return (<>
+      {items.length !== 0 ? (<div className={styles.app}>
           <AppHeader/>
           <Switch location={background || location}>
             <Route path="/" exact>
               <Main/>
             </Route>
             <Route path="/feed">
-              <Feeds />
+              <Feeds/>
             </Route>
             <Route path="/login">
               <LoginPage/>
@@ -108,43 +104,33 @@ const App = (): JSX.Element => {
               <ResetPasswordPage/>
             </Route>
             <Route path="/ingredients/:id" children={<IngredientPage/>}/>
-            {currentUserRequest ? (
-              <Loader />
-            ) : (
-              <ProtectedRoute path="/profile">
-                <ProfilePage />
-              </ProtectedRoute>
-            )}
+            {currentUserRequest ? (<Loader/>) : (<ProtectedRoute path="/profile">
+                <ProfilePage/>
+              </ProtectedRoute>)}
             <Route>
               <NotFound404/>
             </Route>
           </Switch>
-          {background && (
-            <Route
+          {background && (<Route
+              path="/feed/:id"
+              children={<Modal handleClose={handleCloseFeedModal}>
+                <Order/>
+              </Modal>}
+            />)}
+          {background && (<Route
               path="/ingredients/:id"
-              children={
-                <Modal handleClose={handleCloseIngredientModal}>
-                  <IngredientDetails/>
-                </Modal>
-              }
-            />
-          )}
-          {isOrderModalVisible && (
-            <Modal handleClose={handleCloseOrderModal}>
+              children={<Modal handleClose={handleCloseIngredientModal}>
+                <IngredientDetails/>
+              </Modal>}
+            />)}
+          {isOrderModalVisible && (<Modal handleClose={handleCloseOrderModal}>
               <OrderDetails/>
-            </Modal>
-          )}
-          {isErrModalVisible && (
-            <Modal handleClose={handleCloseErrModal}>
+            </Modal>)}
+          {isErrModalVisible && (<Modal handleClose={handleCloseErrModal}>
               <Err/>
-            </Modal>
-          )}
-        </div>
-      ) : (
-        <Loader/>
-      )}
-    </>
-  );
+            </Modal>)}
+        </div>) : (<Loader/>)}
+    </>);
 };
 
 export default App;

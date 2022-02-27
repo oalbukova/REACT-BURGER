@@ -1,0 +1,36 @@
+.images {
+  padding-inline-start: 0;
+  max-height: 335px;
+  overflow-y: scroll;
+  scrollbar-color: #2f2f37 #8585ad;
+  scrollbar-width: thin;
+}
+
+.images::-webkit-scrollbar {
+  width: 8px;
+}
+
+.images::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+.images::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: solid #8585ad;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+}

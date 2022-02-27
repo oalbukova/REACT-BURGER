@@ -2,7 +2,7 @@
 import React, {FC, useMemo} from "react";
 import {Link, useLocation} from "react-router-dom";
 import {useSelector} from "../../../services/hooks";
-import {TFeed, TLocationState} from "../../../utils/type";
+import {TFeed, TLocationState, TStatus, TStatusStyle} from "../../../utils/type";
 
 // moment
 import moment from 'moment';
@@ -31,11 +31,15 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
     return (`${date.fromNow()}, ${date.format('h:mm')} i-GMT${gmt.slice(0, 1)}${+gmt.slice(1)}`)
   }, [date]);
 
+  console.log(feed)
+
   const totalPrice = useMemo<number>(() => {
     const price: Array<number> = [];
     items.map(el => {
       for (let i = 0; i < feed.ingredients.length; i++) {
-        if (el._id === feed.ingredients[i]) {
+        if (el._id === feed.ingredients[i] && el.type === "bun") {
+          price.push(el.price * 2)
+        } else if (el._id === feed.ingredients[i]) {
           price.push(el.price)
         }
       }
@@ -57,9 +61,9 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
     return images;
   }, [feed, items]);
 
-   const status = (feed.status === "created") ? "Создан" : (feed.status === "pending") ? "Готовится" : (feed.status === "done") ? "Выполнен" : '';
+  const status: TStatus = (feed.status === "created") ? "Создан" : (feed.status === "pending") ? "Готовится" : (feed.status === "done") ? "Выполнен" : '';
 
-const statusStyle = (feed.status === "done") ? {color: "#00CCCC"} : {color: "#F2F2F3"};
+  const statusStyle: TStatusStyle = (feed.status === "done") ? {color: "#00CCCC"} : {color: "#F2F2F3"};
 
   return (<li className={`${styles.item} p-6 mb-4`}>
     <Link
@@ -73,7 +77,8 @@ const statusStyle = (feed.status === "done") ? {color: "#00CCCC"} : {color: "#F2
         <p className="text text_type_main-default text_color_inactive">{dateFormatted}</p>
       </div>
       <h2 className='text text_type_main-medium mt-6'>{feed.name}</h2>
-      {pathname === "/profile/orders" ? <p className={`text text_type_main-default mt-2`} style={statusStyle}>{status}</p> : null}
+      {pathname === "/profile/orders" ?
+        <p className={`text text_type_main-default mt-2`} style={statusStyle}>{status}</p> : null}
       <div className={`${styles.container} mt-6`}>
         <div className={`${styles.images}`}>
           {imagesArr && imagesArr.map((el: string, index: number) => ((index < 6) &&
