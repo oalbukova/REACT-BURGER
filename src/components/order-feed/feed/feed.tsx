@@ -1,8 +1,8 @@
 // react redux types
 import React, {FC, useMemo} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useRouteMatch} from "react-router-dom";
 import {useSelector} from "../../../services/hooks";
-import {TFeed, TLocationState, TStatus, TStatusStyle} from "../../../utils/type";
+import {TLocationState, TOrderFeed, TStatus, TStatusStyle} from "../../../utils/type";
 
 // moment
 import moment from 'moment';
@@ -15,13 +15,10 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed.module.css";
 
 
-type TOrderFeed = {
-  feed: TFeed;
-};
-
 const Feed: FC<TOrderFeed> = ({feed}) => {
-  const location = useLocation<TLocationState>();
+  const location = useLocation<any>();
   const {pathname} = useLocation<TLocationState>();
+  const { path } = useRouteMatch();
   const {items} = useSelector((state) => state.ingredientsReducer);
 
   const date: moment.Moment = moment(feed.createdAt);
@@ -30,8 +27,6 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
     const gmt: string = date.format('Z').slice(0, 3)
     return (`${date.fromNow()}, ${date.format('h:mm')} i-GMT${gmt.slice(0, 1)}${+gmt.slice(1)}`)
   }, [date]);
-
-  console.log(feed)
 
   const totalPrice = useMemo<number>(() => {
     const price: Array<number> = [];
@@ -69,7 +64,8 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
     <Link
       className={`${styles.link}`}
       to={{
-        pathname: `/feed/${feed._id}`, state: {background: location},
+        pathname: `${path}/${feed._id}`,
+        state: {background: location},
       }}
     >
       <div className={`${styles.info}`}>
@@ -93,7 +89,6 @@ const Feed: FC<TOrderFeed> = ({feed}) => {
           <CurrencyIcon type="primary"/>
         </div>
       </div>
-
     </Link>
   </li>);
 };

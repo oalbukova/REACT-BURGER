@@ -1,3 +1,12 @@
+.container {
+  width: 640px;
+  margin: auto;
+}
+
+.number {
+  text-align: center;
+}
+
 .images {
   padding-inline-start: 0;
   max-height: 335px;

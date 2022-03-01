@@ -1,9 +1,9 @@
 // react redux types
 import React from "react";
-import {NavLink, useHistory, useLocation} from "react-router-dom";
+import {Route, Switch, NavLink, useHistory, useLocation, useRouteMatch} from "react-router-dom";
 import {useDispatch} from "react-redux";
-
 import {deleteUser} from "../../services/actions/user";
+import {THistoryState, TLocationState} from "../../utils/type";
 
 // components
 import UserForm from "../../components/user-form/user-form";
@@ -13,20 +13,23 @@ import OrderHistory from "../../components/order-history/order-history";
 import styles from "./profile.module.css";
 
 // utils
-import {THistoryState, TLocationState} from "../../utils/type";
 import {token} from "../../utils/constants";
+
 
 const ProfilePage = (): JSX.Element => {
   const dispatch = useDispatch();
   const history = useHistory<THistoryState>();
+  const { path } = useRouteMatch();
   const {pathname} = useLocation<TLocationState>();
-
+  // const location = useLocation<TLocationState>();
+  const location = useLocation<any>();
 
   const logout = () => {
     dispatch(deleteUser(token));
     localStorage.removeItem("refreshToken");
     history.push("/login");
   };
+
 
   return (<div className={styles.wrapper}>
       <nav>
@@ -69,8 +72,14 @@ const ProfilePage = (): JSX.Element => {
           В этом разделе вы можете <br/> изменить свои персональные данные
         </p>}
       </nav>
-      {pathname === "/profile" && <UserForm/>}
-      {pathname === "/profile/orders" && <OrderHistory/>}
+    <Switch>
+      <Route exact path={path}>
+        <UserForm/>
+      </Route>
+      <Route path={`${path}/orders`}>
+        <OrderHistory />
+      </Route>
+    </Switch>
     </div>);
 };
 

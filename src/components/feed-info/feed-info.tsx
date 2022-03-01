@@ -8,8 +8,8 @@ import {feeds} from "../../utils/constants";
 import styles from "./feed-info.module.css";
 
 
-
 const FeedInfo = (): JSX.Element => {
+
   const doneArr = useMemo<Array<number>>(() => {
     const done: Array<number> = [];
     feeds.orders.map(el => {
@@ -19,7 +19,7 @@ const FeedInfo = (): JSX.Element => {
       return done;
     })
     return done;
-  }, [feeds.orders]);
+  }, []);
 
   const createdArr = useMemo<Array<number>>(() => {
     const created: Array<number> = [];
@@ -30,7 +30,7 @@ const FeedInfo = (): JSX.Element => {
       return created;
     })
     return created;
-  }, [feeds.orders]);
+  }, []);
 
 
   return (<section className={`${styles.main} mt-5`}>

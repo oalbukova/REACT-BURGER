@@ -8,9 +8,14 @@ export const getIngredientsRequest = async (): Promise<Response>  =>
 export const getOrderRequest = async (selectedId: ReadonlyArray<string>)  =>
   await fetch(`${API_URL}orders`, {
     method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
     },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
     body: JSON.stringify({
       ingredients: selectedId,
     }),
