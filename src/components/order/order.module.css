@@ -9,7 +9,7 @@
 
 .images {
   padding-inline-start: 0;
-  max-height: 335px;
+  max-height: 400px;
   overflow-y: scroll;
   scrollbar-color: #2f2f37 #8585ad;
   scrollbar-width: thin;

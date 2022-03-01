@@ -2,7 +2,6 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "../../services/hooks";
 import {Route, Switch, useHistory, useLocation} from "react-router-dom";
-import {Location} from "history";
 
 // services
 import {getItems} from "../../services/actions/ingredients";
@@ -43,28 +42,14 @@ import styles from "./app.module.css";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
-  //  const location = useLocation<TLocationState>();
+  const location = useLocation<TLocationState>();
   const history = useHistory<THistoryState>();
 
   const {items} = useSelector((state) => state.ingredientsReducer);
   const {user} = useSelector((state) => state.userReducer);
-  const location = useLocation<any>();
-   const background = location.state && location.state.background;
-  // console.log(location)
-  // console.log(background)
-  console.log(history.action)
-
-  // const history = useHistory();
-  // const action = history.action ==='PUSH' || history.action ==='REPLACE';
-  //
-  // type TLocationState={
-  //   background: Location
-  // }
-  // const location = useLocation<TLocationState>();
-  // let background = action && location.state && location.state.background;
-
-
   const {isOrderModalVisible, isErrModalVisible} = useSelector((state) => state.modalReducer);
+
+  const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(getItems());
@@ -120,7 +105,7 @@ const App = (): JSX.Element => {
         </Route>
         <Route path="/profile/orders/:id" children={<OrderPage/>}/>
         <Route path="/ingredients/:id" children={<IngredientPage/>}/>
-        <Route path="/feed/:id" children={<OrderPage/>} />
+        <Route path="/feed/:id" children={<OrderPage/>}/>
         {(user?.user === undefined) ? (<Loader/>) : (<ProtectedRoute path="/profile">
           <ProfilePage/>
         </ProtectedRoute>)}

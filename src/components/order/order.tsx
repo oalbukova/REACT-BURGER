@@ -1,9 +1,9 @@
 // react redux types
-import React, { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useMemo} from "react";
+import {useLocation, useParams} from "react-router-dom";
 import { useSelector } from "../../services/hooks";
 import {
-  TFeed,
+  TFeed, TLocationState,
   TOrderIngredient,
   TStatus,
   TStatusStyle,
@@ -26,8 +26,14 @@ import { feeds } from "../../utils/constants";
 import styles from "./order.module.css";
 
 const Order = (): JSX.Element => {
+  const location = useLocation<TLocationState>();
+
   const { items } = useSelector((state) => state.ingredientsReducer);
   const ID: string = useParams<{ id: string }>().id;
+
+  useEffect(() => {
+    location.state = undefined;
+  }, [location]);
 
   const currentIngredient = useMemo<TFeed>(
     () => feeds.orders.filter((item: TFeed) => item._id === ID)[0],

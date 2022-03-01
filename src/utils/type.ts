@@ -26,7 +26,7 @@ export type AppThunk<ReturnType = void> = ActionCreator<
   ThunkAction<ReturnType, Action, RootState, TApplicationActions>
 >;
 
-export type TLocationState = {
+export type TLocationState = undefined | {
   background: Location;
   from?: { pathname: string };
 };

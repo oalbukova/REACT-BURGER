@@ -16,7 +16,7 @@ type TIngredient = {
 };
 
 const Ingredient: FC<TIngredient> = ({ ingredientArr, ingredient }) => {
-  const count = useMemo<any>(
+  const count = useMemo<number>(
     () =>
       ingredient?.type === "bun"
         ? ingredientArr.filter(
