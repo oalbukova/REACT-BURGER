@@ -10,6 +10,13 @@ import { TPasswordActions } from "../services/actions/password";
 import { TSelectedItemsActions } from "../services/actions/selected-items";
 import { TTabActions } from "../services/actions/tab";
 import { TUserActions } from "../services/actions/user";
+import {TWSActions} from "../services/actions/wsActions";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS, WS_GET_ALL_FEEDS
+} from "../services/constants";
 
 type TApplicationActions =
   | TButtonActions
@@ -19,7 +26,8 @@ type TApplicationActions =
   | TPasswordActions
   | TSelectedItemsActions
   | TTabActions
-  | TUserActions;
+  | TUserActions
+  | TWSActions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = Dispatch<TApplicationActions>;
 export type AppThunk<ReturnType = void> = ActionCreator<
@@ -30,10 +38,6 @@ export type TLocationState = undefined | {
   background: Location;
   from?: { pathname: string };
 };
-
-// export type TLocationState={
-//   background: Location
-// }
 
 export type TPathname = {
   pathname: string;
@@ -141,7 +145,6 @@ export type TOrderFeed = {
 };
 
 export type TOrderFeeds = {
-  success: boolean;
   orders: Array<TFeed>;
   total: number;
   totalToday: number;
@@ -160,3 +163,13 @@ export type TStatus = "Создан" | "Готовится" | "Выполнен"
 export type TStatusStyle = {
   color: string;
 };
+
+export type TwsActions = {
+  wsInit: typeof WS_CONNECTION_START,
+  // wsSendMessage: WS_SEND_MESSAGE,
+  onOpen: typeof WS_CONNECTION_SUCCESS,
+  onClose: typeof WS_CONNECTION_CLOSED,
+  onError: typeof WS_CONNECTION_ERROR,
+  onMessage: typeof WS_GET_ALL_FEEDS
+};
+

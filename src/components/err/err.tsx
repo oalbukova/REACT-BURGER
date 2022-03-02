@@ -10,7 +10,7 @@ const Err = (): JSX.Element => {
 
   return (
     <div className={`${styles.container} mt-20 mb-20`}>
-      <h2 className="text text_type_main-large">
+      <h2 className="text text_type_main-large text_color_inactive">
         Ошибка выполнения запроса: {error}
       </h2>
     </div>

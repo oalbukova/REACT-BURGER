@@ -5,14 +5,14 @@ import {TFeed} from "../../utils/type";
 //children component
 import Feed from "./feed/feed";
 
-// utils
-import {feeds} from "../../utils/constants";
 
 // styles
 import styles from "./order-feed.module.css";
+import {useSelector} from "../../services/hooks";
 
 
 const OrderFeed = (): JSX.Element => {
+  const {feeds} = useSelector((state) => state.wsReducer);
 
   return (
     <section className={styles.main}>

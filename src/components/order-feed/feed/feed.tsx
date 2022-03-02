@@ -39,11 +39,12 @@ const Feed: FC<TOrderFeed> = ({ feed }) => {
     const price: Array<number> = [];
     items.map((el) => {
       for (let i = 0; i < feed.ingredients.length; i++) {
-        if (el._id === feed.ingredients[i] && el.type === "bun") {
-          price.push(el.price * 2);
-        } else if (el._id === feed.ingredients[i]) {
-          price.push(el.price);
-        }
+        // if (el._id === feed.ingredients[i] && el.type === "bun") {
+        //   price.push(el.price * 2);
+        // } else
+        if (el._id === feed.ingredients[i]) {
+          price.push(el.price);}
+        // }
       }
       return price;
     });

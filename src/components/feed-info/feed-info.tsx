@@ -1,44 +1,33 @@
 // react redux types
 import React, {useMemo} from "react";
-
-// utils
-import {feeds} from "../../utils/constants";
+import {useSelector} from "../../services/hooks";
+import {TFeed} from "../../utils/type";
 
 // styles
 import styles from "./feed-info.module.css";
 
 
 const FeedInfo = (): JSX.Element => {
+  const {feeds} = useSelector((state) => state.wsReducer);
 
   const doneArr = useMemo<Array<number>>(() => {
-    const done: Array<number> = [];
-    feeds.orders.map(el => {
-      if (el.status === "done") {
-        done.push(el.number)
-      }
-      return done;
+    return feeds?.orders.filter((el: TFeed) => el.status === "done").map((item: TFeed) => {
+      return item.number
     })
-    return done;
-  }, []);
+  }, [feeds]);
 
   const createdArr = useMemo<Array<number>>(() => {
-    const created: Array<number> = [];
-    feeds.orders.map(el => {
-      if (el.status === "created") {
-        created.push(el.number)
-      }
-      return created;
+    return feeds?.orders.filter((el: TFeed) => el.status === "created").map((item: TFeed) => {
+      return item.number
     })
-    return created;
-  }, []);
-
+  }, [feeds]);
 
   return (<section className={`${styles.main} mt-5`}>
     <div className={`${styles.order_container} mb-15`}>
       <div className={`${styles.done}`}>
         <p className="text text_type_main-medium mb-5">Готовы:</p>
         <div className={`${styles.done_orders}`}>
-          {doneArr && doneArr.map((el: number, index: number) => (
+          {doneArr.map((el: number, index: number) => (
             <p className={`${styles.done_number} text text_type_digits-default mb-2 mr-5`} key={index}>{el}</p>))}
         </div>
       </div>

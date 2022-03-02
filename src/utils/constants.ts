@@ -2,12 +2,15 @@ import { TOrderFeeds } from "./type";
 
 export const API_URL: string = "https://norma.nomoreparties.space/api/";
 
+export const wsUrl: string = "wss://norma.nomoreparties.space/orders/all";
+
+export const wsUserUrl: string = "wss://norma.nomoreparties.space/orders";
+
 export const MILLISECONDS: number = 1000;
 
 export const token: string | null = localStorage.getItem("refreshToken");
 
 export const feeds: TOrderFeeds = {
-  success: true,
   orders: [
     {
       ingredients: [

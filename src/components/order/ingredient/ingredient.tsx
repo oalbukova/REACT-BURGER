@@ -18,11 +18,12 @@ type TIngredient = {
 const Ingredient: FC<TIngredient> = ({ ingredientArr, ingredient }) => {
   const count = useMemo<number>(
     () =>
-      ingredient?.type === "bun"
-        ? ingredientArr.filter(
-            (item: TOrderIngredient) => item.id === ingredient.id
-          ).length * 2
-        : ingredientArr.filter((item: TOrderIngredient) => item.id === ingredient.id).length,
+      // ingredient?.type === "bun"
+      //   ? ingredientArr.filter(
+      //       (item: TOrderIngredient) => item.id === ingredient.id
+      //     ).length * 2
+      //   :
+  ingredientArr.filter((item: TOrderIngredient) => item.id === ingredient.id).length,
     [ingredient, ingredientArr]
   );
 

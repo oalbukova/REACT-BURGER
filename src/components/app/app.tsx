@@ -1,4 +1,3 @@
-// react redux types
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "../../services/hooks";
 import {Route, Switch, useHistory, useLocation} from "react-router-dom";
@@ -20,6 +19,7 @@ import OrderDetails from "../order-details/order-details";
 import Err from "../err/err";
 import ProtectedRoute from "../protected-route/protected-route";
 import Order from "../order/order";
+import Loader from "../loader/loader";
 
 // pages
 import LoginPage from "../../pages/login/login";
@@ -34,7 +34,6 @@ import OrderPage from "../../pages/order/order";
 
 // utils
 import {THistoryState, TLocationState} from "../../utils/type";
-import {BallTriangle} from "react-loader-spinner";
 
 // styles
 import styles from "./app.module.css";
@@ -75,55 +74,39 @@ const App = (): JSX.Element => {
     dispatch(closeErrModal());
   };
 
-  const Loader = (): JSX.Element => {
-    return (<div className={styles.loader}>
-      <BallTriangle color="#4c4cff" height={200} width={200} visible={true}/>
-    </div>);
-  };
-
   return (<>
     {items.length !== 0 ? (<div className={styles.app}>
       <AppHeader/>
       <Switch location={background || location}>
-        <Route path="/" exact>
-          <Main/>
-        </Route>
-        <Route path="/feed" exact>
-          <Feeds/>
-        </Route>
-        <Route path="/login">
-          <LoginPage/>
-        </Route>
-        <Route path="/register">
-          <RegisterPage/>
-        </Route>
-        <Route path="/forgot-password">
-          <ForgotPasswordPage/>
-        </Route>
-        <Route path="/reset-password">
-          <ResetPasswordPage/>
-        </Route>
-        <Route path="/profile/orders/:id" children={<OrderPage/>}/>
+        <Route path="/" exact children={<Main/>}/>
+        <Route path="/feed" exact children={<Feeds/>}/>
+        <Route path="/login" children={<LoginPage/>}/>
+        <Route path="/register" children={<RegisterPage/>}/>
+        <Route path="/forgot-password" children={<ForgotPasswordPage/>}/>
+        <Route path="/reset-password" children={<ResetPasswordPage/>}/>
         <Route path="/ingredients/:id" children={<IngredientPage/>}/>
         <Route path="/feed/:id" children={<OrderPage/>}/>
+        <ProtectedRoute path="/profile/orders/:id" children={<OrderPage/>}/>
         {(user?.user === undefined) ? (<Loader/>) : (<ProtectedRoute path="/profile">
           <ProfilePage/>
         </ProtectedRoute>)}
-        <Route>
-          <NotFound404/>
-        </Route>
+        <Route children={<NotFound404/>}/>
       </Switch>
       {background && (<Route
         path="/feed/:id"
-        children={<Modal handleClose={handleCloseFeedModal}>
-          <Order/>
-        </Modal>}
+        render={(routeProps) => {
+          return <Modal handleClose={handleCloseFeedModal} {...routeProps}>
+            <Order/>
+          </Modal>
+        }}
       />)}
       {background && (<Route
         path="/profile/orders/:id"
-        children={<Modal handleClose={handleCloseFeedModal}>
-          <Order/>
-        </Modal>}
+        render={(routeProps) => {
+          return <Modal handleClose={handleCloseFeedModal} {...routeProps}>
+            <Order/>
+          </Modal>
+        }}
       />)}
       {background && (<Route
         path="/ingredients/:id"

@@ -13,6 +13,7 @@ export const getOrderRequest = async (selectedId: ReadonlyArray<string>)  =>
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
