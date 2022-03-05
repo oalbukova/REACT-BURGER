@@ -1,3 +1,4 @@
+// constants
 import {
   SET_FORGOT_PASSWORD_FAILED,
   SET_FORGOT_PASSWORD_REQUEST,
@@ -6,8 +7,13 @@ import {
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
 } from "../constants";
-import {TPasswordActions} from "../actions/password";
-import {TRequestMessage} from "../../utils/type";
+
+// actions
+import { TPasswordActions } from "../actions/password";
+
+// utils
+import { TRequestMessage } from "../../utils/type";
+
 
 type TPasswordState = {
   forgot_password: TRequestMessage,
@@ -26,7 +32,6 @@ const initialPasswordState: TPasswordState = {
   reset_passwordRequest: false,
   reset_passwordFailed: false,
 };
-
 
 export const forgotPasswordReducer = (
   state = initialPasswordState,

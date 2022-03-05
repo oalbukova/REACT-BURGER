@@ -1,7 +1,15 @@
-import {DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS} from "../constants";
-import {openErrModal, openOrderModal, setError} from "./modal";
-import {getOrderRequest} from '../api';
-import {AppDispatch, AppThunk, TOrder} from "../../utils/type";
+// actions
+import { openErrModal, openOrderModal, setError } from "./modal";
+import { updateToken } from "./user";
+
+// constants
+import { DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS } from "../constants";
+
+// api
+import { getOrderRequest } from '../api';
+
+// utils
+import { AppDispatch, AppThunk, TOrder } from "../../utils/type";
 
 
 export interface IGetOrderAction {
@@ -45,7 +53,7 @@ export const deleteCurrentOrder = (): IDeleteOrderAction => ({
 });
 
 export const getOrder: AppThunk = (selectedId: ReadonlyArray<string>) => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch: AppDispatch | AppThunk) {
     dispatch(getOrderAction());
     getOrderRequest(selectedId)
       .then((res) => {
@@ -61,6 +69,9 @@ export const getOrder: AppThunk = (selectedId: ReadonlyArray<string>) => {
         dispatch(openOrderModal());
       })
       .catch((err) => {
+        if (err === 403) {
+          dispatch(updateToken(() => dispatch(getOrder())));
+        }
         dispatch(getOrderFailedAction());
         dispatch(setError(`getOrder ${err}`));
         dispatch(openErrModal());

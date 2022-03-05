@@ -1,13 +1,14 @@
-import {API_URL} from "../utils/constants";
-import {getCookie} from "../utils/utils";
+import { API_URL } from "../utils/constants";
+import { getCookie } from "../utils/utils";
 
 
-export const getIngredientsRequest = async (): Promise<Response>  =>
+export const getIngredientsRequest = async (): Promise<Response> =>
   await fetch(`${API_URL}ingredients`)
 
-export const getOrderRequest = async (selectedId: ReadonlyArray<string>)  =>
+export const getOrderRequest = async (selectedId: ReadonlyArray<string>) =>
   await fetch(`${API_URL}orders`, {
     method: "POST",
+
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",
@@ -28,7 +29,7 @@ export const forgotPasswordRequest = async (email: string): Promise<Response> =>
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({email}),
+    body: JSON.stringify({ email }),
   })
 
 export const resetPasswordRequest = async (password: string, token: string): Promise<Response> =>
@@ -37,7 +38,7 @@ export const resetPasswordRequest = async (password: string, token: string): Pro
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({password, token}),
+    body: JSON.stringify({ password, token }),
   })
 
 export const registerRequest = async (email: string, password: string, name: string): Promise<Response> =>
@@ -47,7 +48,7 @@ export const registerRequest = async (email: string, password: string, name: str
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({email, password, name}),
+    body: JSON.stringify({ email, password, name }),
   })
 
 export const updateTokenRequest = async (): Promise<Response> =>
@@ -91,7 +92,7 @@ export const authorizeRequest = async (email: string, password: string): Promise
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify({email, password}),
+    body: JSON.stringify({ email, password }),
   })
 
 export const updateUserRequest = async (email: string, password: string, name: string): Promise<Response> =>
@@ -106,11 +107,11 @@ export const updateUserRequest = async (email: string, password: string, name: s
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify({email, password, name}),
+    body: JSON.stringify({ email, password, name }),
   })
 
 export const deleteUserRequest = async (token: string | null): Promise<Response> =>
-  await  fetch(`${API_URL}auth/logout`, {
+  await fetch(`${API_URL}auth/logout`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -120,7 +121,7 @@ export const deleteUserRequest = async (token: string | null): Promise<Response>
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify({token}),
+    body: JSON.stringify({ token }),
   })
 
 

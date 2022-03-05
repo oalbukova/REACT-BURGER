@@ -1,4 +1,7 @@
-import {openErrModal, setError} from "./modal";
+// actions
+import { openErrModal, setError } from "./modal";
+
+// constants
 import {
   SET_FORGOT_PASSWORD_FAILED,
   SET_FORGOT_PASSWORD_REQUEST,
@@ -8,9 +11,11 @@ import {
   SET_RESET_PASSWORD_SUCCESS,
 } from "../constants";
 
+// api
+import { forgotPasswordRequest, resetPasswordRequest } from "../api";
+
 // utils
-import {forgotPasswordRequest, resetPasswordRequest} from "../api";
-import {AppDispatch, AppThunk, TRequestMessage} from "../../utils/type";
+import { AppDispatch, AppThunk, TRequestMessage } from "../../utils/type";
 
 export interface ISetForgotPasswordAction {
   readonly type: typeof SET_FORGOT_PASSWORD_REQUEST;

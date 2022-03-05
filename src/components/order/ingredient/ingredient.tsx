@@ -1,29 +1,23 @@
-// react redux types
+// react redux
 import React, { FC, useMemo } from "react";
 
 // ui-components
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import { TOrderIngredient } from "../../../utils/type";
+import { TOrderIngredient, TPageIngredient } from "../../../utils/type";
 
 // styles
 import styles from "./ingredient.module.css";
 
-type TIngredient = {
-  ingredientArr: Array<TOrderIngredient>;
-  ingredient: TOrderIngredient;
-};
-
-const Ingredient: FC<TIngredient> = ({ ingredientArr, ingredient }) => {
+const Ingredient: FC<TPageIngredient> = ({ ingredientArr, ingredient }) => {
   const count = useMemo<number>(
     () =>
-      // ingredient?.type === "bun"
-      //   ? ingredientArr.filter(
-      //       (item: TOrderIngredient) => item.id === ingredient.id
-      //     ).length * 2
-      //   :
-  ingredientArr.filter((item: TOrderIngredient) => item.id === ingredient.id).length,
+      ingredient?.type === "bun"
+        ? 2
+        : ingredientArr.filter(
+            (item: TOrderIngredient) => item.id === ingredient.id
+          ).length,
     [ingredient, ingredientArr]
   );
 

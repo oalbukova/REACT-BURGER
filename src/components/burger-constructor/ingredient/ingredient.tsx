@@ -1,6 +1,8 @@
-// react redux types
+// react redux
 import React, { useRef, useCallback, FC } from "react";
 import { useDispatch } from "../../../services/hooks";
+
+// services
 import {
   deleteSelectedTopping,
   sortTopping,
@@ -16,11 +18,11 @@ import {
 import { useDrag, useDrop } from "react-dnd";
 import type { XYCoord, Identifier } from "dnd-core";
 
-// styles
-import styles from "./ingredient.module.css";
-
 // utils
 import { TConstructorIngredient, TDragItem } from "../../../utils/type";
+
+// styles
+import styles from "./ingredient.module.css";
 
 const Ingredient: FC<TConstructorIngredient> = ({
   item,

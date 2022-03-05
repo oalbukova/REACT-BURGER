@@ -1,7 +1,9 @@
-// react redux types
+// react redux
 import React, { FC, useMemo } from "react";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useSelector } from "../../../services/hooks";
+
+// utils
 import {
   TLocationState,
   TOrderFeed,
@@ -35,21 +37,38 @@ const Feed: FC<TOrderFeed> = ({ feed }) => {
     )}${+gmt.slice(1)}`;
   }, [date]);
 
+  const filteredArr = useMemo<Array<string>>(() => {
+    const buns: Array<string> = [];
+    const notBuns: Array<string> = [];
+
+    items.map((el) => {
+      for (let i = 0; i < feed.ingredients.length; i++) {
+        if (el._id === feed.ingredients[i] && el.type === "bun") {
+          buns.push(el._id);
+        } else if (el._id === feed.ingredients[i] && el.type !== "bun") {
+          notBuns.push(el._id);
+        }
+      }
+      return { buns, notBuns };
+    });
+    return [...Array.from(new Set(buns)), ...notBuns];
+  }, [feed.ingredients, items]);
+
   const totalPrice = useMemo<number>(() => {
     const price: Array<number> = [];
     items.map((el) => {
-      for (let i = 0; i < feed.ingredients.length; i++) {
-        // if (el._id === feed.ingredients[i] && el.type === "bun") {
-        //   price.push(el.price * 2);
-        // } else
-        if (el._id === feed.ingredients[i]) {
-          price.push(el.price);}
-        // }
+      for (let i = 0; i < filteredArr.length; i++) {
+        if (el._id === filteredArr[i] && el.type === "bun") {
+          price.push(el.price * 2);
+        } else if (el._id === filteredArr[i]) {
+          price.push(el.price);
+        }
       }
       return price;
     });
+
     return price.reduce((sum: number, item: number) => sum + item, 0);
-  }, [feed, items]);
+  }, [filteredArr, items]);
 
   const imagesArr = useMemo<Array<string>>(() => {
     const images: Array<string> = [];

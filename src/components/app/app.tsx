@@ -1,14 +1,17 @@
-import React, {useEffect} from "react";
-import {useDispatch, useSelector} from "../../services/hooks";
-import {Route, Switch, useHistory, useLocation} from "react-router-dom";
+// react redux
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
 // services
-import {getItems} from "../../services/actions/ingredients";
-import {getUser} from "../../services/actions/user";
-
-import {closeErrModal, closeOrderModal} from "../../services/actions/modal";
-import {deleteCurrentOrder} from "../../services/actions/order";
-import {deleteSelectedBuns, deleteSelectedToppings,} from "../../services/actions/selected-items";
+import { getItems } from "../../services/actions/ingredients";
+import { getUser } from "../../services/actions/user";
+import { closeErrModal, closeOrderModal } from "../../services/actions/modal";
+import { deleteCurrentOrder } from "../../services/actions/order";
+import {
+  deleteSelectedBuns,
+  deleteSelectedToppings,
+} from "../../services/actions/selected-items";
 
 //components
 import AppHeader from "../app-header/app-header";
@@ -33,20 +36,21 @@ import Feeds from "../../pages/feeds/feeds";
 import OrderPage from "../../pages/order/order";
 
 // utils
-import {THistoryState, TLocationState} from "../../utils/type";
+import { THistoryState, TLocationState } from "../../utils/type";
 
 // styles
 import styles from "./app.module.css";
-
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation<TLocationState>();
   const history = useHistory<THistoryState>();
 
-  const {items} = useSelector((state) => state.ingredientsReducer);
-  const {user} = useSelector((state) => state.userReducer);
-  const {isOrderModalVisible, isErrModalVisible} = useSelector((state) => state.modalReducer);
+  const { items } = useSelector((state) => state.ingredientsReducer);
+  const { user } = useSelector((state) => state.userReducer);
+  const { isOrderModalVisible, isErrModalVisible } = useSelector(
+    (state) => state.modalReducer
+  );
 
   const background = location.state && location.state.background;
 
@@ -74,54 +78,87 @@ const App = (): JSX.Element => {
     dispatch(closeErrModal());
   };
 
-  return (<>
-    {items.length !== 0 ? (<div className={styles.app}>
-      <AppHeader/>
-      <Switch location={background || location}>
-        <Route path="/" exact children={<Main/>}/>
-        <Route path="/feed" exact children={<Feeds/>}/>
-        <Route path="/login" children={<LoginPage/>}/>
-        <Route path="/register" children={<RegisterPage/>}/>
-        <Route path="/forgot-password" children={<ForgotPasswordPage/>}/>
-        <Route path="/reset-password" children={<ResetPasswordPage/>}/>
-        <Route path="/ingredients/:id" children={<IngredientPage/>}/>
-        <Route path="/feed/:id" children={<OrderPage/>}/>
-        <ProtectedRoute path="/profile/orders/:id" children={<OrderPage/>}/>
-        {(user?.user === undefined) ? (<Loader/>) : (<ProtectedRoute path="/profile">
-          <ProfilePage/>
-        </ProtectedRoute>)}
-        <Route children={<NotFound404/>}/>
-      </Switch>
-      {background && (<Route
-        path="/feed/:id"
-        render={(routeProps) => {
-          return <Modal handleClose={handleCloseFeedModal} {...routeProps}>
-            <Order/>
-          </Modal>
-        }}
-      />)}
-      {background && (<Route
-        path="/profile/orders/:id"
-        render={(routeProps) => {
-          return <Modal handleClose={handleCloseFeedModal} {...routeProps}>
-            <Order/>
-          </Modal>
-        }}
-      />)}
-      {background && (<Route
-        path="/ingredients/:id"
-        children={<Modal handleClose={handleCloseIngredientModal}>
-          <IngredientDetails/>
-        </Modal>}
-      />)}
-      {isOrderModalVisible && (<Modal handleClose={handleCloseOrderModal}>
-        <OrderDetails/>
-      </Modal>)}
-      {isErrModalVisible && (<Modal handleClose={handleCloseErrModal}>
-        <Err/>
-      </Modal>)}
-    </div>) : (<Loader/>)}
-  </>);
+  return (
+    <>
+      {items.length !== 0 ? (
+        <div className={styles.app}>
+          <AppHeader />
+          <Switch location={background || location}>
+            <Route path="/" exact children={<Main />} />
+            <Route path="/feed" exact children={<Feeds />} />
+            <Route path="/login" children={<LoginPage />} />
+            <Route path="/register" children={<RegisterPage />} />
+            <Route path="/forgot-password" children={<ForgotPasswordPage />} />
+            <Route path="/reset-password" children={<ResetPasswordPage />} />
+            <Route path="/ingredients/:id" children={<IngredientPage />} />
+            <Route path="/feed/:id" children={<OrderPage />} />
+            {user?.user === undefined ? (
+              <Loader />
+            ) : (
+              <ProtectedRoute
+                path="/profile/orders/:id"
+                children={<OrderPage />}
+              />
+            )}
+            {user?.user === undefined ? (
+              <Loader />
+            ) : (
+              <ProtectedRoute path="/profile">
+                <ProfilePage />
+              </ProtectedRoute>
+            )}
+            <Route children={<NotFound404 />} />
+          </Switch>
+          {background && (
+            <Route
+              path="/feed/:id"
+              render={(routeProps) => {
+                return (
+                  <Modal handleClose={handleCloseFeedModal} {...routeProps}>
+                    <Order />
+                  </Modal>
+                );
+              }}
+            />
+          )}
+          {background && (
+            <Route
+              path="/profile/orders/:id"
+              render={(routeProps) => {
+                return (
+                  <Modal handleClose={handleCloseFeedModal} {...routeProps}>
+                    <Order />
+                  </Modal>
+                );
+              }}
+            />
+          )}
+          {background && (
+            <Route
+              path="/ingredients/:id"
+              children={
+                <Modal handleClose={handleCloseIngredientModal}>
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+          )}
+          {isOrderModalVisible && (
+            <Modal handleClose={handleCloseOrderModal}>
+              <OrderDetails />
+            </Modal>
+          )}
+          {isErrModalVisible && (
+            <Modal handleClose={handleCloseErrModal}>
+              <Err />
+            </Modal>
+          )}
+        </div>
+      ) : (
+        <Loader />
+      )}
+    </>
+  );
 };
 
 export default App;

@@ -1,8 +1,10 @@
-// react redux types
-import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
-import { useSelector, useDispatch } from "../../services/hooks";
+// react redux
+import React, { useState, useCallback, ChangeEvent, FormEvent } from "react";
 import { Link, Redirect } from "react-router-dom";
+
+// services
 import { forgotPassword } from "../../services/actions/password";
+import { useSelector, useDispatch } from "../../services/hooks";
 
 // ui-components
 import {

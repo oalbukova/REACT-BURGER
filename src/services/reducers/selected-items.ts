@@ -1,3 +1,4 @@
+// constants
 import {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
@@ -6,8 +7,13 @@ import {
   DELETE_SELECTED_TOPPINGS,
   SORT_TOPPING,
 } from "../constants";
-import {TSelectedItemsActions} from "../actions/selected-items";
-import {TIngredient} from "../../utils/type";
+
+// actions
+import { TSelectedItemsActions } from "../actions/selected-items";
+
+// utils
+import { TIngredient } from "../../utils/type";
+
 
 type TSelectedItemsState = {
   selectedBun: ReadonlyArray<TIngredient>,
@@ -27,13 +33,13 @@ export const selectedItemsReducer = (
     case ADD_SELECTED_BUN: {
       return {
         ...state,
-        selectedBun: [{...action.item}],
+        selectedBun: [{ ...action.item }],
       };
     }
     case ADD_SELECTED_TOPPING: {
       return {
         ...state,
-        selectedToppings: [...state.selectedToppings, {...action.item}],
+        selectedToppings: [...state.selectedToppings, { ...action.item }],
       };
     }
 

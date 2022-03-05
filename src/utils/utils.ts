@@ -1,6 +1,7 @@
+// utils
 import { MILLISECONDS } from "./constants";
+import { TCookieProps, TData } from "./type";
 
-import {TCookieProps, TData} from "./type";
 
 export function getCookie(name: string): string | undefined {
   const matches = document.cookie.match(

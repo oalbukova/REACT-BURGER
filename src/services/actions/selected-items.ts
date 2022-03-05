@@ -1,3 +1,4 @@
+// constants
 import {
   ADD_SELECTED_BUN,
   ADD_SELECTED_TOPPING,
@@ -7,7 +8,8 @@ import {
   SORT_TOPPING,
 } from "../constants";
 
-import {TIngredient} from "../../utils/type";
+// utils
+import { TIngredient } from "../../utils/type";
 
 
 export interface IAddSelectedBunAction {

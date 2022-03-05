@@ -1,3 +1,4 @@
+// constants
 import {
   OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
@@ -5,6 +6,7 @@ import {
   CLOSE_ERR_MODAL,
   SET_ERR
 } from "../constants";
+
 
 export interface IOpenOrderModalAction {
   readonly type: typeof OPEN_ORDER_MODAL;

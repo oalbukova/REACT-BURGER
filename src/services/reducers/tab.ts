@@ -1,5 +1,9 @@
+// constants
 import { TAB_SWITCH } from "../constants";
-import {TTabActions} from "../actions/tab";
+
+// actions
+import { TTabActions } from "../actions/tab";
+
 
 type TTabState = {
   currentTab: string;

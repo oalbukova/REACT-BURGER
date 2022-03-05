@@ -1,4 +1,4 @@
-// react redux types
+// react redux
 import React from "react";
 import {
   Route,
@@ -9,8 +9,13 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
+// services
 import { deleteUser } from "../../services/actions/user";
 import { THistoryState, TLocationState } from "../../utils/type";
+
+// utils
+import { token } from "../../utils/constants";
 
 // components
 import UserForm from "../../components/user-form/user-form";
@@ -18,9 +23,6 @@ import OrderHistory from "../../components/order-history/order-history";
 
 // styles
 import styles from "./profile.module.css";
-
-// utils
-import { token } from "../../utils/constants";
 
 const ProfilePage = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -33,7 +35,6 @@ const ProfilePage = (): JSX.Element => {
     localStorage.removeItem("refreshToken");
     history.push("/login");
   };
-
 
   return (
     <div className={styles.wrapper}>

@@ -1,4 +1,6 @@
-import {TAB_SWITCH} from "../constants";
+// constants
+import { TAB_SWITCH } from "../constants";
+
 
 export interface ITabSwitchAction {
   readonly type: typeof TAB_SWITCH;

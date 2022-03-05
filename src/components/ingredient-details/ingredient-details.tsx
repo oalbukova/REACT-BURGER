@@ -1,22 +1,21 @@
-// react redux types
-import React, {useMemo} from "react";
-import {useSelector} from "../../services/hooks";
-import {useParams} from "react-router-dom";
+// react redux
+import React, { useMemo } from "react";
+import { useSelector } from "../../services/hooks";
+import { useParams } from "react-router-dom";
 
 // utils
-import {TIngredient} from "../../utils/type";
+import { TIngredient } from "../../utils/type";
 
 //styles
 import styles from "./ingredient-details.module.css";
 
 const IngredientDetails = (): JSX.Element => {
-  const {items} = useSelector((state) => state.ingredientsReducer);
+  const { items } = useSelector((state) => state.ingredientsReducer);
 
   const ID: string = useParams<{ id: string }>().id;
 
   const currentIngredient = useMemo<TIngredient>(
-    () =>
-      items.filter((item: TIngredient) => item._id === ID)[0],
+    () => items.filter((item: TIngredient) => item._id === ID)[0],
     [items, ID]
   );
 

@@ -1,3 +1,4 @@
+// constants
 import {
   AUTHORIZE_FAILED,
   AUTHORIZE_REQUEST,
@@ -18,8 +19,12 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
 } from "../constants";
-import {TUserActions} from "../actions/user";
-import {TData, TToken, TUserData} from "../../utils/type";
+
+// actions
+import { TUserActions } from "../actions/user";
+
+// utils
+import { TData, TToken, TUserData } from "../../utils/type";
 
 
 type TUserState = {
@@ -82,7 +87,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       };
     }
     case SET_USER_FAILED: {
-      return {...state, userFailed: true, userRequest: false};
+      return { ...state, userFailed: true, userRequest: false };
     }
 
     case AUTHORIZE_REQUEST: {
@@ -100,7 +105,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       };
     }
     case AUTHORIZE_FAILED: {
-      return {...state, authFailed: true, authRequest: false};
+      return { ...state, authFailed: true, authRequest: false };
     }
 
     case GET_USER_REQUEST: {
@@ -118,7 +123,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       };
     }
     case GET_USER_FAILED: {
-      return {...state, currentUserFailed: true, currentUserRequest: false};
+      return { ...state, currentUserFailed: true, currentUserRequest: false };
     }
 
     case UPDATE_USER_REQUEST: {
@@ -138,7 +143,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       };
     }
     case UPDATE_USER_FAILED: {
-      return {...state, currentUserFailed: true, currentUserRequest: false};
+      return { ...state, currentUserFailed: true, currentUserRequest: false };
     }
 
     case DELETE_USER_REQUEST: {
@@ -156,7 +161,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       };
     }
     case DELETE_USER_FAILED: {
-      return {...state, deleteUserFailed: true, deleteUserRequest: false};
+      return { ...state, deleteUserFailed: true, deleteUserRequest: false };
     }
 
     case UPDATE_TOKEN_REQUEST: {
@@ -174,7 +179,7 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
       };
     }
     case UPDATE_TOKEN_FAILED: {
-      return {...state, updateTokenFailed: true, updateTokenRequest: false};
+      return { ...state, updateTokenFailed: true, updateTokenRequest: false };
     }
 
     default: {

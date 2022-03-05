@@ -1,11 +1,10 @@
-// react redux types
+// react redux
 import React from "react";
 import { useSelector } from "../../services/hooks";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { TIconTypes, TLocationState, TPathname } from "../../utils/type";
 
-// styles
-import styles from "./app-header.module.css";
+// utils
+import { TIconTypes, TLocationState, TPathname } from "../../utils/type";
 
 // ui-components
 import {
@@ -14,6 +13,9 @@ import {
   Logo,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+// styles
+import styles from "./app-header.module.css";
 
 const AppHeader = (): JSX.Element => {
   const { pathname } = useLocation<TLocationState>();

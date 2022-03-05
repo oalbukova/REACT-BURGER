@@ -1,6 +1,8 @@
+// react redux
 import React from "react";
 import { Link } from "react-router-dom";
 
+// styles
 import styles from "./err404.module.css";
 
 const NotFound404 = (): JSX.Element => {

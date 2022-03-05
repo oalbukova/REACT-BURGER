@@ -2,6 +2,7 @@
   width: 600px;
   box-sizing: border-box;
   border: 2px dashed transparent;
+  position: relative;
 }
 
 .text {
@@ -61,4 +62,8 @@
 .price {
   display: flex;
   align-items: center;
+}
+
+.text_loader {
+margin-top: 200px;
 }

@@ -1,6 +1,12 @@
-import {GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS} from "../constants";
-import {TIngredientsActions} from "../actions/ingredients";
-import {TIngredient} from "../../utils/type";
+// constants
+import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS } from "../constants";
+
+// actions
+import { TIngredientsActions } from "../actions/ingredients";
+
+// utils
+import { TIngredient } from "../../utils/type";
+
 
 type TIngredientState = {
   items: ReadonlyArray<TIngredient>,
@@ -26,7 +32,7 @@ export const ingredientsReducer = (state = initialIngredientsState, action: TIng
       };
     }
     case GET_ITEMS_FAILED: {
-      return {...state, itemsFailed: true, itemsRequest: false};
+      return { ...state, itemsFailed: true, itemsRequest: false };
     }
 
     default: {

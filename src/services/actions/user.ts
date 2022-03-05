@@ -1,4 +1,7 @@
-import {openErrModal, setError} from "./modal";
+// actions
+import { openErrModal, setError } from "./modal";
+
+// constants
 import {
   AUTHORIZE_FAILED,
   AUTHORIZE_REQUEST,
@@ -21,8 +24,10 @@ import {
 } from "../constants";
 
 // utils
-import {deleteCookie, setTokens} from "../../utils/utils";
-import {AppDispatch, AppThunk, TData, TRequestMessage, TToken, TUserData} from "../../utils/type";
+import { deleteCookie, setTokens } from "../../utils/utils";
+import { AppDispatch, AppThunk, TData, TRequestMessage, TToken, TUserData } from "../../utils/type";
+
+// api
 import {
   authorizeRequest,
   deleteUserRequest,

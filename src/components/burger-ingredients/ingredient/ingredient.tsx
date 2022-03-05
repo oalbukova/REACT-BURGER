@@ -1,6 +1,6 @@
 // react redux types
 import React, { FC, useMemo } from "react";
-import {useSelector} from "../../../services/hooks";
+import { useSelector } from "../../../services/hooks";
 import { Link, useLocation } from "react-router-dom";
 
 // dnd
@@ -13,14 +13,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // utils
-import { TIngredient, TLocationState } from "../../../utils/type";
+import {
+  TBurgerIngredient,
+  TIngredient,
+  TLocationState,
+} from "../../../utils/type";
 
 // styles
 import styles from "./ingredient.module.css";
-
-type TBurgerIngredient = {
-  ingredient: TIngredient;
-};
 
 const Ingredient: FC<TBurgerIngredient> = ({ ingredient }) => {
   const location = useLocation<TLocationState>();
@@ -47,7 +47,6 @@ const Ingredient: FC<TBurgerIngredient> = ({ ingredient }) => {
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
-
 
   return (
     <li className={`${styles.item} mb-7`} style={{ opacity }} ref={dragRef}>

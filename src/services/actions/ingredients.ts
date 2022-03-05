@@ -1,9 +1,14 @@
-import {GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS,} from "../constants";
-import {openErrModal, setError} from "./modal";
+// constants
+import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, } from "../constants";
+
+// actions
+import { openErrModal, setError } from "./modal";
 
 // utils
-import {AppDispatch, AppThunk, TIngredient} from "../../utils/type";
-import {getIngredientsRequest} from "../api";
+import { AppDispatch, AppThunk, TIngredient } from "../../utils/type";
+
+// api
+import { getIngredientsRequest } from "../api";
 
 
 export interface IGetIngredientsAction {

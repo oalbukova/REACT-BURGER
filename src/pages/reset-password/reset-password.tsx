@@ -1,11 +1,13 @@
-// react redux types
-import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
+// react redux
+import React, { useState, useCallback, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { Link, Redirect } from "react-router-dom";
+
+// services
 import { resetPassword } from "../../services/actions/password";
 
-// styles
-import styles from "./reset-password.module.css";
+// utils
+import { TResetPasswordForm } from "../../utils/type";
 
 // ui-components
 import {
@@ -14,15 +16,15 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-// utils
-import {TResetPasswordForm} from "../../utils/type";
+// styles
+import styles from "./reset-password.module.css";
 
 const ResetPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { reset_password } = useSelector(state => state.resetPasswordReducer);
+  const { reset_password } = useSelector((state) => state.resetPasswordReducer);
   const { forgot_password } = useSelector(
-    state => state.forgotPasswordReducer
+    (state) => state.forgotPasswordReducer
   );
 
   const { user } = useSelector((state) => state.userReducer);
@@ -63,7 +65,6 @@ const ResetPasswordPage = (): JSX.Element => {
       />
     );
   }
-
 
   return (
     <div className={styles.wrapper}>

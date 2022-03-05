@@ -1,6 +1,12 @@
-import {DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS,} from "../constants";
-import {TOrderActions} from "../actions/order";
-import {TOrder} from "../../utils/type";
+// constants
+import { DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, } from "../constants";
+
+// actions
+import { TOrderActions } from "../actions/order";
+
+// utils
+import { TOrder } from "../../utils/type";
+
 
 type TOrderState = {
   orderRequest: boolean,
@@ -31,11 +37,11 @@ export const orderReducer = (state = initialOrderState, action: TOrderActions) =
       };
     }
     case GET_ORDER_FAILED: {
-      return {...state, orderFailed: true, orderRequest: false};
+      return { ...state, orderFailed: true, orderRequest: false };
     }
 
     case DELETE_CURRENT_ORDER: {
-      return {...state, order: {}};
+      return { ...state, order: {} };
     }
     default: {
       return state;
