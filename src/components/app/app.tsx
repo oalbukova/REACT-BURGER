@@ -1,12 +1,11 @@
-// react redux types
+// react redux
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
 // services
 import { getItems } from "../../services/actions/ingredients";
-import { getUser, updateToken } from "../../services/actions/user";
-
+import { getUser } from "../../services/actions/user";
 import { closeErrModal, closeOrderModal } from "../../services/actions/modal";
 import { deleteCurrentOrder } from "../../services/actions/order";
 import {
@@ -22,6 +21,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import Err from "../err/err";
 import ProtectedRoute from "../protected-route/protected-route";
+import Order from "../order/order";
+import Loader from "../loader/loader";
 
 // pages
 import LoginPage from "../../pages/login/login";
@@ -31,6 +32,8 @@ import ResetPasswordPage from "../../pages/reset-password/reset-password";
 import ProfilePage from "../../pages/profile/profile";
 import IngredientPage from "../../pages/ingredient/ingredient";
 import NotFound404 from "../../pages/err404/err404";
+import Feeds from "../../pages/feeds/feeds";
+import OrderPage from "../../pages/order/order";
 
 // utils
 import { THistoryState, TLocationState } from "../../utils/type";
@@ -43,19 +46,24 @@ const App = (): JSX.Element => {
   const location = useLocation<TLocationState>();
   const history = useHistory<THistoryState>();
 
-  const background = location?.state && location.state.background;
-
+  const { items } = useSelector((state) => state.ingredientsReducer);
+  const { user } = useSelector((state) => state.userReducer);
   const { isOrderModalVisible, isErrModalVisible } = useSelector(
-    (state: any) => state.modalReducer
+    (state) => state.modalReducer
   );
+
+  const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(getItems());
     dispatch(getUser());
-    updateToken();
   }, [dispatch]);
 
   const handleCloseIngredientModal = (): void => {
+    history.goBack();
+  };
+
+  const handleCloseFeedModal = () => {
     history.goBack();
   };
 
@@ -71,53 +79,85 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <Switch location={background || location}>
-        <Route path="/" exact>
-          <Main />
-        </Route>
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-        <Route path="/register">
-          <RegisterPage />
-        </Route>
-        <Route path="/forgot-password">
-          <ForgotPasswordPage />
-        </Route>
-        <Route path="/reset-password">
-          <ResetPasswordPage />
-        </Route>
-        <Route path="/ingredients/:id" children={<IngredientPage />} />
-        <ProtectedRoute path="/profile">
-          <ProfilePage />
-        </ProtectedRoute>
-        <Route>
-          <NotFound404 />
-        </Route>
-      </Switch>
-      {background && (
-        <Route
-          path="/ingredients/:id"
-          children={
-            <Modal handleClose={handleCloseIngredientModal}>
-              <IngredientDetails />
+    <>
+      {items.length !== 0 ? (
+        <div className={styles.app}>
+          <AppHeader />
+          <Switch location={background || location}>
+            <Route path="/" exact children={<Main />} />
+            <Route path="/feed" exact children={<Feeds />} />
+            <Route path="/login" children={<LoginPage />} />
+            <Route path="/register" children={<RegisterPage />} />
+            <Route path="/forgot-password" children={<ForgotPasswordPage />} />
+            <Route path="/reset-password" children={<ResetPasswordPage />} />
+            <Route path="/ingredients/:id" children={<IngredientPage />} />
+            <Route path="/feed/:id" children={<OrderPage />} />
+            {user?.user === undefined ? (
+              <Loader />
+            ) : (
+              <ProtectedRoute
+                path="/profile/orders/:id"
+                children={<OrderPage />}
+              />
+            )}
+            {user?.user === undefined ? (
+              <Loader />
+            ) : (
+              <ProtectedRoute path="/profile">
+                <ProfilePage />
+              </ProtectedRoute>
+            )}
+            <Route children={<NotFound404 />} />
+          </Switch>
+          {background && (
+            <Route
+              path="/feed/:id"
+              render={(routeProps) => {
+                return (
+                  <Modal handleClose={handleCloseFeedModal} {...routeProps}>
+                    <Order />
+                  </Modal>
+                );
+              }}
+            />
+          )}
+          {background && (
+            <Route
+              path="/profile/orders/:id"
+              render={(routeProps) => {
+                return (
+                  <Modal handleClose={handleCloseFeedModal} {...routeProps}>
+                    <Order />
+                  </Modal>
+                );
+              }}
+            />
+          )}
+          {background && (
+            <Route
+              path="/ingredients/:id"
+              children={
+                <Modal handleClose={handleCloseIngredientModal}>
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+          )}
+          {isOrderModalVisible && (
+            <Modal handleClose={handleCloseOrderModal}>
+              <OrderDetails />
             </Modal>
-          }
-        />
+          )}
+          {isErrModalVisible && (
+            <Modal handleClose={handleCloseErrModal}>
+              <Err />
+            </Modal>
+          )}
+        </div>
+      ) : (
+        <Loader />
       )}
-      {isOrderModalVisible && (
-        <Modal handleClose={handleCloseOrderModal}>
-          <OrderDetails />
-        </Modal>
-      )}
-      {isErrModalVisible && (
-        <Modal handleClose={handleCloseErrModal}>
-          <Err />
-        </Modal>
-      )}
-    </div>
+    </>
   );
 };
 

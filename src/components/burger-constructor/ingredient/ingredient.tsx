@@ -1,6 +1,8 @@
-// react redux types
+// react redux
 import React, { useRef, useCallback, FC } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../../services/hooks";
+
+// services
 import {
   deleteSelectedTopping,
   sortTopping,
@@ -16,11 +18,11 @@ import {
 import { useDrag, useDrop } from "react-dnd";
 import type { XYCoord, Identifier } from "dnd-core";
 
+// utils
+import { TConstructorIngredient, TDragItem } from "../../../utils/type";
+
 // styles
 import styles from "./ingredient.module.css";
-
-// utils
-import { TConstructorIngredient, DragItem } from "../../../utils/type";
 
 const Ingredient: FC<TConstructorIngredient> = ({
   item,
@@ -45,7 +47,7 @@ const Ingredient: FC<TConstructorIngredient> = ({
   const ref = useRef<HTMLLIElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
-    DragItem,
+    TDragItem,
     void,
     { handlerId: Identifier | null }
   >({
@@ -55,7 +57,7 @@ const Ingredient: FC<TConstructorIngredient> = ({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: TDragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -91,7 +93,7 @@ const Ingredient: FC<TConstructorIngredient> = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

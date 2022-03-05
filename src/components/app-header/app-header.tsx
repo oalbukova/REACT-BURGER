@@ -1,10 +1,10 @@
-// react redux types
+// react redux
 import React from "react";
-import { useSelector } from "react-redux";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { useSelector } from "../../services/hooks";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
-// styles
-import styles from "./app-header.module.css";
+// utils
+import { TIconTypes, TLocationState, TPathname } from "../../utils/type";
 
 // ui-components
 import {
@@ -14,12 +14,23 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const AppHeader = (): JSX.Element => {
-  const { pathname } = useLocation();
-  const { user } = useSelector((state: any) => state.userReducer);
+// styles
+import styles from "./app-header.module.css";
 
-  const typeForConstructor = pathname === "/" ? "primary" : "secondary";
-  const typeForUser = pathname === "/profile" ? "primary" : "secondary";
+const AppHeader = (): JSX.Element => {
+  const { pathname } = useLocation<TLocationState>();
+  const { user, currentUserRequest } = useSelector(
+    (state) => state.userReducer
+  );
+
+  const typeForConstructor: TIconTypes =
+    pathname === "/" ? "primary" : "secondary";
+  const typeForUser: TIconTypes =
+    pathname === "/profile" ? "primary" : "secondary";
+
+  const pathOnProfile: TPathname = user?.user
+    ? { pathname: `/profile` }
+    : { pathname: `/login` };
 
   return (
     <header className={styles.header}>
@@ -39,7 +50,7 @@ const AppHeader = (): JSX.Element => {
           <div className={`${styles.navLink} pl-6 pr-5`}>
             <ListIcon type="secondary" />
             <NavLink
-              to={{ pathname: `#` }}
+              to={{ pathname: `/feed` }}
               exact
               className={`${styles.navLink} ml-2 text text_type_main-default`}
               activeClassName={`${styles.activeNavLink}`}
@@ -54,11 +65,15 @@ const AppHeader = (): JSX.Element => {
         <div className={`${styles.profile}`}>
           <ProfileIcon type={typeForUser} />
           <NavLink
-            to={{ pathname: `/profile` }}
+            to={pathOnProfile}
             className={`${styles.navLink} text text_type_main-default ml-2`}
             activeClassName={`${styles.activeNavLink}`}
           >
-            {user?.user?.name ? user.user.name : "Личный кабинет"}
+            {currentUserRequest
+              ? null
+              : user?.user?.name
+              ? user.user.name
+              : "Личный кабинет"}
           </NavLink>
         </div>
       </div>

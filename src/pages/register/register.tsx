@@ -1,11 +1,13 @@
-// react redux types
-import React, {useState, useCallback, ChangeEvent, FormEvent} from "react";
-import { useSelector, useDispatch } from "react-redux";
+// react redux
+import React, { useState, useCallback, ChangeEvent, FormEvent } from "react";
+import { useSelector, useDispatch } from "../../services/hooks";
 import { Link, Redirect } from "react-router-dom";
+
+// services
 import { register } from "../../services/actions/user";
 
-// styles
-import styles from "./register.module.css";
+// utils
+import { TForm } from "../../utils/type";
 
 // ui-components
 import {
@@ -14,12 +16,14 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {TForm} from "../../utils/type";
+
+// styles
+import styles from "./register.module.css";
 
 const RegisterPage = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state: any) => state.userReducer);
+  const { user } = useSelector((state) => state.userReducer);
 
   const [form, setValue] = useState<TForm>({
     name: "",

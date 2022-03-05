@@ -1,31 +1,35 @@
-// react redux types
+// react redux
 import React, {
-  useState,
-  useCallback,
-  useEffect,
   ChangeEvent,
   FocusEvent,
   FormEvent,
+  useCallback,
+  useEffect,
+  useState,
 } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+// services
+import { useDispatch, useSelector } from "../../services/hooks";
 import { updateUser } from "../../services/actions/user";
+
+// utils
+import { TForm } from "../../utils/type";
 
 // styles
 import styles from "./user-form.module.css";
 
 // ui-components
 import {
+  Button,
   Input,
   PasswordInput,
-  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TForm } from "../../utils/type";
 import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 
 const UserForm = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state: any) => state.userReducer);
+  const { user } = useSelector((state) => state.userReducer);
 
   const nameRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
@@ -87,11 +91,12 @@ const UserForm = (): JSX.Element => {
   const handleCancel = (): void => {
     setNameErr(false);
     setEmailErr(false);
-    setValue({
-      name: user.user.name,
-      email: user.user.email,
-      password: "",
-    });
+    user?.user &&
+      setValue({
+        name: user.user.name,
+        email: user.user.email,
+        password: "",
+      });
     setShowButton(false);
   };
 

@@ -1,9 +1,21 @@
-// react redux types
+// react redux
 import React from "react";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {
+  Route,
+  Switch,
+  NavLink,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
+import { useDispatch } from "../../services/hooks";
 
-import {  deleteUser } from "../../services/actions/user";
+// services
+import { deleteUser } from "../../services/actions/user";
+import { THistoryState, TLocationState } from "../../utils/type";
+
+// utils
+import { token } from "../../utils/constants";
 
 // components
 import UserForm from "../../components/user-form/user-form";
@@ -12,15 +24,11 @@ import OrderHistory from "../../components/order-history/order-history";
 // styles
 import styles from "./profile.module.css";
 
-// utils
-import {THistoryState, TLocationState} from "../../utils/type";
-import { token } from "../../utils/constants";
-
 const ProfilePage = (): JSX.Element => {
   const dispatch = useDispatch();
   const history = useHistory<THistoryState>();
+  const { path } = useRouteMatch();
   const { pathname } = useLocation<TLocationState>();
-
 
   const logout = () => {
     dispatch(deleteUser(token));
@@ -60,14 +68,28 @@ const ProfilePage = (): JSX.Element => {
             </button>
           </li>
         </ul>
-        <p
-          className={`${styles.description} text text_type_main-default text_color_inactive ml-5`}
-        >
-          В этом разделе вы можете <br /> изменить свои персональные данные
-        </p>
+        {pathname === "/profile/orders" ? (
+          <p
+            className={`${styles.description} text text_type_main-default text_color_inactive ml-5`}
+          >
+            В этом разделе вы можете <br /> просмотреть свою историю заказов
+          </p>
+        ) : (
+          <p
+            className={`${styles.description} text text_type_main-default text_color_inactive ml-5`}
+          >
+            В этом разделе вы можете <br /> изменить свои персональные данные
+          </p>
+        )}
       </nav>
-      {pathname === "/profile" && <UserForm />}
-      {pathname === "/profile/orders" && <OrderHistory />}
+      <Switch>
+        <Route exact path={path}>
+          <UserForm />
+        </Route>
+        <Route path={`${path}/orders`}>
+          <OrderHistory />
+        </Route>
+      </Switch>
     </div>
   );
 };

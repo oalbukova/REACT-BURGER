@@ -1,4 +1,4 @@
-// react redux types
+// react redux
 import React from "react";
 
 // dnd

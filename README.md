@@ -12,6 +12,7 @@
 * Redux
 * React-DND
 * TypeScript
+* WebSockets
 
 ##### Установка
 * Клонировать репозиторий

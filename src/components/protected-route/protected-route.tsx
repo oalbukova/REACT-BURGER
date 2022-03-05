@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+// react redux
+import React from "react";
+import { useSelector } from "../../services/hooks";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 
-//RouteProps
 const ProtectedRoute = ({ children, ...rest }: RouteProps) => {
-  const { user } = useSelector((state: any) => state.userReducer);
-  const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
+  const { user } = useSelector((state) => state.userReducer);
 
-  useEffect(() => {
-    setUserLoaded(true);
-  }, []);
-
-  if (!isUserLoaded) {
-    return null;
-  }
- 
   return (
     <Route
       {...rest}

@@ -1,4 +1,4 @@
-// react redux types
+// react redux
 import React, { FC, useEffect } from "react";
 import ReactDOM from "react-dom";
 
@@ -8,15 +8,13 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 // ui-components
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// utils
+import { TModal } from "../../utils/type";
+
 //styles
 import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("modals") as HTMLElement;
-
-type TModal = {
-  handleClose: () => void;
-  children: JSX.Element;
-};
 
 const Modal: FC<TModal> = ({ handleClose, children }) => {
   useEffect(() => {

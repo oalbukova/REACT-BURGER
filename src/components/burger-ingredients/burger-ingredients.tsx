@@ -1,6 +1,8 @@
-// react redux types
+// react redux
 import React, { RefObject, useMemo, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+// services
+import { useDispatch, useSelector } from "../../services/hooks";
 import { tabSwitch } from "../../services/actions/tab";
 
 // children components
@@ -8,10 +10,6 @@ import Ingredient from "./ingredient/ingredient";
 
 // ui-components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-
-// loader
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { BallTriangle } from "react-loader-spinner";
 
 // utils
 import { TIngredient } from "../../utils/type";
@@ -28,9 +26,8 @@ const BurgerIngredients = (): JSX.Element => {
   const toppingElem: HTMLElement | null = document.querySelector("#topping");
 
   const dispatch = useDispatch();
-  const { items } = useSelector((state: any) => state.ingredientsReducer);
-  const { currentTab } = useSelector((state: any) => state.tabReducer);
-  const { isLoad } = useSelector((state: any) => state.ingredientsReducer);
+  const { items } = useSelector((state) => state.ingredientsReducer);
+  const { currentTab } = useSelector((state) => state.tabReducer);
 
   const bunRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);
@@ -109,14 +106,6 @@ const BurgerIngredients = (): JSX.Element => {
         >
           Начинки
         </Tab>
-      </div>
-      <div className={styles.loader}>
-        <BallTriangle
-          color="#4c4cff"
-          height={200}
-          width={200}
-          visible={isLoad}
-        />
       </div>
       <div className={`${styles.container} mt-10`}>
         {typeBun?.length !== 0 ? (
