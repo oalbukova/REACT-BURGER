@@ -106,7 +106,6 @@ const BurgerIngredients = (): JSX.Element => {
         >
           Начинки
         </Tab>
-        f
       </div>
       <div className={`${styles.container} mt-10`}>
         {typeBun?.length !== 0 ? (

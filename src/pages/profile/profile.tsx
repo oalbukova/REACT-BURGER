@@ -8,7 +8,7 @@ import {
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 
 // services
 import { deleteUser } from "../../services/actions/user";
