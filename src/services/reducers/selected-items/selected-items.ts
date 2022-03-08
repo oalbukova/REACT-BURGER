@@ -6,13 +6,13 @@ import {
   DELETE_SELECTED_TOPPING,
   DELETE_SELECTED_TOPPINGS,
   SORT_TOPPING,
-} from "../constants";
+} from "../../constants";
 
 // actions
-import { TSelectedItemsActions } from "../actions/selected-items";
+import { TSelectedItemsActions } from "../../actions/selected-items";
 
 // utils
-import { TIngredient } from "../../utils/type";
+import { TIngredient } from "../../../utils/type";
 
 
 type TSelectedItemsState = {

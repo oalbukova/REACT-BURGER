@@ -6,13 +6,13 @@ import {
   SET_RESET_PASSWORD_FAILED,
   SET_RESET_PASSWORD_REQUEST,
   SET_RESET_PASSWORD_SUCCESS,
-} from "../constants";
+} from "../../constants";
 
 // actions
-import { TPasswordActions } from "../actions/password";
+import { TPasswordActions } from "../../actions/password";
 
 // utils
-import { TRequestMessage } from "../../utils/type";
+import { TRequestMessage } from "../../../utils/type";
 
 
 type TPasswordState = {

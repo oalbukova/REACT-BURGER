@@ -23,6 +23,7 @@ import {
   WS_GET_ALL_FEEDS,
   WS_GET_USER_FEEDS
 } from "../services/constants";
+import {bun1, topping1, topping2} from "./test-utils";
 
 
 type TApplicationActions =
@@ -125,7 +126,7 @@ export type TOrderFeed = {
 };
 
 export type TOrderFeeds = {
-  orders: Array<TFeed>; total: number; totalToday: number;
+ orders: Array<TFeed>; total: number; totalToday: number;
 };
 
 export type TOrderIngredient = {
@@ -138,13 +139,30 @@ export type TStatusStyle = {
   color: string;
 };
 
+export type TOrderForTest = {
+  ingredients: Array<TIngredient>,
+  _id: string,
+  owner: {
+    name: string,
+    email: string,
+    createdAt: string,
+    updatedAt: string,
+  },
+  status: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+  number: number,
+  price: number,
+}
+
 export type TwsActions = {
   wsInit: typeof WS_CONNECTION_START, wsSendMessage: typeof WS_SEND_MESSAGE,
   onOpen: typeof WS_CONNECTION_SUCCESS, onClose: typeof WS_CONNECTION_CLOSED, onError: typeof WS_CONNECTION_ERROR, onMessage: typeof WS_GET_ALL_FEEDS | typeof WS_GET_USER_FEEDS
 };
 
 export type TErr = {
-  success?: string,
+  success?: boolean,
   message?: string;
   type?: string;
   code?: number;

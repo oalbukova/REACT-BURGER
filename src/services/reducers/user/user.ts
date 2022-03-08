@@ -18,13 +18,13 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-} from "../constants";
+} from "../../constants";
 
 // actions
-import { TUserActions } from "../actions/user";
+import { TUserActions } from "../../actions/user";
 
 // utils
-import { TData, TToken, TUserData } from "../../utils/type";
+import { TData, TToken, TUserData } from "../../../utils/type";
 
 
 type TUserState = {
@@ -48,6 +48,7 @@ type TUserState = {
   updateTokenRequest: boolean,
   updateTokenFailed: boolean,
 }
+
 const initialUserState: TUserState = {
   data: {},
   user: {},
@@ -132,7 +133,6 @@ export const userReducer = (state = initialUserState, action: TUserActions) => {
         currentUserRequest: true,
       };
     }
-
 
     case UPDATE_USER_SUCCESS: {
       return {

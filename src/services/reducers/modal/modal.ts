@@ -1,8 +1,8 @@
 // constants
-import { CLOSE_ERR_MODAL, CLOSE_ORDER_MODAL, OPEN_ERR_MODAL, OPEN_ORDER_MODAL, SET_ERR } from "../constants";
+import { CLOSE_ERR_MODAL, CLOSE_ORDER_MODAL, OPEN_ERR_MODAL, OPEN_ORDER_MODAL, SET_ERR } from "../../constants";
 
 // actions
-import { TModalActions } from "../actions/modal";
+import { TModalActions } from "../../actions/modal";
 
 
 type TModalState = {
