@@ -376,9 +376,9 @@ export const deleteUser: AppThunk = (token: string | null) => {
         }
       })
       .catch((err) => {
-        if (err === 404) {
-          dispatch(updateToken(() => dispatch(deleteUser(token))));
-        }
+        // if (err === 404) {
+        //   dispatch(updateToken(() => dispatch(deleteUser(token))));
+        // }
         dispatch(deleteUserFailedAction());
         dispatch(openErrModal());
         dispatch(setError(`deleteUser ${err}`));

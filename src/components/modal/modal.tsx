@@ -44,8 +44,8 @@ const Modal: FC<TModal> = ({ handleClose, children }) => {
     <>
       <ModalOverlay />
       <div className={`${styles.modal} pt-10 pl-10 pr-10 pb-15`}>
-        <div className={styles.close}>
-          <CloseIcon type="primary" onClick={handleClose} />
+        <div className={styles.close} onClick={handleClose}>
+          <CloseIcon type="primary" />
         </div>
         {children}
       </div>
