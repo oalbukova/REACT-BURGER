@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { useSelector } from "../../services/hooks";
 
 // services
-import { TWSState } from "../../services/reducers/wsReducer";
+import { TWSState } from "../../services/reducers/wsReducer/wsReducer";
 
 // utils
 import { TFeed } from "../../utils/type";

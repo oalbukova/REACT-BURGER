@@ -1,11 +1,11 @@
 // constants
-import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS } from "../constants";
+import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS } from "../../constants";
 
 // actions
-import { TIngredientsActions } from "../actions/ingredients";
+import { TIngredientsActions } from "../../actions/ingredients";
 
 // utils
-import { TIngredient } from "../../utils/type";
+import { TIngredient } from "../../../utils/type";
 
 
 type TIngredientState = {

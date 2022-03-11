@@ -1,8 +1,8 @@
 // constants
-import { TAB_SWITCH } from "../constants";
+import { TAB_SWITCH } from "../../constants";
 
 // actions
-import { TTabActions } from "../actions/tab";
+import { TTabActions } from "../../actions/tab";
 
 
 type TTabState = {

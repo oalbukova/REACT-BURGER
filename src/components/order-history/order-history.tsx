@@ -8,7 +8,7 @@ import {
   WS_CONNECTION_START,
 } from "../../services/constants";
 import { updateToken } from "../../services/actions/user";
-import { TWSState } from "../../services/reducers/wsReducer";
+import { TWSState } from "../../services/reducers/wsReducer/wsReducer";
 
 // utils
 import { TFeed } from "../../utils/type";

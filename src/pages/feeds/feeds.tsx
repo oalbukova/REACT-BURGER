@@ -7,7 +7,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../../services/constants";
-import { TWSState } from "../../services/reducers/wsReducer";
+import { TWSState } from "../../services/reducers/wsReducer/wsReducer";
 
 //components
 import Loader from "../../components/loader/loader";

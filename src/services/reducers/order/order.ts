@@ -1,11 +1,11 @@
 // constants
-import { DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, } from "../constants";
+import { DELETE_CURRENT_ORDER, GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, } from "../../constants";
 
 // actions
-import { TOrderActions } from "../actions/order";
+import { TOrderActions } from "../../actions/order";
 
 // utils
-import { TOrder } from "../../utils/type";
+import { TOrder } from "../../../utils/type";
 
 
 type TOrderState = {

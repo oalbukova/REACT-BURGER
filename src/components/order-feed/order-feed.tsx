@@ -6,7 +6,7 @@ import { TFeed } from "../../utils/type";
 
 // services
 import { useSelector } from "../../services/hooks";
-import { TWSState } from "../../services/reducers/wsReducer";
+import { TWSState } from "../../services/reducers/wsReducer/wsReducer";
 
 //children component
 import Feed from "./feed/feed";

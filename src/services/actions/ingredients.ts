@@ -47,7 +47,7 @@ export const getItems: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     dispatch(getIngredientsAction());
     getIngredientsRequest()
-      .then((res /*: Response*/) => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         } else {

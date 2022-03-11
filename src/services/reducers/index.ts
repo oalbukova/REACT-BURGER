@@ -2,15 +2,15 @@
 import { combineReducers } from "redux";
 
 // reducers
-import { ingredientsReducer } from "./ingredients";
-import { selectedItemsReducer } from "./selected-items";
-import { orderReducer } from "./order";
-import { modalReducer } from "./modal";
-import { buttonReducer } from "./button";
-import { tabReducer } from "./tab";
-import { forgotPasswordReducer, resetPasswordReducer } from "./password";
-import { userReducer } from "./user";
-import { wsReducer } from "./wsReducer";
+import { ingredientsReducer } from "./ingredients/ingredients";
+import { selectedItemsReducer } from "./selected-items/selected-items";
+import { orderReducer } from "./order/order";
+import { modalReducer } from "./modal/modal";
+import { buttonReducer } from "./button/button";
+import { tabReducer } from "./tab/tab";
+import { forgotPasswordReducer, resetPasswordReducer } from "./password/password";
+import { userReducer } from "./user/user";
+import { wsReducer } from "./wsReducer/wsReducer";
 
 
 export const rootReducer = combineReducers({

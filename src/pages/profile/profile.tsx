@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "../../services/hooks";
 
 // services
-import { deleteUser } from "../../services/actions/user";
+import { deleteUser, updateToken } from "../../services/actions/user";
 import { THistoryState, TLocationState } from "../../utils/type";
 
 // utils
@@ -31,7 +31,8 @@ const ProfilePage = (): JSX.Element => {
   const { pathname } = useLocation<TLocationState>();
 
   const logout = () => {
-    dispatch(deleteUser(token));
+    token ? dispatch(deleteUser(token)) : 
+      dispatch(updateToken(dispatch(deleteUser(token))));
     localStorage.removeItem("refreshToken");
     history.push("/login");
   };
