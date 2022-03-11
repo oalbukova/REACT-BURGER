@@ -1,12 +1,12 @@
 # Бургерная на краю Вселенной “Stellar Burgers”
- ## [Ссылка на готовый проект](https://oalbukova.github.io/REACT-BURGER/)
+ ## [Ссылка на готовый проект](https://stellar-burgers.oalbukova.nomoredomains.work/)
 
 ### Интерактивное многопользовательское приложение, позволяющее пользователю удобно собирать свой собственный специальный космический бургер с помощью конструктора.
 
 #### На вкладке лента заказов можно увидеть список всех бургеров, которые готовятся прямо сейчас или уже готовы. Эта функция доступна в режиме реального времени благодаря подключению через веб-сокет.
 #### Также, на странице профиля, зарегистрированный пользователь может просмотреть историю своих заказов.
 
-[![project website preview](src/images/constructor.png)](https://oalbukova.github.io/REACT-BURGER/)
+[![project website preview](src/images/constructor.png)](https://stellar-burgers.oalbukova.nomoredomains.work/)
 
 ##### Технологии:
 * React
@@ -31,3 +31,5 @@
 
 ##### Запуск Jest-тестов
 * Запустить  `npm run test`
+
+### [Ссылка на проект на GitHub Pages](https://oalbukova.github.io/REACT-BURGER/)

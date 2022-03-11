@@ -2,7 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://oalbukova.github.io/REACT-BURGER/",
+  "homepage": "https://stellar-burgers.oalbukova.nomoredomains.work/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.15.1",
@@ -32,6 +32,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
+    "deploy-script": "npm run build && scp -r ./build/* oalbukova@62.84.121.254:/home/oalbukova/stellar-frontend",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

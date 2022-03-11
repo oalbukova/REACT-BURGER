@@ -18,7 +18,7 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter basename="/REACT-BURGER">
+      <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
