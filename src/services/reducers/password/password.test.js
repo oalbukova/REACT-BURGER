@@ -1,5 +1,5 @@
 // reducer
-import {forgotPasswordReducer, resetPasswordReducer} from './password';
+import { forgotPasswordReducer, resetPasswordReducer } from "./password";
 
 // constants
 import {
@@ -12,8 +12,7 @@ import {
 } from "../../constants";
 
 // utils
-import {passwordReq} from "../../../utils/test-utils";
-
+import { passwordReq } from "../../../utils/test-utils";
 
 const initialPasswordState = {
   forgot_password: {},
@@ -24,60 +23,80 @@ const initialPasswordState = {
   reset_passwordFailed: false,
 };
 
-describe('forgot-password reducer', () => {
-  it('should return the initial state', () => {
-    expect(forgotPasswordReducer(undefined, {})).toEqual(initialPasswordState)
-  })
-  it('should handle SET_FORGOT_PASSWORD_REQUEST', () => {
-    expect(forgotPasswordReducer(initialPasswordState, {
-      type: SET_FORGOT_PASSWORD_REQUEST,
-    })).toEqual({
-      ...initialPasswordState, forgot_passwordRequest: true
-    })
-  })
+describe("forgot-password reducer", () => {
+  it("should return the initial state", () => {
+    expect(forgotPasswordReducer(undefined, {})).toEqual(initialPasswordState);
+  });
+  it("should handle SET_FORGOT_PASSWORD_REQUEST", () => {
+    expect(
+      forgotPasswordReducer(initialPasswordState, {
+        type: SET_FORGOT_PASSWORD_REQUEST,
+      })
+    ).toEqual({
+      ...initialPasswordState,
+      forgot_passwordRequest: true,
+    });
+  });
 
-  it('should handle SET_FORGOT_PASSWORD_SUCCESS', () => {
-    expect(forgotPasswordReducer(initialPasswordState, {
-      type: SET_FORGOT_PASSWORD_SUCCESS, forgot_password: {passwordReq}
-    })).toEqual({
-      ...initialPasswordState, forgot_password: {passwordReq},
-    })
-  })
+  it("should handle SET_FORGOT_PASSWORD_SUCCESS", () => {
+    expect(
+      forgotPasswordReducer(initialPasswordState, {
+        type: SET_FORGOT_PASSWORD_SUCCESS,
+        forgot_password: { passwordReq },
+      })
+    ).toEqual({
+      ...initialPasswordState,
+      forgot_password: { passwordReq },
+    });
+  });
 
-  it('should handle SET_FORGOT_PASSWORD_FAILED', () => {
-    expect(forgotPasswordReducer(initialPasswordState, {
-      type: SET_FORGOT_PASSWORD_FAILED,
-    })).toEqual({
-      ...initialPasswordState, forgot_passwordFailed: true
-    })
-  })
-})
+  it("should handle SET_FORGOT_PASSWORD_FAILED", () => {
+    expect(
+      forgotPasswordReducer(initialPasswordState, {
+        type: SET_FORGOT_PASSWORD_FAILED,
+      })
+    ).toEqual({
+      ...initialPasswordState,
+      forgot_passwordFailed: true,
+    });
+  });
+});
 
-describe('reset-password reducer', () => {
-  it('should return the initial state', () => {
-    expect(resetPasswordReducer(undefined, {})).toEqual(initialPasswordState)
-  })
-  it('should handle SET_RESET_PASSWORD_REQUEST', () => {
-    expect(resetPasswordReducer(initialPasswordState, {
-      type: SET_RESET_PASSWORD_REQUEST,
-    })).toEqual({
-      ...initialPasswordState, reset_passwordRequest: true
-    })
-  })
+describe("reset-password reducer", () => {
+  it("should return the initial state", () => {
+    expect(resetPasswordReducer(undefined, {})).toEqual(initialPasswordState);
+  });
+  it("should handle SET_RESET_PASSWORD_REQUEST", () => {
+    expect(
+      resetPasswordReducer(initialPasswordState, {
+        type: SET_RESET_PASSWORD_REQUEST,
+      })
+    ).toEqual({
+      ...initialPasswordState,
+      reset_passwordRequest: true,
+    });
+  });
 
-  it('should handle SET_RESET_PASSWORD_SUCCESS', () => {
-    expect(resetPasswordReducer(initialPasswordState, {
-      type: SET_RESET_PASSWORD_SUCCESS, reset_password: {passwordReq}
-    })).toEqual({
-      ...initialPasswordState, reset_password: {passwordReq},
-    })
-  })
+  it("should handle SET_RESET_PASSWORD_SUCCESS", () => {
+    expect(
+      resetPasswordReducer(initialPasswordState, {
+        type: SET_RESET_PASSWORD_SUCCESS,
+        reset_password: { passwordReq },
+      })
+    ).toEqual({
+      ...initialPasswordState,
+      reset_password: { passwordReq },
+    });
+  });
 
-  it('should handle SET_RESET_PASSWORD_FAILED', () => {
-    expect(resetPasswordReducer(initialPasswordState, {
-      type: SET_RESET_PASSWORD_FAILED,
-    })).toEqual({
-      ...initialPasswordState, reset_passwordFailed: true
-    })
-  })
-})
+  it("should handle SET_RESET_PASSWORD_FAILED", () => {
+    expect(
+      resetPasswordReducer(initialPasswordState, {
+        type: SET_RESET_PASSWORD_FAILED,
+      })
+    ).toEqual({
+      ...initialPasswordState,
+      reset_passwordFailed: true,
+    });
+  });
+});
